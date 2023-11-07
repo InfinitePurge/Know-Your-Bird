@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'isAdmin',
+        'isMod',
     ];
 
     /**
@@ -42,4 +44,33 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Eloquent Relationships
+     */
+
+    public function createdBirds()
+    {
+        return $this->hasMany(Pauksciai::class, 'created_by', 'id');
+    }
+
+    public function editedBirds()
+    {
+        return $this->hasMany(Pauksciai::class, 'edited_by', 'id');
+    }
+
+    public function createdQuestions()
+    {
+        return $this->hasMany(Question::class, 'created_by', 'id');
+    }
+
+    public function editedQuestions()
+    {
+        return $this->hasMany(Question::class, 'edited_by', 'id');
+    }
+
+    public function userAnswers()
+    {
+        return $this->hasMany(UserAnswer::class, 'UserID', 'id');
+    }
 }

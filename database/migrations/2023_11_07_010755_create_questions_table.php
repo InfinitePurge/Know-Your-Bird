@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('question');
             $table->unsignedBigInteger('CorrectAnswerID');
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('edited_by')->nullable();
             $table->timestamps();
