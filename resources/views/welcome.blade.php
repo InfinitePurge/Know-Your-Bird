@@ -141,7 +141,8 @@
                 <h1>Know Your Bird</h1>
             </div>
             <div class="d-flex align-items-center">
-                <a class="btn btn-transparent-white me-2" href="#">Login/Register</a>
+                <a class="btn btn-transparent-white me-2" href="login">Login</a>
+                <a class="btn btn-transparent-white me-2" href="register">Register</a>
                 <img src="{{ URL('images/usericon.png')}}" class="logo" style="width: 30px;">
             </div>
         </div>
@@ -157,7 +158,7 @@
 
 
     <nav>
-        <a class="btn btn-transparent-white" href="#">Home</a>
+        <a class="btn btn-transparent-white" href="#">Dashboard</a>
         <a class="btn btn-transparent-white" href="#">Quizz</a>
         <div class="btn-group">
             <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle" data-bs-toggle="dropdown">History</button>
