@@ -4,132 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-
-
-    <title>Bird Encyclopedia</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: #3498db;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 36px;
-        }
-
-        nav {
-            background-color: #2980b9;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #fff;
-            margin: 0 10px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        .bird-image {
-            width: 100px;
-            height: 100px;
-            background: url('question-mark.jpg') no-repeat center center;
-            background-size: cover;
-        }
-
-        .bird-description {
-            margin: 10px 0;
-        }
-
-        .btn-transparent-white {
-            background-color: transparent;
-            color: #fff;
-
-        }
-
-        .btn-transparent-white:hover {
-            color: #000;
-        }
-
-        .center-search {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-
-        .small-search {
-            width: 50%;
-        }
-
-        .logo {
-            max-width: 50px;
-            display: block;
-            margin: 0;
-        }
-
-        .image-container {
-            background-size: cover;
-            background-position: center center;
-            height: 300px;
-            /* Adjust the height as needed */
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            /* Center both horizontally and vertically */
-            color: white;
-            /* Text color */
-        }
-
-        .object-fit-cover {
-            object-fit: cover;
-            object-position: center center;
-        }
-
-        .left-aligned-text {
-            text-align: left;
-        }
-
-        .title-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .stripe {
-            flex: 1;
-            height: 5px;
-            background: linear-gradient(to right, transparent, #000, transparent);
-        }
-
-        .title-text {
-            margin: 0 20px;
-            font-size: 36px;
-            font-weight: bold;
-        }
-
-    </style>
+    <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -140,16 +15,11 @@
             <div class="mx-auto">
                 <h1>Know Your Bird</h1>
             </div>
-            <div class="d-flex align-items-center">
-                <a class="btn btn-transparent-white me-2" href="login">Login</a>
-                <a class="btn btn-transparent-white me-2" href="register">Register</a>
-                <img src="{{ URL('images/usericon.png')}}" class="logo" style="width: 30px;">
-            </div>
         </div>
         <div class="center-search">
             <div class="input-group small-search">
                 <input type="text" class="form-control" placeholder="Search for birds">
-                <button class="btn btn-primary" type="button">Search</button>
+                <button class="btn btn-primary search-button" type="button">Search</button>
             </div>
         </div>
 
@@ -158,17 +28,32 @@
 
 
     <nav>
-        <a class="btn btn-transparent-white" href="#">Dashboard</a>
+        <a class="btn btn-transparent-white" href="/">Home</a>
         <a class="btn btn-transparent-white" href="#">Quizz</a>
         <div class="btn-group">
             <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle" data-bs-toggle="dropdown">History</button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Tablet</a>
-                <a class="dropdown-item" href="#">Smartphone</a>
+                <a class="dropdown-item" href="#">Flight</a>
+                <a class="dropdown-item" href="#">Flightlessness</a>
+                <a class="dropdown-item" href="#">Walking and hopping</a>
+                <a class="dropdown-item" href="#">Swimming and diving</a>
+                <a class="dropdown-item" href="#">Sound</a>
+                <a class="dropdown-item" href="#">Nesting</a>
+                <a class="dropdown-item" href="#">Feeding habits</a>
             </div>
         </div>
-        <a class="btn btn-transparent-white" href="#">Bird list</a>
-        <a class="btn btn-transparent-white" href="#">Bird forms</a>
+        <a class="btn btn-transparent-white" href="/birdlist">Bird list</a>
+        <div class="btn-group">
+            <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle" data-bs-toggle="dropdown">Bird forms</button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Feathers</a>
+                <a class="dropdown-item" href="#">Molting</a>
+                <a class="dropdown-item" href="#">Colour</a>
+                <a class="dropdown-item" href="#">Other external features</a>
+                <a class="dropdown-item" href="#">Skeleton</a>
+                <a class="dropdown-item" href="#">Muscles and organs</a>
+            </div>
+        </div>
     </nav>
     <div class="container">
         <div class="image-container" style="background-image: url('images/1200.jpg');">

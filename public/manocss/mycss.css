@@ -1,0 +1,123 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: rgb(3, 177, 177);
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+nav {
+    background-color: rgb(5, 156, 156);
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    margin: 0 10px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.bird-image {
+    width: 100px;
+    height: 100px;
+    background: url('question-mark.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.bird-description {
+    margin: 10px 0;
+}
+
+.btn-transparent-white {
+    background-color: transparent;
+    color: #fff;
+
+}
+
+.btn-transparent-white:hover {
+    color: #000;
+}
+
+.center-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.small-search {
+    width: 50%;
+}
+
+.logo {
+    max-width: 50px;
+    display: block;
+    margin: 0;
+}
+
+.image-container {
+    background-size: cover;
+    background-position: center center;
+    height: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.object-fit-cover {
+    object-fit: cover;
+    object-position: center center;
+}
+
+.left-aligned-text {
+    text-align: left;
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.stripe {
+    flex: 1;
+    height: 5px;
+    background: linear-gradient(to right, transparent, #000, transparent);
+}
+
+.title-text {
+    margin: 0 20px;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.search-button {
+    background-color: #176B87;
+    color: white;
+    border: 1px solid black;
+    /* Add any additional styles you need */
+}

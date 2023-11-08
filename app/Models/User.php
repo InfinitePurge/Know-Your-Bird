@@ -6,11 +6,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use HasProfilePhoto;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -21,8 +27,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'isAdmin',
-        'isMod',
     ];
 
     /**
@@ -33,6 +37,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
     ];
 
     /**
@@ -42,35 +48,14 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
 
     /**
-     * Eloquent Relationships
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
      */
-
-    public function createdBirds()
-    {
-        return $this->hasMany(Pauksciai::class, 'created_by', 'id');
-    }
-
-    public function editedBirds()
-    {
-        return $this->hasMany(Pauksciai::class, 'edited_by', 'id');
-    }
-
-    public function createdQuestions()
-    {
-        return $this->hasMany(Question::class, 'created_by', 'id');
-    }
-
-    public function editedQuestions()
-    {
-        return $this->hasMany(Question::class, 'edited_by', 'id');
-    }
-
-    public function userAnswers()
-    {
-        return $this->hasMany(UserAnswer::class, 'UserID', 'id');
-    }
+    protected $appends = [
+        'profile_photo_url',
+    ];
 }
