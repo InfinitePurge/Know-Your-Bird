@@ -52,90 +52,177 @@
         </div>
     </nav>
     {{-- Baigiasi navigationas --}}
-    <div class="container">
-        <div class="row gy-3">
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ URL('images/bird9.png')}}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Bird name</h5>
-                        <p class="card-text">Small text here</p>
-                        <a href="#" class="btn btn-primary">View</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ URL('images/bird9.png')}}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Bird name</h5>
-                        <p class="card-text">Small text here</p>
-                        <a href="#" class="btn btn-primary">View</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ URL('images/bird9.png')}}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Bird name</h5>
-                        <p class="card-text">Small text here</p>
-                        <a href="#" class="btn btn-primary">View</a>
+    <section class="wrapper">
+        <div class="container-fostrap">
+            <div class="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="card">
+                                <a class="img-card" href="#">
+                                    <img src="{{ URL('images/bird9.png')}}" />
+                                </a>
+                                <div class="card-content">
+                                    <h4 class="card-title">
+                                        <a href="#"> Bird Name
+                                        </a>
+                                    </h4>
+                                    <p class="">
+                                        Text about bird
+                                    </p>
+                                </div>
+                                <div class="card-read-more">
+                                    <a href="#" class="btn btn-link btn-block">
+                                        View
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="card">
+                                <a class="img-card" href="#">
+                                    <img src="{{ URL('images/bird9.png')}}" />
+                                </a>
+                                <div class="card-content">
+                                    <h4 class="card-title">
+                                        <a href="#"> Bird Name
+                                        </a>
+                                    </h4>
+                                    <p class="">
+                                        Text about bird
+                                    </p>
+                                </div>
+                                <div class="card-read-more">
+                                    <a href="#" class="btn btn-link btn-block">
+                                        View
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="card">
+                                <a class="img-card" href="#">
+                                    <img src="{{ URL('images/bird9.png')}}"" />
+                                </a>
+                                <div class=" card-content">
+                                    <h4 class="card-title">
+                                        <a href="#"> Bird Name
+                                        </a>
+                                    </h4>
+                                    <p class="">
+                                        Text about bird
+                                    </p>
+                            </div>
+                            <div class="card-read-more">
+                                <a href="#" class="btn btn-link btn-block">
+                                    View
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-        <div class="container">
-        <div class="row gy-3">
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ URL('images/bird9.png')}}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Bird name</h5>
-                        <p class="card-text">Small text here</p>
-                        <a href="#" class="btn btn-primary">View</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ URL('images/bird9.png')}}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Bird name</h5>
-                        <p class="card-text">Small text here</p>
-                        <a href="#" class="btn btn-primary">View</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ URL('images/bird9.png')}}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Bird name</h5>
-                        <p class="card-text">Small text here</p>
-                        <a href="#" class="btn btn-primary">View</a>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
+        {{-- Pakartotinis apacioje --}}
+        <section class="wrapper">
+            <div class="container-fostrap">
+                <div class="content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="card">
+                                    <a class="img-card" href="{{ URL('images/bird9.png')}}">
+                                        <img src="{{ URL('images/bird9.png')}}" />
+                                    </a>
+                                    <div class="card-content">
+                                        <h4 class="card-title">
+                                            <a href="#">
+                                                Bird Name
+                                            </a>
+                                        </h4>
+                                        <p class="">
+                                            Text about bird
+                                        </p>
+                                    </div>
+                                    <div class="card-read-more">
+                                        <a href="#" class="btn btn-link btn-block">
+                                            View
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="card">
+                                    <a class="img-card" href="#">
+                                        <img src="{{ URL('images/bird9.png')}}" />
+                                    </a>
+                                    <div class="card-content">
+                                        <h4 class="card-title">
+                                            <a href="#">
+                                                Bird Name
+                                            </a>
+                                        </h4>
+                                        <p class="">
+                                            Text about bird
+                                        </p>
+                                    </div>
+                                    <div class="card-read-more">
+                                        <a href="#" class="btn btn-link btn-block">
+                                            View
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="card">
+                                    <a class="img-card" href=#">
+                                        <img src="{{ URL('images/bird9.png')}}" />
+                                    </a>
+                                    <div class="card-content">
+                                        <h4 class="card-title">
+                                            <a href="#">
+                                                Bird Name
+                                            </a>
+                                        </h4>
+                                        <p class="">
+                                            text about bird
+                                        </p>
+                                    </div>
+                                    <div class="card-read-more">
+                                        <a href="#" class="btn btn-link btn-block">
+                                            View
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- Uzsibaigia kortos --}}
 
 
-    <div class="container">
-        <div class="row">
-            <div class="col text-center" style="background-color: #687EFF;">
-                <br>
-                <p style="color: white;"> © 2023 Know Your Bird. All rights reserved.</p>
-
+            <div class="container">
                 <div class="row">
                     <div class="col text-center" style="background-color: #687EFF;">
-                        <a href="#" class="btn btn-transparent-white">About</a>
-                        <a href="#" class="btn btn-transparent-white">Facebook</a>
-                        <a href="#" class="btn btn-transparent-white">Social Media</a>
+                        <br>
+                        <p style="color: white;"> © 2023 Know Your Bird. All rights reserved.</p>
+
+                        <div class="row">
+                            <div class="col text-center" style="background-color: #687EFF;">
+                                <a href="#" class="btn btn-transparent-white">About</a>
+                                <a href="#" class="btn btn-transparent-white">Facebook</a>
+                                <a href="#" class="btn btn-transparent-white">Social Media</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+        </section>
+
+
+
+
+
 </body>
 </html>
