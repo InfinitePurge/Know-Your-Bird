@@ -7,50 +7,7 @@
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <img src="{{ URL('images/birdlogo.png')}}" class="logo" style="width: 300px; height: 60px;">
-            </div>
-            <div class="mx-auto">
-                <h1>Know Your Bird</h1>
-            </div>
-        </div>
-        <div class="center-search">
-            <div class="input-group small-search">
-                <input type="text" class="form-control" placeholder="Search for birds">
-                <button class="btn btn-primary search-button" type="button">Search</button>
-            </div>
-        </div>
-    </header>
-    <nav>
-        <a class="btn btn-transparent-white" href="/">Home</a>
-        <a class="btn btn-transparent-white" href="#">Quizz</a>
-        <div class="btn-group">
-            <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle" data-bs-toggle="dropdown">History</button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Flight</a>
-                <a class="dropdown-item" href="#">Flightlessness</a>
-                <a class="dropdown-item" href="#">Walking and hopping</a>
-                <a class="dropdown-item" href="#">Swimming and diving</a>
-                <a class="dropdown-item" href="#">Sound</a>
-                <a class="dropdown-item" href="#">Nesting</a>
-                <a class="dropdown-item" href="#">Feeding habits</a>
-            </div>
-        </div>
-        <a class="btn btn-transparent-white" href="/birdlist">Bird list</a>
-        <div class="btn-group">
-            <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle" data-bs-toggle="dropdown">Bird forms</button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Feathers</a>
-                <a class="dropdown-item" href="#">Molting</a>
-                <a class="dropdown-item" href="#">Colour</a>
-                <a class="dropdown-item" href="#">Other external features</a>
-                <a class="dropdown-item" href="#">Skeleton</a>
-                <a class="dropdown-item" href="#">Muscles and organs</a>
-            </div>
-        </div>
-    </nav>
+    <x-custom-header></x-custom-header>
     {{-- Baigiasi navigationas --}}
     <section class="wrapper">
         <div class="container-fostrap">

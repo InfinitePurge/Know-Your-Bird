@@ -170,3 +170,30 @@ nav a {
     text-transform: uppercase
   }
   
+  .lr-button {
+    background-color: #0489b6;
+    color: white;
+
+}
+
+.lr-button:hover {
+    background-color: #76dbb4;
+    color: white;
+    border: 1px solid black;
+}
+.login{
+    margin-right: 10px;
+}
+
+.register{
+    margin-left: 10px;
+}
+
+.btn-icon {
+    margin-left: 10px; /* Adjust the margin as needed to separate the icon from the text */
+    vertical-align: middle; /* Align the icon vertically with the text */
+}
+
+.profile-text {
+    font-size: 20px; /* Adjust the font size as per your preference */
+}
