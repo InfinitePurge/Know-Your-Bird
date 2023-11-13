@@ -8,7 +8,7 @@
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
 </head>
 
-<body>
+<body style="background-image: url('images/b2.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
     <x-custom-header></x-custom-header>
     
     <div class="container">
@@ -20,7 +20,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+ 
 
     <div class="container">
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" style="height: 300px; overflow: hidden; border: 2px solid #000; width: 100%; margin: 0 auto;">
@@ -64,14 +64,14 @@
 
 
 
-    <main class="mb-4">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-12 col-lg-10 col-xl-20">
-                    <div class="title-container">
-                        <div class="stripe"></div>
-                        <h2 class="title-text">Recent News About Birds</h2>
-                        <div class="stripe"></div>
+    <main class="mb-4" style="color: white;">
+    <div class="container px-4 px-lg-5" style="background: linear-gradient(90deg, rgba(0,0,0,0.8869922969187675) 20%, rgba(3,177,177,1) 100%);">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-12 col-lg-10 col-xl-20">
+                <div class="title-container">
+                    <div class="stripe"></div>
+                    <h2 class="title-text">Recent News About Birds</h2>
+                    <div class="stripe"></div>
 
                     </div>
                     <div class="left-aligned-text">
@@ -112,17 +112,17 @@
                 </div>
             </div>
         </div>
+        
     </main>
     </section>
 
+    <footer>
     <div class="container">
         <div class="row">
-            <div class="col text-center" style="background-color: #687EFF;">
-                <br>
-                <p style="color: white;"> © 2023 Know Your Bird. All rights reserved.</p>
-
+            <div class="col text-center">
+                <p>&copy; 2023 Know Your Bird. All rights reserved.</p>
                 <div class="row">
-                    <div class="col text-center" style="background-color: #687EFF;">
+                    <div class="col text-center">
                         <a href="#" class="btn btn-transparent-white">About</a>
                         <a href="#" class="btn btn-transparent-white">Facebook</a>
                         <a href="#" class="btn btn-transparent-white">Social Media</a>
@@ -130,6 +130,10 @@
                 </div>
             </div>
         </div>
+    </div>
+</footer>
+
+
 
 </body>
 
