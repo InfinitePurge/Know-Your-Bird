@@ -7,13 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-    protected $table = 'questions';
-    protected $fillable = ['question', 'CorrectAnswerID', 'image', 'created_by', 'edited_by'];
+    use HasFactory;
 
-    public function correctAnswer()
-    {
-        return $this->belongsTo(CorrectAnswer::class, 'CorrectAnswerID');
-    }
+    protected $table = 'questions';
+    protected $fillable = ['question', 'image', 'created_by', 'edited_by'];
 
     public function creator()
     {

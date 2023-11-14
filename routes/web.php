@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BirdsListController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/birdlist', function () {
-    return view('birdlist');
-});
+Route::get('/birdlist', [BirdsListController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('welcome');
@@ -32,8 +32,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Route::middleware(['admin'])->group(function () {
+//     // routes that should be accessible only to users with role 1(admin)
+//     Route::get('/admin', [AdminController::class, 'index']);
+// });
+
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

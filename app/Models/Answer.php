@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WrongAnswer extends Model
+class Answer extends Model
 {
-    protected $table = 'wrong_answers';
-    protected $primaryKey = 'WrongAnswerID';
-    protected $fillable = ['QuestionID', 'AnswerText'];
+    use HasFactory;
+
+    protected $table = 'answers';
+    protected $primaryKey = 'AnswerID';
+
+    protected $fillable = ['QuestionID', 'AnswerText', 'isCorrect'];
 
     public function question()
     {
