@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
 </head>
-<body>
+<body style="background-image: url('images/b2.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
     <x-custom-header></x-custom-header>
     {{-- Baigiasi navigationas --}}
     <section class="wrapper">
@@ -19,7 +19,7 @@
                         Add Bird
                     </button>
 
-                    <div class="modal fade" id="addBirdModal" tabindex="-1" aria-labelledby="addBirdModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="addBirdModal" tabindex="-1" aria-labelledby="addBirdModalLabel" aria-hidden="true" style="color: black;">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="col-xs-12 col-sm-4">
                         <div class="card">
                             <a class="img-card" href="#">
@@ -82,24 +82,7 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <div class="container">
-        <div class="row">
-            <div class="col text-center" style="background-color: #687EFF;">
-                <br>
-                <p style="color: white;"> © 2023 Know Your Bird. All rights reserved.</p>
-
-                <div class="row">
-                    <div class="col text-center" style="background-color: #687EFF;">
-                        <a href="#" class="btn btn-transparent-white">About</a>
-                        <a href="#" class="btn btn-transparent-white">Facebook</a>
-                        <a href="#" class="btn btn-transparent-white">Social Media</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </section>
+<x-footer></x-footer>
 
 
 

@@ -3,7 +3,7 @@
         <div class="row align-items-center">
             <div class="col">
                 <a href="/">
-                    <img src="{{ URL('images/birdlogo.png')}}" class="logo" style="width: 300px; height: 60px;">
+                    <img src="{{ URL('images/birdlogo.png')}}" class="logo" style="width: 100%; height: 100%">
                 </a>
             </div>
             <div class="col text-center">
@@ -12,15 +12,13 @@
             <div class="col text-right">
                 @if(Route::has('login'))
                 @auth
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route('logout') }}" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-primary lr-button register custom-button reg">Logout</button>
                 </form>
 
-                <x-dropdown-link href="{{ route('profile.show') }}" class="btn btn-primary lr-button register custom-button reg">
-                    <span class="profile-text">{{ __('Profile') }}</span>
-                    <div class="profile-image"></div>
-                </x-dropdown-link>
+                    <a class="btn btn-primary lr-button login custom-button log" href="{{ route('profile.show') }}">Profile</a>
+
 
                 @else
                 <a class="btn btn-primary lr-button login custom-button log" href="{{ route('login') }}">Login</a>
@@ -37,6 +35,8 @@
         </div>
     </div>
 </header>
+
+
 
 
 
