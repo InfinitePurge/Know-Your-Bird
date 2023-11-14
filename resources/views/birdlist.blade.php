@@ -9,7 +9,8 @@
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
 </head>
 
-<body style="background-image: url('images/b2.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
+<body
+    style="background-image: url('images/b2.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
     <x-custom-header></x-custom-header>
 
     <section class="wrapper">
@@ -18,17 +19,20 @@
                 <div class="container" style="color:black">
                     <!-- Add Bird Button -->
                     @if(auth()->check() && auth()->user()->role == 1)
-                    <button type="button" class="btn btn-primary lr-button register custom-button reg" data-bs-toggle="modal" data-bs-target="#addBirdModal">
+                    <button type="button" class="btn btn-primary lr-button register custom-button reg"
+                        data-bs-toggle="modal" data-bs-target="#addBirdModal">
                         Add Bird
                     </button>
                     @endif
 
-                    <div class="modal fade" id="addBirdModal" tabindex="-1" aria-labelledby="addBirdModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="addBirdModal" tabindex="-1" aria-labelledby="addBirdModalLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="addBirdModalLabel">Add New Bird</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Add your form fields here for adding new bird information -->
@@ -36,25 +40,30 @@
                                         <!-- Example input for bird name -->
                                         <div class="mb-3">
                                             <label for="birdName" class="form-label">Bird Name</label>
-                                            <input type="text" class="form-control" name="birdName" id="birdName" placeholder="Enter bird name" required>
+                                            <input type="text" class="form-control" name="birdName" id="birdName"
+                                                placeholder="Enter bird name" required>
                                         </div>
 
                                         <!-- Add input for image -->
                                         <div class="mb-3">
                                             <label for="birdImage" class="form-label">Upload Bird Image</label>
-                                            <input type="file" class="form-control" name="birdImage" id="birdImage" accept="image/*" required>
+                                            <input type="file" class="form-control" name="birdImage" id="birdImage"
+                                                accept="image/*" required>
                                         </div>
 
                                         <!-- Add input for continent -->
                                         <div class="mb-3">
                                             <label for="birdContinent" class="form-label">Bird Continent</label>
-                                            <input type="text" class="form-control" name="birdContinent" id="birdContinent" placeholder="Enter bird continent" required>
+                                            <input type="text" class="form-control" name="birdContinent"
+                                                id="birdContinent" placeholder="Enter bird continent" required>
                                         </div>
 
                                         <!-- Add input for mini text -->
                                         <div class="mb-3">
                                             <label for="birdMiniText" class="form-label">Mini Text</label>
-                                            <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3" placeholder="Enter mini text about the bird" required></textarea>
+                                            <textarea class="form-control" name="birdMiniText" id="birdMiniText"
+                                                rows="3" placeholder="Enter mini text about the bird"
+                                                required></textarea>
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Add Bird</button>
@@ -74,7 +83,8 @@
                         <div class="col-xs-12 col-sm-4">
                             <div class="card">
                                 <a class="img-card" href="#">
-                                    <img src="{{ asset('storage/' . $bird->image) }}" alt="{{ $bird->pavadinimas }}" />
+                                    <img src="{{ asset('images/birds/' . basename($bird->image)) }}"
+                                        alt="{{ $bird->pavadinimas }}" />
                                 </a>
                                 <div class="card-content">
                                     <h4 class="card-title">
@@ -103,4 +113,5 @@
     </section>
     <x-footer></x-footer>
 </body>
+
 </html>
