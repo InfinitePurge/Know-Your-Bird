@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
+    <link href="{{ asset('jasonas/jasonas.js') }}" rel="stylesheet">
 </head>
 
 <body style="background-image: url('images/b2.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
@@ -96,6 +97,27 @@
                             </div>
                         </div>
                         @endforeach
+                    </div>
+                    <div class="pagination">
+                        @if ($birds->currentPage() > 1)
+                        <a href="{{ $birds->previousPageUrl() }}" rel="prev">&lt;</a>
+                        @else
+                        <span class="disabled">&lt;</span>
+                        @endif
+
+                        <ul>
+                            @for ($i = 1; $i <= $birds->lastPage(); $i++)
+                                <li class="{{ $i == $birds->currentPage() ? 'active' : '' }}">
+                                    <a href="{{ $birds->url($i) }}">{{ $i }}</a>
+                                </li>
+                                @endfor
+                        </ul>
+
+                        @if ($birds->hasMorePages())
+                        <a href="{{ $birds->nextPageUrl() }}" rel="next">&gt;</a>
+                        @else
+                        <span class="disabled">&gt;</span>
+                        @endif
                     </div>
                 </div>
             </div>
