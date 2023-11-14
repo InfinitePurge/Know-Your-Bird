@@ -97,7 +97,13 @@
                                 <div class="card-read-more">
                                     <!-- Add your buttons for delete, view, and edit here -->
                                     @if(auth()->check() && auth()->user()->role == 1)
-                                    <a href="#" class="btn btn-danger btn-delete" data-action="delete">Delete</a>
+                                    <form action="{{ route('admin.bird.delete', ['id' => $bird->id]) }}" method="POST"
+                                        class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-delete"
+                                            data-action="delete">Delete</button>
+                                    </form>
                                     @endif
                                     <a href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">View</a>
                                     @if(auth()->check() && auth()->user()->role == 1)
