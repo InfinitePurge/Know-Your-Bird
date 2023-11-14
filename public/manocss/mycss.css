@@ -257,6 +257,15 @@ footer {
       padding: 20px;
 }
 
+.text-overflow-clamp {
+    width: 100%;
+    /* this code clamps based on specified lines */
+    overflow: hidden;
+   -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  display: -webkit-box;
+ }
+
 
 
 

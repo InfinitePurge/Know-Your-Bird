@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\SeedManager;
+use Database\Factories\AnswerFactory;
+use Database\Factories\QuestionFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,6 +15,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $this->call([
+            RolesTableSeeder::class,
+            UsersTableSeeder::class,
+            PauksciaiTableSeeder::class,
+            QuestionTableSeeder::class,
+            AnswerTableSeeder::class,
+            // UserAnswersTableSeeder::class,
+        ]);
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

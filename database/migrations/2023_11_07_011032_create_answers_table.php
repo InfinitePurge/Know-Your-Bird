@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wrong_answers', function (Blueprint $table) {
-            $table->id('WrongAnswerID');
+        Schema::create('answers', function (Blueprint $table) {
+            $table->id('AnswerID');
             $table->unsignedBigInteger('QuestionID');
             $table->string('AnswerText');
+            $table->boolean('isCorrect');
             $table->timestamps();
 
             $table->foreign('QuestionID')->references('id')->on('questions');

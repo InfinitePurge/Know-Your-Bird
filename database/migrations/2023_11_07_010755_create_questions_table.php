@@ -11,13 +11,11 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->string('question');
-            $table->unsignedBigInteger('CorrectAnswerID');
             $table->string('image')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('edited_by')->nullable();
             $table->timestamps();
 
-            $table->foreign('CorrectAnswerID')->references('CorrectAnswerID')->on('correct_answers');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('edited_by')->references('id')->on('users');
         });

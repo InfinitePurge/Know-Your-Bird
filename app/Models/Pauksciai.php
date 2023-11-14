@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pauksciai extends Model
 {
+
+    use HasFactory;
+
     protected $table = 'pauksciai';
     protected $fillable = ['pavadinimas', 'aprasymas', 'kilme', 'image', 'created_by', 'edited_by'];
 
