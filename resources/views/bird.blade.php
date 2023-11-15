@@ -13,7 +13,7 @@
 <body>
  <main>
         <h1>{{ $bird->pavadinimas }}</h1>
-        <img src="{{ asset('storage/' . $bird->image) }}" alt="{{ $bird->pavadinimas }}">
+       <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" />
         <p><strong>Continent:</strong> {{ $bird->kilme }}</p>
         <h2>About the Bird</h2>
         <p>{{ $bird->aprasymas }}</p>
