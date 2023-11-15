@@ -1,9 +1,3 @@
-/* 
- * Pagination for Design it & Code it
- * http://designitcodeit.com/i/14
- *
- * JavaScript is just for preview, not really needed.
- */
 
 $('.pagination li').on('click', function(event) {
     event.preventDefault();
@@ -32,4 +26,13 @@ $('.pagination li').on('click', function(event) {
   });
   
   $('.pagination li:eq(1)').trigger('click');
-  
+
+  $('#editBirdModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var birdId = button.data('bird-id'); // Extract info from data-* attributes
+    var editForm = $(this).find('form');
+
+    // Dynamically set the form action based on bird ID
+    var editAction = 'your_php_script.php?id=' + birdId;
+    editForm.attr('action', editAction);
+});

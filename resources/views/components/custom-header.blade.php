@@ -50,14 +50,14 @@
     <div class="btn-group">
         <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle" data-bs-toggle="dropdown">History</button>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/history">History</a>
-            <a class="dropdown-item" href="#">Flight</a>
-            <a class="dropdown-item" href="#">Flightlessness</a>
-            <a class="dropdown-item" href="#">Walking and hopping</a>
-            <a class="dropdown-item" href="#">Swimming and diving</a>
-            <a class="dropdown-item" href="#">Sound</a>
-            <a class="dropdown-item" href="#">Nesting</a>
-            <a class="dropdown-item" href="#">Feeding habits</a>
+            <a class="dropdown-item" href="/history#History">History</a>
+            <a class="dropdown-item" href="/history#Flight">Flight</a>
+            <a class="dropdown-item" href="/history#Flightlessness">Flightlessness</a>
+            <a class="dropdown-item" href="/history#Walking and hopping">Walking and hopping</a>
+            <a class="dropdown-item" href="/history#Swimming and diving">Swimming and diving</a>
+            <a class="dropdown-item" href="/history#Sound">Sound</a>
+            <a class="dropdown-item" href="/history#Nesting">Nesting</a>
+            <a class="dropdown-item" href="/history#Feeding habits">Feeding habits</a>
         </div>
     </div>
     <a class="btn btn-transparent-white" href="/birdlist">Bird list</a>
