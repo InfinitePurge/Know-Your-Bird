@@ -24,9 +24,44 @@
                         Add Bird
                     </button>
                     @endif
+                    <div class="modal fade" style="color:black" id="addBirdModal" tabindex="-1" aria-labelledby="addBirdModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addBirdModalLabel">Add New Bird</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('admin.bird.add') }}" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="birdName" class="form-label">Bird Name</label>
+                                            <input type="text" class="form-control" name="birdName" id="birdName" placeholder="Enter bird name" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="birdImage" class="form-label">Upload Bird Image</label>
+                                            <input type="file" class="form-control" name="birdImage" id="birdImage" accept="image/*" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="birdContinent" class="form-label">Bird Continent</label>
+                                            <input type="text" class="form-control" name="birdContinent" id="birdContinent" placeholder="Enter bird continent" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="birdMiniText" class="form-label">Mini Text</label>
+                                            <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3" placeholder="Enter mini text about the bird" required></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Add Bird</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </section>
     <!-- Bird Cards -->
@@ -99,25 +134,25 @@
         </div>
     </div>
 
-                             {{-- CIA YRA ADD BUTTONO  --}}
-
-    <div class="modal fade" style="color:black" id="addBirdModal" tabindex="-1" aria-labelledby="addBirdModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+                                    {{-- EDIT BUTTON MODAL --}}
+                                    
+    <div class="modal fade" style="color:black" id="editBirdModal" tabindex="-1" aria-labelledby="editBirdModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addBirdModalLabel">Add New Bird</h5>
+                    <h5 class="modal-title" id="editBirdModalLabel">Edit information</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form action="{{ route('admin.bird.add') }}" method="post" enctype="multipart/form-data">
-                        @csrf
+                <div class="modal-body  style=" color:black"">
+                    <form action="your_php_script.php" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="birdName" class="form-label">Bird Name</label>
                             <input type="text" class="form-control" name="birdName" id="birdName" placeholder="Enter bird name" required>
                         </div>
 
+
                         <div class="mb-3">
-                            <label for="birdImage" class="form-label">Upload Bird Image</label>
+                            <label for="birdImage" class="form-label">Change Bird Image</label>
                             <input type="file" class="form-control" name="birdImage" id="birdImage" accept="image/*" required>
                         </div>
 
@@ -131,54 +166,16 @@
                             <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3" placeholder="Enter mini text about the bird" required></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Add Bird</button>
+                        <button type="submit" class="btn btn-primary">Edit Bird</button>
                     </form>
                 </div>
             </div>
         </div>
-                             {{-- CIA YRA ADD BUTTONO PABAIGA --}}
-                                {{-- CIA YRA EDIT BUTTONO  --}}
-
-        <div class="modal fade" style="color:black" id="editBirdModal" tabindex="-1" aria-labelledby="editBirdModalLabel" aria-hidden="true">
-            <div class="modal-dialog ">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editBirdModalLabel">Edit information</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body  style=" color:black"">
-                        <form action="your_php_script.php" method="post" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label for="birdName" class="form-label">Bird Name</label>
-                                <input type="text" class="form-control" name="birdName" id="birdName" placeholder="Enter bird name" required>
-                            </div>
+    </div>
+                                    {{-- EDIT BUTTON MODAL END --}}
 
 
-                            <div class="mb-3">
-                                <label for="birdImage" class="form-label">Change Bird Image</label>
-                                <input type="file" class="form-control" name="birdImage" id="birdImage" accept="image/*" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="birdContinent" class="form-label">Bird Continent</label>
-                                <input type="text" class="form-control" name="birdContinent" id="birdContinent" placeholder="Enter bird continent" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="birdMiniText" class="form-label">Mini Text</label>
-                                <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3" placeholder="Enter mini text about the bird" required></textarea>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Edit Bird</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-                            {{-- CIA YRA EDIT BUTTONO PABAIGA --}}
-
-        <x-footer></x-footer>
+    <x-footer></x-footer>
 </body>
 
 </html>
