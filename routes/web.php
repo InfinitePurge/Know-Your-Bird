@@ -49,5 +49,4 @@ require __DIR__ . '/auth.php';
 
 Route::middleware(['admin'])->group(function () {
     Route::delete('/bird/delete/{id}', [AdminController::class, 'deleteBird'])->name('admin.bird.delete');
-    Route::post('/bird/add', [AdminController::class, 'addBird'])->name('admin.bird.add');
 });
