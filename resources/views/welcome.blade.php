@@ -13,7 +13,7 @@
     <x-custom-header></x-custom-header>
 
     <div class="container">
-        <div class="image-container" style="background-image: url('images/1200.jpg');">
+        <div class="image-container" style="background-image: url('images/bird_welcome_seeding/bird11.jpg');">
             <h2>Welcome to the Bird Encyclopedia</h2>
             <h2>Lorem Ipsum</h2>
         </div>
