@@ -50,6 +50,7 @@
     <div class="btn-group">
         <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle" data-bs-toggle="dropdown">History</button>
         <div class="dropdown-menu">
+            <a class="dropdown-item" href="/history">History</a>
             <a class="dropdown-item" href="#">Flight</a>
             <a class="dropdown-item" href="#">Flightlessness</a>
             <a class="dropdown-item" href="#">Walking and hopping</a>
@@ -63,6 +64,7 @@
     <div class="btn-group">
         <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle" data-bs-toggle="dropdown">Bird forms</button>
         <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Bird Forms</a>
             <a class="dropdown-item" href="#">Feathers</a>
             <a class="dropdown-item" href="#">Molting</a>
             <a class="dropdown-item" href="#">Colour</a>
