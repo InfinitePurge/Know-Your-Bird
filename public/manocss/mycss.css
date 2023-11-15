@@ -6,8 +6,9 @@ body {
 }
 
 header {
-    background: linear-gradient(90deg, rgba(0,0,0,0.8869922969187675) 20%, rgba(3,177,177,1) 100%);
-    color: #fff; /* Set text color to white */
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.8869922969187675) 20%, rgba(3, 177, 177, 1) 100%);
+    color: #fff;
+    /* Set text color to white */
     padding: 20px;
     text-align: center;
 }
@@ -17,7 +18,7 @@ h1 {
 }
 
 nav {
-    background: linear-gradient(90deg, rgba(0,0,0,0.8869922969187675) 20%, rgba(5,156,156,1) 100%);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.8869922969187675) 20%, rgba(5, 156, 156, 1) 100%);
     color: #fff;
     text-align: center;
     padding: 10px;
@@ -88,7 +89,8 @@ nav a {
     align-items: center;
     justify-content: center;
     color: white;
-    background-color: rgba(255, 255, 255, 0); /* Transparent white */
+    background-color: rgba(255, 255, 255, 0);
+    /* Transparent white */
 }
 
 .object-fit-cover {
@@ -252,21 +254,21 @@ nav a {
 
 footer {
     width: 100%;
-    background: linear-gradient(0deg, rgba(0,0,0,0.9206057422969187) 26%, rgba(104,126,255,1) 100%);
-     color: white;
-      padding: 20px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.9206057422969187) 26%, rgba(104, 126, 255, 1) 100%);
+    color: white;
+    padding: 20px;
 }
 
 .text-overflow-clamp {
     width: 100%;
     /* this code clamps based on specified lines */
     overflow: hidden;
-   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  display: -webkit-box;
- }
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    display: -webkit-box;
+}
 
- /*  */
+/*  */
 
   a {
     -webkit-transition: all 0.2s linear;

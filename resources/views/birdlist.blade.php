@@ -34,7 +34,9 @@
                                 </div>
                                 <div class="modal-body">
                                     <!-- Add your form fields here for adding new bird information -->
-                                    <form action="your_php_script.php" method="post" enctype="multipart/form-data">
+                                    <form action="{{ route('admin.bird.add') }}" method="post"
+                                        enctype="multipart/form-data">
+                                        @csrf
                                         <!-- Example input for bird name -->
                                         <div class="mb-3">
                                             <label for="birdName" class="form-label">Bird Name</label>
@@ -79,7 +81,8 @@
                         <div class="col-xs-12 col-sm-4" style="margin-bottom: 7%;">
                             <div class="card" style="height: 100%; display: flex; flex-direction: column;">
                                 <a class="img-card" href="#">
-                                    <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" />
+                                    <img src="{{ asset('images/birds/' . basename($bird->image)) }}"
+                                        alt="{{ $bird->pavadinimas }}" />
                                 </a>
                                 <div class="card-content" style="flex: 1;">
                                     <h4 class="card-title">
@@ -91,7 +94,13 @@
                                 <div class="card-read-more">
                                     <!-- Add your buttons for delete, view, and edit here -->
                                     @if(auth()->check() && auth()->user()->role == 1)
-                                    <a href="#" class="btn btn-danger btn-delete" data-action="delete">Delete</a>
+                                    <form action="{{ route('admin.bird.delete', ['id' => $bird->id]) }}" method="POST"
+                                        class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-delete"
+                                            data-action="delete">Delete</button>
+                                    </form>
                                     @endif
                                     <a href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">View</a>
                                     @if(auth()->check() && auth()->user()->role == 1)

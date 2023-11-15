@@ -43,3 +43,11 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
 require __DIR__ . '/auth.php';
+
+//ADMIN CONTROLLER
+//routes that should be accessible only to users with role 1(admin)
+
+Route::middleware(['admin'])->group(function () {
+    Route::delete('/bird/delete/{id}', [AdminController::class, 'deleteBird'])->name('admin.bird.delete');
+    Route::post('/bird/add', [AdminController::class, 'addBird'])->name('admin.bird.add');
+});

@@ -1,3 +1,10 @@
+/* 
+ * Pagination for Design it & Code it
+ * http://designitcodeit.com/i/14
+ *
+ * JavaScript is just for preview, not really needed.
+ */
+
 $('.pagination li').on('click', function(event) {
     event.preventDefault();
     var $this = $(this),
@@ -25,3 +32,4 @@ $('.pagination li').on('click', function(event) {
   });
   
   $('.pagination li:eq(1)').trigger('click');
+  
