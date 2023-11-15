@@ -9,15 +9,10 @@ class BirdsListController extends Controller
 {
     public function index()
     {
-        // // Fetch all birds from the database
-        // $birds = Pauksciai::all();
-
-        // // Pass the data to the view
-        // return view('birdlist', ['birds' => $birds]);
-        
         $birds = Pauksciai::paginate(15);
         return view('birdlist', compact('birds'));
     }
+
     public function view($pavadinimas)
     {
         // For now, let's assume you have a Bird model with a `find` method
