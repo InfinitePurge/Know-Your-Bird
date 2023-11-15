@@ -37,7 +37,9 @@
                                 </div>
                                 <div class="modal-body">
                                     <!-- Add your form fields here for adding new bird information -->
-                                    <form action="your_php_script.php" method="post" enctype="multipart/form-data">
+                                    <form action="{{ route('admin.bird.add') }}" method="post"
+                                        enctype="multipart/form-data">
+                                        @csrf
                                         <!-- Example input for bird name -->
                                         <div class="mb-3">
                                             <label for="birdName" class="form-label">Bird Name</label>
@@ -84,7 +86,7 @@
                         <div class="col-xs-12 col-sm-4">
                             <div class="card">
                                 <a class="img-card" href="#">
-                                    <img src="{{ asset('images/birds/' . basename($bird->image)) }}"
+                                    <img src="{{ asset('storage/images/birds/' . basename($bird->image)) }}"
                                         alt="{{ $bird->pavadinimas }}" />
                                 </a>
                                 <div class="card-content">
