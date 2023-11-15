@@ -36,12 +36,11 @@ return [
             'throw' => false,
         ],
 
-        'public' => [
+        'bird_images' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'root' => public_path('images/birds'),
+            'url' => env('APP_URL') . '/images/birds',
             'visibility' => 'public',
-            'throw' => false,
         ],
 
         's3' => [
