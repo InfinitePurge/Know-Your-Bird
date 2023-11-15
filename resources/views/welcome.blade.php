@@ -74,21 +74,24 @@
 
 
     <main class="mb-4" style="color: white;">
-        <div class="container px-4 px-lg-5"
-            style="background: linear-gradient(90deg, rgba(0,0,0,0.8869922969187675) 20%, rgba(3,177,177,1) 100%);">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-12 col-lg-10 col-xl-20">
-                    <div class="title-container">
-                        <div class="stripe"></div>
-                        <h2 class="title-text">Recent News About Birds</h2>
-                        <div class="stripe"></div>
+    <div class="container px-4 px-lg-5" style="background: linear-gradient(90deg, rgba(0,0,0,0.8869922969187675) 20%, rgba(3,177,177,1) 100%);">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-12 col-lg-10 col-xl-20">
+                <div class="title-container">
+                    <div class="stripe"></div>
+                    <h2 class="title-text">Recent News About Birds</h2>
+                    <div class="stripe"></div>
 
                     </div>
                     <div class="left-aligned-text">
                         <br>
                         <br>
+<<<<<<< HEAD
                         <img src="{{ URL('images/bird_welcome_seeding/bird7.avif')}}" alt="Image"
                             style="float: right; width: 400px; height: 400px;">
+=======
+                        <img src="{{ URL('images/bird7.avif')}}" alt="Image" style="float: right; width: 400px; height: 400px;">
+>>>>>>> b3655e24b0da33a7c91ca71fd7b6c0fad1ec8c9e
                         <p class="fs-3">
 
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -104,29 +107,29 @@
                             laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
                             voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
                             cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        <p class="fs-3">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                        <p class="fs-3">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
+                            <p class="fs-3">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                                voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                                cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </p>
+                            <p class="fs-3">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                                voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                                cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </p>
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-
+        
     </main>
     </section>
-    <x-footer></x-footer>
+<x-footer></x-footer>
 </body>
 
 </html>
