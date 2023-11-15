@@ -134,8 +134,8 @@
         </div>
     </div>
 
-                                    {{-- EDIT BUTTON MODAL --}}
-                                    
+    {{-- EDIT BUTTON MODAL --}}
+
     <div class="modal fade" style="color:black" id="editBirdModal" tabindex="-1" aria-labelledby="editBirdModalLabel" aria-hidden="true">
         <div class="modal-dialog ">
             <div class="modal-content">
@@ -143,13 +143,20 @@
                     <h5 class="modal-title" id="editBirdModalLabel">Edit information</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body  style=" color:black"">
+                <div class="modal-body" style="color:black">
                     <form action="your_php_script.php" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="birdName" class="form-label">Bird Name</label>
                             <input type="text" class="form-control" name="birdName" id="birdName" placeholder="Enter bird name" required>
                         </div>
 
+                         <div class="mb-3 text-center">
+                        <label for="birdName" class="form-label">Current image</label>
+                         </div>
+
+                        <div class="mb-3 text-center">
+                            <img src="{{ URL('images/bird_welcome_seeding/bird7.avif')}}" alt="Image" style="float: center; width: 300px; height: 300px;">
+                        </div>
 
                         <div class="mb-3">
                             <label for="birdImage" class="form-label">Change Bird Image</label>
@@ -165,14 +172,13 @@
                             <label for="birdMiniText" class="form-label">Mini Text</label>
                             <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3" placeholder="Enter mini text about the bird" required></textarea>
                         </div>
-
-                        <button type="submit" class="btn btn-primary">Edit Bird</button>
+                        <button type="submit" class="btn btn-primary custom-edit-button">Edit Bird</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-                                    {{-- EDIT BUTTON MODAL END --}}
+    {{-- EDIT BUTTON MODAL END --}}
 
 
     <x-footer></x-footer>
