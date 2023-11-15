@@ -90,7 +90,7 @@
                         <img src="{{ URL('images/bird_welcome_seeding/bird7.avif')}}" alt="Image"
                             style="float: right; width: 400px; height: 400px;">
 =======
-                        <img src="{{ URL('images/bird7.avif')}}" alt="Image" style="float: right; width: 400px; height: 400px;">
+                        <img src="{{ URL('images/bird_welcome_seeding/bird7.avif')}}" alt="Image" style="float: right; width: 400px; height: 400px;">
 >>>>>>> b3655e24b0da33a7c91ca71fd7b6c0fad1ec8c9e
                         <p class="fs-3">
 
