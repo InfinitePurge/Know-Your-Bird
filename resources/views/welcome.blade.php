@@ -13,7 +13,7 @@
     <x-custom-header></x-custom-header>
 
     <div class="container">
-        <div class="image-container" style="background-image: url('images/1200.jpg');">
+        <div class="image-container" style="background-image: url('images/bird_welcome_seeding/bird11.jpg');">
             <h2>Welcome to the Bird Encyclopedia</h2>
             <h2>Lorem Ipsum</h2>
         </div>
@@ -87,7 +87,8 @@
                     <div class="left-aligned-text">
                         <br>
                         <br>
-                        <img src="{{ URL('images/bird7.avif')}}" alt="Image" style="float: right; width: 400px; height: 400px;">
+                        <img src="{{ URL('images/bird_welcome_seeding/bird7.avif')}}" alt="Image"
+                            style="float: right; width: 400px; height: 400px;">
                         <p class="fs-3">
 
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
