@@ -22,7 +22,7 @@ class PauksciaiFactory extends Factory
         $editedByUser = $this->faker->boolean(30) ? User::inRandomOrder()->first() : null;
 
         // Directory to store images
-        $imageDirectory = public_path('images/birds');
+        $imageDirectory = public_path('images/bird_welcome_seeding');
 
         // Get an array of files in the specified directory
         $files = File::files($imageDirectory);
@@ -34,7 +34,7 @@ class PauksciaiFactory extends Factory
             'pavadinimas' => $this->faker->word,
             'aprasymas' => $this->faker->paragraph,
             'kilme' => $this->faker->country,
-            'image' => 'images/birds/' . $randomImage->getFilename(),
+            'image' => 'images/bird_welcome_seeding/' . $randomImage->getFilename(),
             'created_by' => $createdByUser->id,
             'edited_by' => $editedByUser ? $editedByUser->id : null,
         ];
