@@ -109,30 +109,36 @@
 
 
     <div class="container">
-        <div class="d-flex justify-content-center">
-            <div class="pagination">
-                <ul>
-                    @if ($birds->currentPage() > 1)
-                    <li class="prev"><a href="{{ $birds->previousPageUrl() }}">&lt;</a></li>
-                    @else
+    <div class="d-flex justify-content-center">
+        <div class="pagination">
+            <ul>
+                @if ($birds->currentPage() > 1)
+                    <li class="prev"><a href="{{ $birds->url(1) }}">«</a></li>
+                @else
                     <li class="disabled prev"><a href="#"></a></li>
-                    @endif
+                @endif
 
-                    @for ($i = 1; $i <= $birds->lastPage(); $i++)
-                        <li class="{{ $i == $birds->currentPage() ? 'active' : '' }}">
-                            <a href="{{ $birds->url($i) }}">{{ $i }}</a>
-                        </li>
-                        @endfor
+                @php
+                    // Display a maximum of 10 pages in the pagination
+                    $start = max(1, $birds->currentPage() - 5);
+                    $end = min($birds->lastPage(), $start + 9);
+                @endphp
 
-                        @if ($birds->hasMorePages())
-                        <li class="next"><a href="{{ $birds->nextPageUrl() }}">&gt;</a></li>
-                        @else
-                        <li class="disabled next"><a href="#"></a></li>
-                        @endif
-                </ul>
-            </div>
+                @for ($i = $start; $i <= $end; $i++)
+                    <li class="{{ $i == $birds->currentPage() ? 'active' : '' }}">
+                        <a href="{{ $birds->url($i) }}">{{ $i }}</a>
+                    </li>
+                @endfor
+
+                @if ($birds->hasMorePages())
+                    <li class="next"><a href="{{ $birds->url($birds->lastPage()) }}">»</a></li>
+                @else
+                    <li class="disabled next"><a href="#"></a></li>
+                @endif
+            </ul>
         </div>
     </div>
+</div>
 
     {{-- EDIT BUTTON MODAL --}}
 

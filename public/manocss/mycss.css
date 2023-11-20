@@ -417,12 +417,14 @@ footer {
   .pagination .prev a,
   .pagination .next a {
     text-indent: -4px;
-    line-height: 38px;
+    line-height: 30px;
     font-size: 30px;
+
   }
+
   .pagination .prev a {
     text-indent: 4px;
-    line-height: 38px;
+    line-height: 30px;
     font-size: 30px;
   }
   .pagination .prev:before,
