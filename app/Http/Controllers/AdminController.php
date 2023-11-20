@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pauksciai;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -32,18 +33,28 @@ class AdminController extends Controller
     public function addBird(Request $request)
     {
         // Validate the form data
-        $request->validate([
-            'birdName' => 'required|string',
+        $validator = Validator::make($request->all(), [
+            'birdName' => 'required|string|unique:pauksciai,pavadinimas',
             'birdImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'birdContinent' => 'required|string',
             'birdMiniText' => 'required|string',
+        ], [
+            'birdName.unique' => 'The bird name must be unique.',
+            'birdContinent.required' => 'The continent field is required.',
+            'birdMiniText.required' => 'The mini text field is required.',
         ]);
 
-        // Store the uploaded image with a unique name using the 'bird_images' disk
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->to('/birdlist')
+                ->withErrors($validator)
+                ->withInput()
+                ->with('scrollToForm', true);
+        }
+
         $imageName = $request->birdName . '_' . time() . '.' . $request->birdImage->extension();
         $request->birdImage->storeAs('', $imageName, 'bird_images');
 
-        // Create a new bird instance
         $bird = new Pauksciai([
             'pavadinimas' => $request->birdName,
             'aprasymas' => $request->birdMiniText,
@@ -52,10 +63,8 @@ class AdminController extends Controller
             'created_by' => Auth::id(),
         ]);
 
-        // Save the bird to the database
         $bird->save();
 
-        // Redirect back to the previous page
         return redirect()->back()->with('success', 'Bird added successfully.');
     }
 }

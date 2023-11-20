@@ -13,7 +13,7 @@
     <x-custom-header></x-custom-header>
 
     <div class="container">
-        <div class="image-container" style="background-image: url('images/bird_welcome_seeding/bird11.jpg');">
+        <div class="image-container" style="background-image: url('images/birds/bird11.jpg');">
             <h2>Welcome to the Bird Encyclopedia</h2>
             <h2>Lorem Ipsum</h2>
         </div>
@@ -28,31 +28,31 @@
             style="height: 300px; overflow: hidden; border: 2px solid #000; width: 100%; margin: 0 auto;">
             <div class="carousel-inner" style="height: 100%;">
                 <div class="carousel-item active" style="height: 100%;">
-                    <img src="{{ URL('images/bird_welcome_seeding/bird4.jpg')}}"
+                    <img src="{{ URL('images/birds/bird4.jpg')}}"
                         class="d-block w-100 h-100 object-fit-cover" alt="Image 1">
                     <div class="carousel-caption d-none d-md-block">
                     </div>
                 </div>
                 <div class="carousel-item" style="height: 100%;">
-                    <img src="{{ URL('images/bird_welcome_seeding/bird3.jpg')}}"
+                    <img src="{{ URL('images/birds/bird3.jpg')}}"
                         class="d-block w-100 h-100 object-fit-cover" alt="Image 2">
                     <div class="carousel-caption d-none d-md-block">
                     </div>
                 </div>
                 <div class="carousel-item" style="height: 100%;">
-                    <img src="{{ URL('images/bird_welcome_seeding/bird11.jpg')}}"
+                    <img src="{{ URL('images/birds/bird11.jpg')}}"
                         class="d-block w-100 h-100 object-fit-cover" alt="Image 3">
                     <div class="carousel-caption d-none d-md-block">
                     </div>
                 </div>
                 <div class="carousel-item" style="height: 100%;">
-                    <img src="{{ URL('images/bird_welcome_seeding/bird6.jpg')}}"
+                    <img src="{{ URL('images/birds/bird6.jpg')}}"
                         class="d-block w-100 h-100 object-fit-cover" alt="Image 3">
                     <div class="carousel-caption d-none d-md-block">
                     </div>
                 </div>
                 <div class="carousel-item" style="height: 100%;">
-                    <img src="{{ URL('images/bird_welcome_seeding/bird8.jpg')}}"
+                    <img src="{{ URL('images/birds/bird8.jpg')}}"
                         class="d-block w-100 h-100 object-fit-cover" alt="Image 3">
                     <div class="carousel-caption d-none d-md-block">
                     </div>
@@ -87,7 +87,7 @@
                     <div class="left-aligned-text">
                         <br>
                         <br>
-                        <img src="{{ URL('images/bird_welcome_seeding/bird7.avif')}}" alt="Image"
+                        <img src="{{ URL('images/birds/bird7.avif')}}" alt="Image"
                             style="float: right; width: 400px; height: 400px;">
                         <p class="fs-3">
 

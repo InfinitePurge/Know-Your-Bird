@@ -22,7 +22,7 @@ class PauksciaiFactory extends Factory
         $editedByUser = $this->faker->boolean(30) ? User::inRandomOrder()->first() : null;
 
         // Directory to store images
-        $imageDirectory = public_path('images/bird_welcome_seeding');
+        $imageDirectory = public_path('images/birds');
 
         // Get an array of files in the specified directory
         $files = File::files($imageDirectory);
@@ -31,12 +31,20 @@ class PauksciaiFactory extends Factory
         $randomImage = $files[rand(0, count($files) - 1)];
 
         return [
-            'pavadinimas' => $this->faker->word,
-            'aprasymas' => $this->faker->paragraph,
+            'pavadinimas' => $this->generateUniquePavadinimas(),
+            'aprasymas' => $this->faker->paragraph(90, true),
             'kilme' => $this->faker->country,
-            'image' => 'images/bird_welcome_seeding/' . $randomImage->getFilename(),
+            'image' => 'images/birds/' . $randomImage->getFilename(),
             'created_by' => $createdByUser->id,
             'edited_by' => $editedByUser ? $editedByUser->id : null,
         ];
+    }
+
+    private function generateUniquePavadinimas(): string
+    {
+        $prefix = 'bird_'; // Adjust the prefix as needed
+        $uniqueIdentifier = uniqid(); // Use a unique identifier
+
+        return $prefix . $uniqueIdentifier;
     }
 }

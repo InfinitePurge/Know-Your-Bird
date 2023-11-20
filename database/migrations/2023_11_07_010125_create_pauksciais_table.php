@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pauksciai', function (Blueprint $table) {
             $table->id();
-            $table->string('pavadinimas');
+            $table->string('pavadinimas')->uniqid();
             $table->text('aprasymas');
             $table->string('kilme');
             $table->string('image');

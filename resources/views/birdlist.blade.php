@@ -7,21 +7,19 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
-
 </head>
 
 <body style="background-image: url('images/b2.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
     <x-custom-header></x-custom-header>
     <script src="{{ asset('jasonas/jasonas.js') }}"></script>
-    
 
-     <div class="center-container">
+    <div class="center-container">
         <button id="filterButton" class="btn btn-primary lr-button register custom-button reg">Filter</button>
         <div id="filterContainer">
             <button class="filterTag FilterDropas" data-bs-toggle="dropdown">Continent</button>
             <div class="dropdown-menu DropDownDesign">
-            <a class="dropdown-item DropDownDesign" href="#">Fill</a>
-        </div>
+                <a class="dropdown-item DropDownDesign" href="#">Fill</a>
+            </div>
         </div>
     </div>
 
@@ -85,7 +83,7 @@
                         <div class="col-xs-12 col-sm-4" style="margin-bottom: 7%;">
                             <div class="card" style="height: 100%; display: flex; flex-direction: column;">
                                 <a class="img-card" href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">
-                                    <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}"/>
+                                    <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" />
                                 </a>
                                 <div class="card-content" style="flex: 1;">
                                     <h4 class="card-title">
@@ -120,36 +118,35 @@
 
 
     <div class="container">
-    <div class="d-flex justify-content-center">
-        <div class="pagination">
-            <ul>
-                @if ($birds->currentPage() > 1)
+        <div class="d-flex justify-content-center">
+            <div class="pagination">
+                <ul>
+                    @if ($birds->currentPage() > 1)
                     <li class="prev"><a href="{{ $birds->url(1) }}">«</a></li>
-                @else
+                    @else
                     <li class="disabled prev"><a href="#"></a></li>
-                @endif
+                    @endif
 
-                @php
+                    @php
                     // Display a maximum of 10 pages in the pagination
                     $start = max(1, $birds->currentPage() - 5);
                     $end = min($birds->lastPage(), $start + 9);
-                @endphp
+                    @endphp
 
-                @for ($i = $start; $i <= $end; $i++)
-                    <li class="{{ $i == $birds->currentPage() ? 'active' : '' }}">
+                    @for ($i = $start; $i <= $end; $i++) <li class="{{ $i == $birds->currentPage() ? 'active' : '' }}">
                         <a href="{{ $birds->url($i) }}">{{ $i }}</a>
-                    </li>
-                @endfor
+                        </li>
+                        @endfor
 
-                @if ($birds->hasMorePages())
-                    <li class="next"><a href="{{ $birds->url($birds->lastPage()) }}">»</a></li>
-                @else
-                    <li class="disabled next"><a href="#"></a></li>
-                @endif
-            </ul>
+                        @if ($birds->hasMorePages())
+                        <li class="next"><a href="{{ $birds->url($birds->lastPage()) }}">»</a></li>
+                        @else
+                        <li class="disabled next"><a href="#"></a></li>
+                        @endif
+                </ul>
+            </div>
         </div>
     </div>
-</div>
 
     {{-- EDIT BUTTON MODAL --}}
 
@@ -167,12 +164,12 @@
                             <input type="text" class="form-control" name="birdName" id="birdName" placeholder="Enter bird name" required>
                         </div>
 
-                         <div class="mb-3 text-center">
-                        <label for="birdName" class="form-label">Current image</label>
-                         </div>
+                        <div class="mb-3 text-center">
+                            <label for="birdName" class="form-label">Current image</label>
+                        </div>
 
                         <div class="mb-3 text-center">
-                            <img src="{{ URL('images/bird_welcome_seeding/bird7.avif')}}" alt="Image" style="float: center; width: 300px; height: 300px;">
+                            <img src="{{ URL('images/birds/bird7.avif')}}" alt="Image" style="float: center; width: 300px; height: 300px;">
                         </div>
 
                         <div class="mb-3">
