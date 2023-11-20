@@ -74,7 +74,7 @@
                         <div class="col-xs-12 col-sm-4" style="margin-bottom: 7%;">
                             <div class="card" style="height: 100%; display: flex; flex-direction: column;">
                                 <a class="img-card" href="#">
-                                    <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" />
+                                    <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}"/>
                                 </a>
                                 <div class="card-content" style="flex: 1;">
                                     <h4 class="card-title">

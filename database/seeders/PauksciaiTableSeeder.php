@@ -11,6 +11,6 @@ class PauksciaiTableSeeder extends Seeder
     public function run()
     {
         // Use the factory method provided by Laravel
-        \App\Models\Pauksciai::factory()->count(20)->create();
+        \App\Models\Pauksciai::factory()->count(200)->create();
     }
 }

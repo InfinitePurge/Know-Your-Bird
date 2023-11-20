@@ -150,3 +150,18 @@ h2 {
 p {
     margin-bottom: 15px;
 }
+
+.image-container {
+    display: flex;
+    align-items: center;
+}
+
+.square-image {
+    max-width: 50%; /* Adjust the percentage as needed */
+    margin-right: 10px; /* Add some spacing between the image and other content */
+}
+
+.wide-image {
+    width: 100%;
+}
+

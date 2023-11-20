@@ -9,11 +9,18 @@
     <link href="{{ asset('manocss/bird.css') }}" rel="stylesheet">
     <title>Bird - {{ $bird->pavadinimas }}</title>
 </head>
-    <x-custom-header></x-custom-header>
+<x-custom-header></x-custom-header>
 <body>
- <main>
+    <main>
         <h1>{{ $bird->pavadinimas }}</h1>
-       <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" />
+         <div class="image-container">
+            <?php
+            $imagePath = public_path('images/birds/' . basename($bird->image));
+            list($width, $height) = getimagesize($imagePath);
+            $imageClass = ($width === $height) ? 'square-image' : 'wide-image';
+            ?>
+            <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" class="{{ $imageClass }}" />
+        </div>
         <p><strong>Continent:</strong> {{ $bird->kilme }}</p>
         <h2>About the Bird</h2>
         <p>{{ $bird->aprasymas }}</p>
