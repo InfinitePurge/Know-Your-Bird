@@ -10,6 +10,7 @@
     <title>Bird - {{ $bird->pavadinimas }}</title>
 </head>
 <x-custom-header></x-custom-header>
+
 <body>
     <main>
         <h1>{{ $bird->pavadinimas }}</h1>

@@ -28,11 +28,29 @@ $('.pagination li').on('click', function(event) {
   $('.pagination li:eq(1)').trigger('click');
 
   $('#editBirdModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget); // Button that triggered the modal
-    var birdId = button.data('bird-id'); // Extract info from data-* attributes
+    var button = $(event.relatedTarget);
+    var birdId = button.data('bird-id');
     var editForm = $(this).find('form');
-
-    // Dynamically set the form action based on bird ID
     var editAction = 'your_php_script.php?id=' + birdId;
     editForm.attr('action', editAction);
 });
+
+// 
+// Filtro mygtukas Apacioje
+// 
+
+document.addEventListener("DOMContentLoaded", function () {
+  var filterButton = document.getElementById("filterButton");
+  var filterContainer = document.getElementById("filterContainer");
+
+  filterButton.addEventListener("click", function () {
+      filterContainer.style.display = (filterContainer.style.display === "block") ? "none" : "block";
+  });
+
+  window.addEventListener("click", function (event) {
+      if (event.target !== filterButton && !filterContainer.contains(event.target)) {
+          filterContainer.style.display = "none";
+      }
+  });
+});
+

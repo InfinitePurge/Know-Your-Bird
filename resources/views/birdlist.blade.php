@@ -13,6 +13,17 @@
 <body style="background-image: url('images/b2.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
     <x-custom-header></x-custom-header>
     <script src="{{ asset('jasonas/jasonas.js') }}"></script>
+    
+
+     <div class="center-container">
+        <button id="filterButton" class="btn btn-primary lr-button register custom-button reg">Filter</button>
+        <div id="filterContainer">
+            <button class="filterTag FilterDropas" data-bs-toggle="dropdown">Continent</button>
+            <div class="dropdown-menu DropDownDesign">
+            <a class="dropdown-item DropDownDesign" href="#">Fill</a>
+        </div>
+        </div>
+    </div>
 
     <section class="wrapper">
         <div class="container-fostrap">
@@ -73,7 +84,7 @@
                         @foreach($birds as $bird)
                         <div class="col-xs-12 col-sm-4" style="margin-bottom: 7%;">
                             <div class="card" style="height: 100%; display: flex; flex-direction: column;">
-                                <a class="img-card" href="#">
+                                <a class="img-card" href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">
                                     <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}"/>
                                 </a>
                                 <div class="card-content" style="flex: 1;">
@@ -94,7 +105,7 @@
                                     @endif
                                     <a href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">View</a>
                                     @if(auth()->check() && auth()->user()->role == 1)
-                                    <a href="#" class="btn btn-warning btn-edit" data-action="edit" data-bs-toggle="modal" data-bs-target="#editBirdModal">Edit</a>
+                                    <button href="#" class="btn btn-warning btn-edit" data-action="edit" data-bs-toggle="modal" data-bs-target="#editBirdModal">Edit</button>
 
                                     @endif
                                 </div>
