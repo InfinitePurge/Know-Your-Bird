@@ -146,10 +146,12 @@ footer {
 }
 
 .sidebar {
-    width: 200px;
+    width: 40%;
     background-color: #f1f1f1;
     padding: 20px;
     box-sizing: border-box;
+    border-radius: 2px; /* Use a fixed value for border-radius, not a percentage */
+    border: 2px solid #000;
 }
 
 .sidebar-container {

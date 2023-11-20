@@ -492,3 +492,23 @@ footer {
 .DropDownDesign:hover{
   -webkit-text-fill-color: rgba(3, 177, 177, 1);
 }
+
+.DropDownDesignForNav{
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.8869922969187675) 20%, rgba(3, 177, 177, 1) 100%);
+  position: absolute;
+  overflow: hidden;
+}
+
+.DropDownDesignForNav:hover{
+  -webkit-text-fill-color: rgba(3, 177, 177, 1);
+}
+
+.DropDownText{
+  -webkit-text-fill-color: #76dbb4;
+  white-space: nowrap;
+}
+
+.DropDownText:hover{
+  background-color: rgba(102, 214, 218, 0.5);
+  -webkit-text-fill-color: #66d6da;
+}

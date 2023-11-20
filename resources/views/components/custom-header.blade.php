@@ -37,40 +37,33 @@
 </header>
 
 
-
-
-
-
-
-
-
 <nav>
     <a class="btn btn-transparent-white" href="/">Home</a>
     <a class="btn btn-transparent-white" href="#">Quizz</a>
     <div class="btn-group">
         <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle" data-bs-toggle="dropdown">History</button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="/history#History">History</a>
-            <a class="dropdown-item" href="/history#Flight">Flight</a>
-            <a class="dropdown-item" href="/history#Flightlessness">Flightlessness</a>
-            <a class="dropdown-item" href="/history#Walking and hopping">Walking and hopping</a>
-            <a class="dropdown-item" href="/history#Swimming and diving">Swimming and diving</a>
-            <a class="dropdown-item" href="/history#Sound">Sound</a>
-            <a class="dropdown-item" href="/history#Nesting">Nesting</a>
-            <a class="dropdown-item" href="/history#Feeding habits">Feeding habits</a>
+        <div class="dropdown-menu DropDownDesignForNav">
+            <a class="dropdown-item DropDownText" href="/history#History">History</a>
+            <a class="dropdown-item DropDownText" href="/history#Flight">Flight</a>
+            <a class="dropdown-item DropDownText" href="/history#Flightlessness">Flightlessness</a>
+            <a class="dropdown-item DropDownText" href="/history#Walking and hopping">Walking and hopping</a>
+            <a class="dropdown-item DropDownText" href="/history#Swimming and diving">Swimming and diving</a>
+            <a class="dropdown-item DropDownText" href="/history#Sound">Sound</a>
+            <a class="dropdown-item DropDownText" href="/history#Nesting">Nesting</a>
+            <a class="dropdown-item DropDownText" href="/history#Feeding habits">Feeding habits</a>
         </div>
     </div>
     <a class="btn btn-transparent-white" href="/birdlist">Bird list</a>
     <div class="btn-group">
         <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle" data-bs-toggle="dropdown">Bird forms</button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Bird Forms</a>
-            <a class="dropdown-item" href="#">Feathers</a>
-            <a class="dropdown-item" href="#">Molting</a>
-            <a class="dropdown-item" href="#">Colour</a>
-            <a class="dropdown-item" href="#">Other external features</a>
-            <a class="dropdown-item" href="#">Skeleton</a>
-            <a class="dropdown-item" href="#">Muscles and organs</a>
+        <div class="dropdown-menu DropDownDesignForNav">
+            <a class="dropdown-item DropDownText" href="/birdforms#Bird Forms">Bird Forms</a>
+            <a class="dropdown-item DropDownText" href="/birdforms#Feathers">Feathers</a>
+            <a class="dropdown-item DropDownText" href="/birdforms#Molting">Molting</a>
+            <a class="dropdown-item DropDownText" href="/birdforms#Colour">Colour</a>
+            <a class="dropdown-item DropDownText" href="/birdforms#Other external features">Other external features</a>
+            <a class="dropdown-item DropDownText" href="/birdforms#Skeleton">Skeleton</a>
+            <a class="dropdown-item DropDownText" href="/birdforms#Muscles and organs">Muscles and organs</a>
         </div>
     </div>
 </nav>
