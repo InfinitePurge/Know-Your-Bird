@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BirdsListController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BirdFormsController;
 use App\Http\Controllers\HistoryController;
 
 /*
@@ -21,6 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/history', [HistoryController::class, 'index']);
+Route::get('/birdforms', [BirdFormsController::class, 'index']);
 Route::get('/birdlist', [BirdsListController::class, 'index']);
 Route::get('/bird/{pavadinimas}', [BirdsListController::class, 'view'])->name('bird.view');
 
