@@ -54,3 +54,24 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// 
+//  filtro funkcija mygtuko
+//  
+document.addEventListener("DOMContentLoaded", function() {
+  // Initialize Bootstrap dropdown
+  var dropdown = new bootstrap.Dropdown(document.getElementById("filterContainer"));
+
+  // Get the necessary elements
+  const filterTag = document.getElementById("filterTag");
+  const continentDropdown = document.getElementById("continentDropdown");
+
+  // Add click event listener to the continent dropdown items
+  continentDropdown.addEventListener("click", function(event) {
+      if (event.target.classList.contains("dropdown-item")) {
+          // Update the text of the filterTag button with the selected continent
+          filterTag.textContent = event.target.textContent;
+          // Close the dropdown after selecting a continent
+          dropdown.hide();
+      }
+  });
+});

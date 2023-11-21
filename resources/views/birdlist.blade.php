@@ -6,6 +6,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofUH+Tt8+pW1hFQh2lPu5T9zjWgqo9EkP" crossorigin="anonymous"></script>
+
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
 </head>
 
@@ -16,9 +19,12 @@
     <div class="center-container">
         <button id="filterButton" class="btn btn-primary lr-button register custom-button reg">Filter</button>
         <div id="filterContainer">
-            <button class="filterTag FilterDropas" data-bs-toggle="dropdown">Continent</button>
-            <div class="dropdown-menu DropDownDesign">
-                <a class="dropdown-item DropDownDesign" href="#">Fill</a>
+            <button id="filterTag" class="filterTag FilterDropas" data-bs-toggle="dropdown">Continent</button>
+            <div class="dropdown-menu DropDownDesign" id="continentDropdown">
+                <a class="dropdown-item DropDownDesign" href="#">Fill1</a>
+                <a class="dropdown-item DropDownDesign" href="#">Fill2</a>
+                <a class="dropdown-item DropDownDesign" href="#">Fill3</a>
+                <a class="dropdown-item DropDownDesign" href="#">Fill4</a>
             </div>
         </div>
     </div>
