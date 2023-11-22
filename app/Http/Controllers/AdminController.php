@@ -61,10 +61,54 @@ class AdminController extends Controller
             'kilme' => $request->birdContinent,
             'image' => $imageName,
             'created_by' => Auth::id(),
+            'edited_by' => null,
         ]);
 
         $bird->save();
 
         return redirect()->back()->with('success', 'Bird added successfully.');
+    }
+
+    public function editBird($birdId)
+    {
+        $bird = Pauksciai::findOrFail($birdId);
+
+        $validator = Validator::make(request()->all(), [
+            'birdName' => 'required|string',
+            'birdContinent' => 'required|string',
+            'birdMiniText' => 'required|string',
+            'birdImage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->to('/birdlist')
+                ->withErrors($validator)
+                ->withInput()
+                ->with('scrollToForm', true);
+        }
+
+        $birdData = [
+            'pavadinimas' => request('birdName'),
+            'kilme' => request('birdContinent'),
+            'aprasymas' => request('birdMiniText'),
+            'edited_by' => Auth::id(),
+        ];
+
+        // Handle image upload
+        if (request()->hasFile('birdImage')) {
+            // Delete the existing image if it exists
+            Storage::disk('bird_images')->delete($bird->image);
+
+            // Upload the new image
+            $uploadedImage = request()->file('birdImage');
+            $imageName = $bird->pavadinimas . '_' . time() . '.' . $uploadedImage->extension();
+            $uploadedImage->storeAs('', $imageName, 'bird_images');
+
+            // Set the new image path in the database
+            $birdData['image'] = $imageName;
+        }
+
+        $bird->update($birdData);
+        return redirect()->back()->with('success', 'Bird information updated successfully');
     }
 }
