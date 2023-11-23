@@ -161,8 +161,7 @@
                                     @endif
                                     <a href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">View</a>
                                     @if(auth()->check() && auth()->user()->role == 1)
-                                    <button href="#" class="btn btn-warning btn-edit" data-action="edit" data-bs-toggle="modal" data-bs-target="#editBirdModal">Edit</button>
-
+                                    <button href="#" class="btn btn-warning btn-edit" data-action="edit" data-bs-toggle="modal" data-bs-target="#editBirdModal_{{ $bird->id }}">Edit</button>
                                     @endif
                                 </div>
                             </div>

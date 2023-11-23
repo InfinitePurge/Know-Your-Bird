@@ -33,7 +33,7 @@ $('.pagination li').on('click', function(event) {
     var editForm = $(this).find('form');
     var editAction = 'your_php_script.php?id=' + birdId;
     editForm.attr('action', editAction);
-    editForm.find('input[name="_method"]').val('PUT'); // Add this line to set the method override
+    editForm.find('input[name="_method"]').val('PUT');
 });
 
 // 
