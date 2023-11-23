@@ -17,9 +17,6 @@ class BirdsListController extends Controller
 
     public function view($pavadinimas)
     {
-        // For now, let's assume you have a Bird model with a `find` method
-        $bird = Pauksciai::find($pavadinimas);
-
         $bird = Pauksciai::where('pavadinimas', $pavadinimas)->first();
 
         // Check if the bird is not found
@@ -27,8 +24,11 @@ class BirdsListController extends Controller
             abort(404); // or redirect to a 404 page
         }
 
-        // Pass bird data to the view
-        return view('bird', compact('bird'));
+        // Get distinct kilme values
+        $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme');
+
+        // Pass bird and kilmeValues data to the view
+        return view('birdlist', compact('bird', 'kilmeValues'));
     }
 
     public function search(Request $request)
@@ -39,7 +39,9 @@ class BirdsListController extends Controller
             ->orWhere('kilme', 'like', '%' . $search . '%')
             ->paginate(15);
 
-        return view('birdlist', compact('birds'));
+        $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme');
+
+        return view('birdlist', compact('birds', 'kilmeValues'));
     }
 
     public function fetchContinents()
