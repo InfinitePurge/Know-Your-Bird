@@ -28,11 +28,13 @@
             </div>
         </div>
     </div>
-    <div class="center-search">
-        <div class="input-group small-search">
-            <input type="text" class="form-control" placeholder="Search for birds">
-            <button class="btn btn-primary search-button" type="button">Search</button>
-        </div>
+    <div class="container">
+        <form action="{{ route('birdlist.search') }}" method="GET" class="mb-3 d-flex justify-content-center">
+            <div class="input-group" style="max-width: 60%;">
+                <input type="text" class="form-control" placeholder="Search for birds" name="search">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
     </div>
 </header>
 
