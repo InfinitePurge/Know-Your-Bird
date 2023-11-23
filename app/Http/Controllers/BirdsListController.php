@@ -30,4 +30,21 @@ class BirdsListController extends Controller
         // Pass bird data to the view
         return view('bird', compact('bird'));
     }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $birds = Pauksciai::where('pavadinimas', 'like', '%' . $search . '%')
+            ->orWhere('kilme', 'like', '%' . $search . '%')
+            ->paginate(15);
+
+        return view('birdlist', compact('birds'));
+    }
+
+    public function fetchContinents()
+    {
+        $continents = Pauksciai::select('kilme')->distinct()->pluck('kilme');
+        return response()->json($continents);
+    }
 }
