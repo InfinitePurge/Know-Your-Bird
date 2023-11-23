@@ -17,7 +17,7 @@
                     <button type="submit" class="btn btn-primary lr-button register custom-button reg">Logout</button>
                 </form>
 
-                <a class="btn btn-primary lr-button login custom-button log" href="{{ route('profile.show') }}">Profile</a>
+                    <a class="btn btn-primary lr-button login custom-button log" href="{{ route('profile.show') }}">Profile</a>
 
 
                 @else
@@ -36,7 +36,6 @@
             </div>
         </form>
     </div>
-
 </header>
 
 
@@ -70,21 +69,3 @@
         </div>
     </div>
 </nav>
-
-<div id="filterContainer" style="display: none;">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col">
-                    <p class="text-white">Continent</p>
-                    <button class="btn btn-primary FilterDropas" id="chooseButton">Choose</button>
-                    <div class="dropdown-menu DropDownDesign" id="continentList" style="display: none;">
-                        <!-- List of continents goes here -->
-                        <a href="#" class="dropdown-item DropDownText">Fill1</a>
-                        <a href="#" class="dropdown-item DropDownText">Fill2</a>
-                        <a href="#" class="dropdown-item DropDownText">Fill3</a>
-                        <a href="#" class="dropdown-item DropDownText">Fill4</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>

@@ -8,27 +8,11 @@ use Illuminate\Support\Facades\Log;
 
 class BirdsListController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $birdsQuery = Pauksciai::query();
-
-        // Check if a continent is selected
-        if ($request->has('continent')) {
-            $selectedContinent = $request->input('continent');
-            $birdsQuery->where('kilme', $selectedContinent);
-        }
-
-        // Log the SQL query to see what's being executed
-        Log::info($birdsQuery->toSql());
-
-        // Paginate the results
-        $birds = $birdsQuery->paginate(15);
-
-        if ($request->ajax()) {
-            return view('partials.bird_cards', compact('birds'));
-        }
-
-        return view('birdlist', compact('birds'));
+        $birds = Pauksciai::all();
+        $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme');
+        return view('birdlist', compact('birds', 'kilmeValues'));
     }
 
     public function view($pavadinimas)

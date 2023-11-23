@@ -26,8 +26,9 @@ Route::get('/birdlist/search', [BirdsListController::class, 'search'])->name('bi
 Route::get('/history', [HistoryController::class, 'index']);
 Route::get('/birdforms', [BirdFormsController::class, 'index']);
 Route::get('/birdlist', [BirdsListController::class, 'index'])->name('birds.index');
-Route::get('/fetch-continents', [BirdsListController::class, 'fetchContinents'])->name('fetch.continents');
 Route::get('/bird/{pavadinimas}', [BirdsListController::class, 'view'])->name('bird.view');
+
+
 
 Route::get('/dashboard', function () {
     return view('welcome');
@@ -56,5 +57,4 @@ require __DIR__ . '/auth.php';
 Route::middleware(['admin'])->group(function () {
     Route::delete('/bird/delete/{id}', [AdminController::class, 'deleteBird'])->name('admin.bird.delete');
     Route::post('/admin/bird/add', [AdminController::class, 'addBird'])->name('admin.bird.add');
-    Route::put('/admin/bird/edit/{birdId}', [AdminController::class, 'editBird'])->name('admin.editBird');
 });
