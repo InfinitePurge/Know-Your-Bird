@@ -19,19 +19,60 @@
     <x-custom-header></x-custom-header>
     <script src="{{ asset('jasonas/jasonas.js') }}"></script>
 
-    <div class="center-container">
-        <button id="filterButton" class="btn btn-primary lr-button register custom-button reg">Filter</button>
-        <div id="filterContainer">
-            <button id="filterTag" class="filterTag FilterDropas" data-bs-toggle="dropdown">Continent</button>
-            <div class="dropdown-menu DropDownDesign" id="continentDropdown">
-                <a class="dropdown-item DropDownDesign" href="#">Fill1</a>
-                <a class="dropdown-item DropDownDesign" href="#">Fill2</a>
-                <a class="dropdown-item DropDownDesign" href="#">Fill3</a>
-                <a class="dropdown-item DropDownDesign" href="#">Fill4</a>
+    {{-- --}}
+    <div class="container-fluid filtercontainer">
+        <p style="text-align: center;"> Filter by: </p>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-6">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-secondary">Continent</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav">
+                        <!-- Fetch all unique continents from your entire dataset -->
+                        @php
+                        $allContinents = $birds->unique('kilme')->pluck('kilme');
+                        $limitedContinents = $allContinents->slice(0, 5); // Limit to 5 continents
+                        @endphp
+                        @foreach($limitedContinents as $continent)
+                        <a class="dropdown-item continent DropDownText" href="#">{{ $continent }}</a>
+                        @endforeach
+                        @if($allContinents->count() > 5)
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item see-more-continents DropDownText" data-bs-toggle="modal" data-bs-target="#allContinentsModal" data-bs-dismiss="modal">See More...</a>
+                        @endif
+                        <!-- Add this line to include a link to reset the filter -->
+                        <a class="dropdown-item show-all-continents DropDownText" href="{{ route('birds.index') }}">Show All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Add a similar dropdown for species using $birds->unique('species') -->
             </div>
         </div>
     </div>
 
+    <!-- All Continents Modal -->
+    <div class="modal fade" id="allContinentsModal" tabindex="-1" aria-labelledby="allContinentsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="allContinentsModalLabel">All Continents</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="list-group" id="allContinentsList">
+                        <!-- Fetch all continents using Ajax -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(isset($selectedContinent))
+    <p>Selected Continent: {{ $selectedContinent }}</p>
+    @endif
+    {{-- --}}
     <section class="wrapper">
         <div class="container-fostrap">
             <div class="content">
@@ -97,34 +138,35 @@
                 <div class="container">
                     <div class="row" style="display: flex; align-items: stretch;">
                         @foreach($birds as $bird)
-                            <div class="col-xs-12 col-sm-4" style="margin-bottom: 7%;">
-                                <div class="card" style="height: 100%; display: flex; flex-direction: column;">
-                                    <a class="img-card" href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">
-                                        <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" />
-                                    </a>
-                                    <div class="card-content" style="flex: 1;">
-                                        <h4 class="card-title">
-                                            <a href="#"> {{ $bird->pavadinimas }} </a>
-                                        </h4>
-                                        <p class=""> {{ $bird->kilme }} </p>
-                                        <p class="text-overflow-clamp"> {{ $bird->aprasymas }} </p>
-                                    </div>
-                                    <div class="card-read-more">
-                                        <!-- Add your buttons for delete, view, and edit here -->
-                                        @if (auth()->check() && auth()->user()->role == 1)
-                                            <form action="{{ route('admin.bird.delete', ['id' => $bird->id]) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-delete" data-action="delete">Delete</button>
-                                            </form>
-                                        @endif
-                                        <a href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">View</a>
-                                        @if(auth()->check() && auth()->user()->role == 1)
-                                            <button href="#" class="btn btn-warning btn-edit" data-action="edit" data-bs-toggle="modal" data-bs-target="#editBirdModal_{{ $bird->id }}">Edit</button>
-                                        @endif
-                                    </div>
+                         <div class="col-xs-12 col-sm-4 bird-card" data-continent="{{ $bird->kilme }}" style="margin-bottom: 7%;">
+                            <div class="card" style="height: 100%; display: flex; flex-direction: column;">
+                                <a class="img-card" href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">
+                                    <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" />
+                                </a>
+                                <div class="card-content" style="flex: 1;">
+                                    <h4 class="card-title">
+                                        <a href="#"> {{ $bird->pavadinimas }} </a>
+                                    </h4>
+                                    <p class=""> {{ $bird->kilme }} </p>
+                                    <p class="text-overflow-clamp"> {{ $bird->aprasymas }} </p>
+                                </div>
+                                <div class="card-read-more">
+                                    <!-- Add your buttons for delete, view, and edit here -->
+                                    @if(auth()->check() && auth()->user()->role == 1)
+                                    <form action="{{ route('admin.bird.delete', ['id' => $bird->id]) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-delete" data-action="delete">Delete</button>
+                                    </form>
+                                    @endif
+                                    <a href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">View</a>
+                                    @if(auth()->check() && auth()->user()->role == 1)
+                                    <button href="#" class="btn btn-warning btn-edit" data-action="edit" data-bs-toggle="modal" data-bs-target="#editBirdModal">Edit</button>
+
+                                    @endif
                                 </div>
                             </div>
+                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -137,8 +179,9 @@
         <div class="d-flex justify-content-center">
             <div class="pagination">
                 <ul>
+
                     @if ($birds->currentPage() > 1)
-                        <li class="prev"><a href="{{ $birds->url(1) }}">«</a></li>
+                    <li class="prev"><a href="{{ $birds->url(1) }}">«</a></li>
                     @else
                         <li class="disabled prev"><a href="#"></a></li>
                     @endif
@@ -149,15 +192,14 @@
                         $end = min($birds->lastPage(), $start + 9);
                     @endphp
 
-                    @for ($i = $start; $i <= $end; $i++)
-                        <li class="{{ $i == $birds->currentPage() ? 'active' : '' }}">
-                            <a href="{{ $birds->url($i) }}">{{ $i }}</a>
+                    @for ($i = $start; $i <= $end; $i++) <li class="{{ $i == $birds->currentPage() ? 'active' : '' }}">
+                        <a href="{{ $birds->url($i) }}">{{ $i }}</a>
                         </li>
                     @endfor
 
-                    @if ($birds->hasMorePages())
+                        @if ($birds->hasMorePages())
                         <li class="next"><a href="{{ $birds->url($birds->lastPage()) }}">»</a></li>
-                    @else
+                        @else
                         <li class="disabled next"><a href="#"></a></li>
                     @endif
                 </ul>
@@ -219,5 +261,7 @@
 
     <x-footer></x-footer>
 </body>
-
+<script>
+    var birdsIndexUrl = '{{ route('birds.index') }}';
+</script>
 </html>

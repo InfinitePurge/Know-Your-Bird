@@ -39,40 +39,111 @@ $('.pagination li').on('click', function(event) {
 // 
 // Filtro mygtukas Apacioje
 // 
-
-document.addEventListener("DOMContentLoaded", function () {
-  var filterButton = document.getElementById("filterButton");
-  var filterContainer = document.getElementById("filterContainer");
-
-  filterButton.addEventListener("click", function () {
-      filterContainer.style.display = (filterContainer.style.display === "block") ? "none" : "block";
-  });
-
-  window.addEventListener("click", function (event) {
-      if (event.target !== filterButton && !filterContainer.contains(event.target)) {
-          filterContainer.style.display = "none";
-      }
-  });
-});
-
-// 
-//  filtro funkcija mygtuko
 //  
-document.addEventListener("DOMContentLoaded", function() {
-  // Initialize Bootstrap dropdown
-  var dropdown = new bootstrap.Dropdown(document.getElementById("filterContainer"));
+$('.dropdown-item.continent').on('click', function (event) {
+  event.preventDefault();
+  var selectedContinent = $(this).text().trim();
 
-  // Get the necessary elements
-  const filterTag = document.getElementById("filterTag");
-  const continentDropdown = document.getElementById("continentDropdown");
+  // Log the selected continent
+  console.log('Selected Continent:', selectedContinent);
 
-  // Add click event listener to the continent dropdown items
-  continentDropdown.addEventListener("click", function(event) {
-      if (event.target.classList.contains("dropdown-item")) {
-          // Update the text of the filterTag button with the selected continent
-          filterTag.textContent = event.target.textContent;
-          // Close the dropdown after selecting a continent
-          dropdown.hide();
+  // Make an AJAX request to get filtered bird cards
+  $.ajax({
+      url: birdsIndexUrl + '?continent=' + encodeURIComponent(selectedContinent),
+      method: 'GET',
+      success: function (data) {
+          // Update the content with the new bird cards
+          $('.container .row').html($(data).find('.container .row').html());
+
+          // Update pagination links
+          $('.pagination').html($(data).find('.pagination').html());
+
+          // Reset pagination to the first page
+          $('.pagination li:eq(1)').trigger('click');
+      },
+      error: function (error) {
+          console.error('Error fetching bird cards:', error);
       }
   });
 });
+// Display continents in the modal
+function displayContinentsInModal(continents) {
+  var modalList = $('#allContinentsList');
+  modalList.empty();
+
+  $.each(continents, function (index, continent) {
+      var listItem = $('<a href="#" class="list-group-item continent-dropdown-item"></a>').text(continent);
+      modalList.append(listItem);
+  });
+}
+// 
+// disables pagination for filter
+// 
+$(document).ready(function () {
+  // Initial hide/show based on selected continent
+  filterBirdsByContinent();
+
+  // Handle continent dropdown change
+  $('.dropdown-item.continent').on('click', function (event) {
+      event.preventDefault();
+      var selectedContinent = $(this).text().trim();
+      $('#selectedContinent').text(selectedContinent);
+      filterBirdsByContinent(selectedContinent);
+  });
+
+  // Handle the "See More" link in the modal
+  $('#allContinentsModal').on('shown.bs.modal', function () {
+      fetchAllContinents(); // Fetch continents when the modal is shown
+  });
+
+  // Handle continent selection in the modal
+  $('#allContinentsList').on('click', '.continent-dropdown-item', function (event) {
+      event.preventDefault();
+      var selectedContinent = $(this).text().trim();
+      $('#selectedContinent').text(selectedContinent);
+      filterBirdsByContinent(selectedContinent);
+      $('#allContinentsModal').modal('hide'); // Close the modal after selecting a continent
+  });
+});
+
+
+function filterBirdsByContinent(selectedContinent = null) {
+  // Show or hide cards based on the selected continent
+  $('.bird-card').each(function () {
+      var cardContinent = $(this).data('continent');
+      if (!selectedContinent || cardContinent === selectedContinent) {
+          $(this).show();
+      } else {
+          $(this).hide();
+      }
+  });
+}
+
+function fetchAllContinents() {
+  console.log('Fetching continents...');
+  $.ajax({
+      url: '/fetch-continents', // Replace with the actual endpoint for fetching all continents
+      type: 'GET',
+      success: function (continents) {
+          console.log('Continents fetched:', continents);
+          displayContinentsInModal(continents);
+      },
+      error: function (error) {
+          console.error('Error fetching continents:', error);
+      }
+  });
+}
+
+function displayContinentsInModal(continents) {
+  console.log('Displaying continents in modal:', continents);
+  var continentsList = $('#allContinentsList');
+  continentsList.empty();
+  continents.forEach(function (continent) {
+      var listItem = $('<a>', {
+          href: '#',
+          class: 'list-group-item list-group-item-action continent-dropdown-item',
+          text: continent
+      });
+      continentsList.append(listItem);
+  });
+}

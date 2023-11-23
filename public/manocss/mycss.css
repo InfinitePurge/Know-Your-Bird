@@ -439,49 +439,6 @@ footer {
     background: rgb(63,94,251); background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
 }
  
-
-.center-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-#filterButton {
-  margin: 10px;
-  padding: 10px;
-  background: linear-gradient(90deg, rgba(63,251,108,1) 0%, rgba(70,252,193,0.9682247899159664) 100%);
-  color: black;
-  border: none;
-  cursor: pointer;
-}
-.FilterDropas{
-  margin: 10px;
-  padding: 10px;
-  background: linear-gradient(90deg, rgba(63,251,108,1) 0%, rgba(70,252,193,0.9682247899159664) 100%);
-  color: black;
-  -webkit-text-fill-color: #000;
-  border: none;
-  cursor: pointer;
-}
-
-#filterContainer {
-  display: none;
-  position: absolute;
-  width: 100%;
-  max-height: 80%;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.8869922969187675) 20%, rgba(3, 177, 177, 1) 100%);
-}
-
-.filterTag {
-  margin: 5px;
-  padding: 8px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
 .DropDownDesign{
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.8869922969187675) 20%, rgba(3, 177, 177, 1) 100%);
   position: absolute;
@@ -511,4 +468,9 @@ footer {
 .DropDownText:hover{
   background-color: rgba(102, 214, 218, 0.5);
   -webkit-text-fill-color: #66d6da;
+}
+
+.filtercontainer{
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.8869922969187675) 20%, rgba(3, 177, 177, 1) 100%);
+
 }
