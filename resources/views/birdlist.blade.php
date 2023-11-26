@@ -95,35 +95,43 @@
             <div class="content">
                 <div class="container">
                     <div class="row" style="display: flex; align-items: stretch;">
-                        @foreach($birds as $bird)
-                        <div class="col-xs-12 col-sm-4 bird-card" data-continent="{{ $bird->kilme }}" style="margin-bottom: 7%;">
-                            <div class="card" style="height: 100%; display: flex; flex-direction: column;">
-                                <a class="img-card" href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">
-                                    <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" />
-                                </a>
-                                <div class="card-content" style="flex: 1;">
-                                    <h4 class="card-title">
-                                        <a href="#"> {{ $bird->pavadinimas }} </a>
-                                    </h4>
-                                    <p class=""> {{ $bird->kilme }} </p>
-                                    <p class="text-overflow-clamp"> {{ $bird->aprasymas }} </p>
-                                </div>
-                                <div class="card-read-more">
-                                    <!-- Add your buttons for delete, view, and edit here -->
-                                    @if(auth()->check() && auth()->user()->role == 1)
-                                    <form action="{{ route('admin.bird.delete', ['id' => $bird->id]) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-delete" data-action="delete">Delete</button>
-                                    </form>
-                                    @endif
-                                    <a href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">View</a>
-                                    @if(auth()->check() && auth()->user()->role == 1)
-                                    <button href="#" class="btn btn-warning btn-edit" data-action="edit" data-bs-toggle="modal" data-bs-target="#editBirdModal_{{ $bird->id }}">Edit</button>
-                                    @endif
+                        @foreach ($birds as $bird)
+                            <div class="col-xs-12 col-sm-4 bird-card" data-continent="{{ $bird->kilme }}"
+                                style="margin-bottom: 7%;">
+                                <div class="card" style="height: 100%; display: flex; flex-direction: column;">
+                                    <a class="img-card"
+                                        href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">
+                                        <img src="{{ asset('images/birds/' . basename($bird->image)) }}"
+                                            alt="{{ $bird->pavadinimas }}" />
+                                    </a>
+                                    <div class="card-content" style="flex: 1;">
+                                        <h4 class="card-title">
+                                            <a href="#"> {{ $bird->pavadinimas }} </a>
+                                        </h4>
+                                        <p class=""> {{ $bird->kilme }} </p>
+                                        <p class="text-overflow-clamp"> {{ $bird->aprasymas }} </p>
+                                    </div>
+                                    <div class="card-read-more">
+                                        <!-- Add your buttons for delete, view, and edit here -->
+                                        @if (auth()->check() && auth()->user()->role == 1)
+                                            <form action="{{ route('admin.bird.delete', ['id' => $bird->id]) }}"
+                                                method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-delete"
+                                                    data-action="delete">Delete</button>
+                                            </form>
+                                        @endif
+                                        <a
+                                            href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">View</a>
+                                        @if (auth()->check() && auth()->user()->role == 1)
+                                            <button href="#" class="btn btn-warning btn-edit"
+                                                data-action="edit" data-bs-toggle="modal"
+                                                data-bs-target="#editBirdModal_{{ $bird->id }}">Edit</button>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -147,48 +155,61 @@
 
     {{-- EDIT BUTTON MODAL --}}
 
-    <div class="modal fade" style="color:black" id="editBirdModal" tabindex="-1" aria-labelledby="editBirdModalLabel" aria-hidden="true">
-        <div class="modal-dialog ">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editBirdModalLabel">Edit information</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="color:black">
-                    <form action="your_php_script.php" method="post" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="birdName" class="form-label">Bird Name</label>
-                            <input type="text" class="form-control" name="birdName" id="birdName" placeholder="Enter bird name" required>
-                        </div>
+    @foreach ($birds as $bird)
+        <div class="modal fade" style="color:black" id="editBirdModal_{{ $bird->id }}" tabindex="-1"
+            aria-labelledby="editBirdModalLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editBirdModalLabel">Edit information</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="color:black">
+                        <form action="{{ route('admin.editBird', ['birdId' => $bird->id]) }}" method="post"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3">
+                                <label for="birdName" class="form-label">Bird Name</label>
+                                <input type="text" class="form-control" name="birdName" id="birdName"
+                                    placeholder="Enter bird name" value="{{ $bird->pavadinimas }}" required>
+                            </div>
 
-                        <div class="mb-3 text-center">
-                            <label for="birdName" class="form-label">Current image</label>
-                        </div>
+                            <div class="mb-3 text-center">
+                                <label for="birdName" class="form-label">Current image</label>
+                            </div>
 
-                        <div class="mb-3 text-center">
-                            <img src="{{ URL('images/birds/bird7.avif')}}" alt="Image" style="float: center; width: 300px; height: 300px;">
-                        </div>
+                            <div class="mb-3 text-center">
+                                <img src="{{ asset('images/birds/' . basename($bird->image)) }}"
+                                    alt="{{ $bird->pavadinimas }}"
+                                    style="float: center; width: 300px; height: 300px;">
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="birdImage" class="form-label">Change Bird Image</label>
-                            <input type="file" class="form-control" name="birdImage" id="birdImage" accept="image/*" required>
-                        </div>
+                            <div class="mb-3">
+                                <label for="birdImage" class="form-label">Change Bird Image</label>
+                                <input type="file" class="form-control" name="birdImage" id="birdImage"
+                                    accept="image/*">
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="birdContinent" class="form-label">Bird Continent</label>
-                            <input type="text" class="form-control" name="birdContinent" id="birdContinent" placeholder="Enter bird continent" required>
-                        </div>
+                            <div class="mb-3">
+                                <label for="birdContinent" class="form-label">Bird Continent</label>
+                                <input type="text" class="form-control" name="birdContinent" id="birdContinent"
+                                    placeholder="Enter bird continent" value="{{ $bird->kilme }}" required>
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="birdMiniText" class="form-label">Mini Text</label>
-                            <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3" placeholder="Enter mini text about the bird" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary custom-edit-button">Edit Bird</button>
-                    </form>
+                            <div class="mb-3">
+                                <label for="birdMiniText" class="form-label">Mini Text</label>
+                                <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3"
+                                    placeholder="Enter mini text about the bird" required>{{ $bird->aprasymas }}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary custom-edit-button">Edit Bird</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endforeach
     {{-- EDIT BUTTON MODAL END --}}
 
 
