@@ -109,7 +109,7 @@
             <div class="content">
                 <div class="container">
                     <div class="row" style="display: flex; align-items: stretch;">
-                         @foreach ($birds as $bird)
+                        @foreach ($birds as $bird)
                         <div class="col-xs-12 col-sm-4 bird-card" data-continent="{{ $bird->kilme }}" style="margin-bottom: 7%;">
                             <div class="card" style="height: 100%; display: flex; flex-direction: column;">
                                 <a class="img-card" href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">
@@ -161,7 +161,8 @@
 
     {{-- EDIT BUTTON MODAL --}}
 
-    <div class="modal fade" style="color:black" id="editBirdModal" tabindex="-1" aria-labelledby="editBirdModalLabel" aria-hidden="true">
+    @foreach ($birds as $bird)
+    <div class="modal fade" style="color:black" id="editBirdModal_{{ $bird->id }}" tabindex="-1" aria-labelledby="editBirdModalLabel" aria-hidden="true">
         <div class="modal-dialog ">
             <div class="modal-content">
                 <div class="modal-header">
@@ -169,33 +170,35 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="color:black">
-                    <form action="your_php_script.php" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('admin.editBird', ['birdId' => $bird->id]) }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
                         <div class="mb-3">
                             <label for="birdName" class="form-label">Bird Name</label>
-                            <input type="text" class="form-control" name="birdName" id="birdName" placeholder="Enter bird name" required>
+                            <input type="text" class="form-control" name="birdName" id="birdName" placeholder="Enter bird name" value="{{ $bird->pavadinimas }}" required>
                         </div>
 
-                            <div class="mb-3 text-center">
-                                <label for="birdName" class="form-label">Current image</label>
-                            </div>
+                        <div class="mb-3 text-center">
+                            <label for="birdName" class="form-label">Current image</label>
+                        </div>
 
                         <div class="mb-3 text-center">
-                            <img src="{{ URL('images/birds/bird7.avif')}}" alt="Image" style="float: center; width: 300px; height: 300px;">
+                            <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" style="float: center; width: 300px; height: 300px;">
                         </div>
 
                         <div class="mb-3">
                             <label for="birdImage" class="form-label">Change Bird Image</label>
-                            <input type="file" class="form-control" name="birdImage" id="birdImage" accept="image/*" required>
+                            <input type="file" class="form-control" name="birdImage" id="birdImage" accept="image/*">
                         </div>
 
                         <div class="mb-3">
                             <label for="birdContinent" class="form-label">Bird Continent</label>
-                            <input type="text" class="form-control" name="birdContinent" id="birdContinent" placeholder="Enter bird continent" required>
+                            <input type="text" class="form-control" name="birdContinent" id="birdContinent" placeholder="Enter bird continent" value="{{ $bird->kilme }}" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="birdMiniText" class="form-label">Mini Text</label>
-                            <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3" placeholder="Enter mini text about the bird" required></textarea>
+                            <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3" placeholder="Enter mini text about the bird">{{ $bird->aprasymas }}</textarea>
                         </div>
                         <button type="submit" class="btn btn-primary custom-edit-button">Edit Bird</button>
                     </form>
@@ -203,6 +206,7 @@
             </div>
         </div>
     </div>
+    @endforeach
     {{-- EDIT BUTTON MODAL END --}}
     <x-footer></x-footer>
 </body>
