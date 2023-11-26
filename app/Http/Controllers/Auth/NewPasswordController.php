@@ -11,15 +11,27 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\PasswordResetToken;
+use Illuminate\Support\Facades\DB;
 
 class NewPasswordController extends Controller
 {
     /**
      * Display the password reset view.
      */
-    public function create(Request $request): View
+    public function create(Request $request): View|RedirectResponse
     {
-        return view('auth.reset-password', ['request' => $request]);
+        $email = $request->email;
+
+        $tokenExists = DB::table('password_reset_tokens')
+            ->where('email', $email)
+            ->exists();
+
+        if ($tokenExists) {
+            return view('auth.reset-password', ['request' => $request]);
+        } else {
+            return redirect()->route('password.request')->withErrors(['email' => __('Invalid or expired token.')]);
+        }
     }
 
     /**
@@ -53,9 +65,23 @@ class NewPasswordController extends Controller
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
-        return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+        if ($status == Password::PASSWORD_RESET) {
+            $this->invalidateToken($request->email);
+            return redirect()->route('login')->with('status', __($status));
+        } else {
+            return back()->withInput($request->only('email'))->withErrors(['email' => __($status)]);
+        }
+    }
+
+    /**
+     * Invalidate the given password reset token.
+     *
+     * @param string $email
+     * @return void
+     */
+    protected function invalidateToken($email)
+    {
+        // Update the 'created_at' column to mark the token as used
+        PasswordResetToken::where('email', $email)->update(['created_at' => now()]);
     }
 }
