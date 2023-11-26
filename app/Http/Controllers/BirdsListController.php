@@ -19,16 +19,13 @@ class BirdsListController extends Controller
     {
         $bird = Pauksciai::where('pavadinimas', $pavadinimas)->first();
 
-        // Check if the bird is not found
         if (!$bird) {
-            abort(404); // or redirect to a 404 page
+            abort(404);
         }
 
-        // Get distinct kilme values
         $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme');
 
-        // Pass bird and kilmeValues data to the view
-        return view('birdlist', compact('bird', 'kilmeValues'));
+        return view('bird', compact('bird', 'kilmeValues'));
     }
 
     public function search(Request $request)

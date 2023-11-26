@@ -278,7 +278,7 @@ a {
 }
 
 @font-face {
-  font-family: "Edmondsans";
+  /* font-family: "Edmondsans";
   src: url("http://designitcodeit.com/live/huP64P3jnA76/fonts/edmondsans-bold-webfont.eot");
   src: url("http://designitcodeit.com/live/huP64P3jnA76/fonts/edmondsans-bold-webfont.eot?#iefix")
       format("embedded-opentype"),
@@ -287,7 +287,7 @@ a {
     url("http://designitcodeit.com/live/huP64P3jnA76/fonts/edmondsans-bold-webfont.ttf")
       format("truetype"),
     url("http://designitcodeit.com/live/huP64P3jnA76/fonts/edmondsans-bold-webfont.svg#EdmondsansBoldRegular")
-      format("svg");
+      format("svg"); */
   font-weight: bold;
   font-style: normal;
 }
@@ -417,15 +417,15 @@ a {
 .pagination .prev a,
 .pagination .next a {
   text-indent: -4px;
-  line-height: 30px;
-  font-size: 30px;
+  line-height: 35px;
+  font-size: 20px;
 
 }
 
 .pagination .prev a {
   text-indent: 4px;
-  line-height: 30px;
-  font-size: 30px;
+  line-height: 35px;
+  font-size: 20px;
 }
 .pagination .prev:before,
 .pagination .next:before {
@@ -472,10 +472,15 @@ background-color: rgba(102, 214, 218, 0.5);
 
 .filtercontainer{
 background: linear-gradient(90deg, rgba(0, 0, 0, 0.8869922969187675) 20%, rgba(3, 177, 177, 1) 100%);
+display: flex;
+justify-content: space-between;
+}
 
+#kilmeButtonGroup {
+display: flex;
 }
 
 .scrollable-menu {
-  max-height: 200px; /* Adjust the max-height as needed */
+  max-height: 200px;
   overflow-y: auto;
 }

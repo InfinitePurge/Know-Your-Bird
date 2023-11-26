@@ -32,7 +32,7 @@
         <form action="{{ route('birdlist.search') }}" method="GET" class="mb-3 d-flex justify-content-center">
             <div class="input-group" style="max-width: 60%;">
                 <input type="text" class="form-control" placeholder="Search for birds" name="search">
-                <button class="btn btn-primary" type="submit">Search</button>
+                <button class="btn btn-primary search-button" type="submit">Search</button>
             </div>
         </form>
     </div>

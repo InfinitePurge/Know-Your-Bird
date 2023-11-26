@@ -24,7 +24,7 @@
         </div>
         <p><strong>Continent:</strong> {{ $bird->kilme }}</p>
         <h2>About the Bird</h2>
-        <p>{{ $bird->aprasymas }}</p>
+        <p>{!! $bird->aprasymas !!}</p>
     </main>
     <x-footer></x-footer>
 </body>
