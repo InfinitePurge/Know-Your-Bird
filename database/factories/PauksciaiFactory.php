@@ -7,6 +7,7 @@ use Faker\Generator as Faker;
 use App\Models\Pauksciai;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
+use App\Countries;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Pauksciai>
@@ -18,6 +19,7 @@ class PauksciaiFactory extends Factory
 
     public function definition(): array
     {
+
         $createdByUser = User::inRandomOrder()->first();
         $editedByUser = $this->faker->boolean(30) ? User::inRandomOrder()->first() : null;
 
@@ -30,10 +32,12 @@ class PauksciaiFactory extends Factory
         // Randomly select one file from the array
         $randomImage = $files[rand(0, count($files) - 1)];
 
+        $countries = Countries::$countries;
+
         return [
             'pavadinimas' => $this->generateUniquePavadinimas(),
             'aprasymas' => $this->faker->paragraph(90, true),
-            'kilme' => $this->faker->country,
+            'kilme' => $countries[array_rand($countries)],
             'image' => 'images/birds/' . $randomImage->getFilename(),
             'created_by' => $createdByUser->id,
             'edited_by' => $editedByUser ? $editedByUser->id : null,
