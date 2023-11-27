@@ -7,14 +7,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js">
         SHA - 256
-
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
         SHA - 384
-
     </script>
+
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    
 
 
 </head>
@@ -23,8 +22,6 @@
     <x-custom-header></x-custom-header>
     <script src="{{ asset('jasonas/jasonas.js') }}"></script>
     <script src="{{ asset('jasonas/filtras.js') }}"></script>
-
-
 
     {{-- --}}
     <div class="container-fluid filtercontainer">
@@ -82,17 +79,10 @@
                                             <input type="text" class="form-control" name="birdContinent" id="birdContinent" placeholder="Enter bird continent" required>
                                         </div>
 
-                                        <div class="mb-3">
+                                        <div class="mb-3" id="editor">
                                             <label for="birdMiniText" class="form-label">Mini Text</label>
                                             <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3" placeholder="Enter mini text about the bird"></textarea>
-
                                         </div>
-                                        <script>
-                                            tinymce.init({
-                                                selector: '#birdMiniText' // Replace this with the correct selector for your textarea
-                                            });
-
-                                        </script>
                                         <button type="submit" class="btn btn-primary">Add Bird</button>
                                     </form>
                                 </div>
@@ -200,7 +190,7 @@
                             <label for="birdMiniText" class="form-label">Mini Text</label>
                             <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3" placeholder="Enter mini text about the bird">{{ $bird->aprasymas }}</textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary custom-edit-button">Edit Bird</button>
+                        <button class="btn btn-warning btn-edit" data-action="edit" data-bs-toggle="modal" data-bs-target="#editBirdModal" data-bird-id="{{ $bird->id }}" data-bird-description="{{ $bird->aprasymas }}">Edit</button>
                     </form>
                 </div>
             </div>
