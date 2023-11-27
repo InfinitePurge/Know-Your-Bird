@@ -22,7 +22,7 @@
             ?>
             <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" class="{{ $imageClass }}" />
         </div>
-        <p><strong>Country:</strong> {{ $bird->kilme }}</p>
+        <p><strong>Continent:</strong> {{ $bird->kilme }}</p>
         <h2>About the Bird</h2>
         <p>{!! $bird->aprasymas !!}</p>
     </main>

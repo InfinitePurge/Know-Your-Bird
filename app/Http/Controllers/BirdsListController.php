@@ -4,33 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pauksciai;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class BirdsListController extends Controller
 {
     public function index()
     {
-        
-        // Check if the countries data is cached
-        $countries = Cache::remember('countries', 60 * 60, function () {
-            // Define the API endpoint for countries
-            $api_url = 'https://restcountries.com/v3.1/independent?status=true&fields=name';
-
-            // Fetch the list of countries from the API
-            $response = Http::get($api_url);
-            $countries_data = $response->json();
-
-            // Extract the names of the countries
-            return array_map(function ($country) {
-                return $country['name']['common'];
-            }, $countries_data);
-        });
-
         $birds = Pauksciai::all();
         $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme');
-
-        return view('birdlist', compact('birds', 'kilmeValues', 'countries'));
+        return view('birdlist', compact('birds', 'kilmeValues'));
     }
 
     public function view($pavadinimas)
