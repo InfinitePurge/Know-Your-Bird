@@ -3,7 +3,6 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js">
         SHA - 256
@@ -18,10 +17,16 @@
 
 </head>
 
-<body style="background-image: url('images/b2.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
+<body style="background-image: url('{{ asset('images/b2.jpg') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
+
     <x-custom-header></x-custom-header>
     <script src="{{ asset('jasonas/jasonas.js') }}"></script>
     <script src="{{ asset('jasonas/filtras.js') }}"></script>
+    <script src="{{ asset('jasonas/loading.js') }}"></script>
+
+     <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
 
     {{-- --}}
     <div class="container-fluid filtercontainer">
@@ -169,8 +174,8 @@
                             <label for="birdName" class="form-label">Current image</label>
                         </div>
 
-                        <div class="mb-3 text-center">
-                            <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" style="float: center; width: 300px; height: 300px;">
+                        <div class="mb-3 text-center"">
+                            <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" style="width: 400px; height: 400px; object-fit: cover;">
                         </div>
 
                         <div class="mb-3">

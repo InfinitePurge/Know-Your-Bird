@@ -11,6 +11,11 @@
 <body
     style="background-image: url('images/b2.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
     <x-custom-header></x-custom-header>
+    <script src="{{ asset('jasonas/loading.js') }}"></script>
+
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
 
     <div class="container">
         <div class="image-container" style="background-image: url('images/birds/bird11.jpg');">

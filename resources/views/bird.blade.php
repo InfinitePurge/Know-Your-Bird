@@ -13,7 +13,7 @@
 
 <body>
     <main>
-        <h1>{{ $bird->pavadinimas }}</h1>
+        <h1><strong>Bird:</strong>{{ $bird->pavadinimas }}</h1>
          <div class="image-container">
             <?php
             $imagePath = public_path('images/birds/' . basename($bird->image));
