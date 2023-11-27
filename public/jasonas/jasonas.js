@@ -10,6 +10,11 @@
 //     editForm.find('input[name="_method"]').val('PUT');
 // });
 
+$(document).ready(function () {
+    $("#kilmeButton").click(function () {
+        $("#salisDropdown").toggle();
+    });
+});
 
 $(document).ready(function () {
     var allBirds = $('.bird-card');
@@ -120,6 +125,9 @@ $(document).ready(function () {
 
     $('.DropDownText').on('click', function () {
         var selectedKilme = $(this).text();
+        $("#kilmeButton").text(selectedKilme); // Change Kilme button text
+        $("#salisDropdown").hide(); // Hide the dropdown
+        // Rest of your existing code...
         allBirds.hide();
         var filteredBirds = allBirds.filter('[data-continent="' + selectedKilme + '"]');
         filteredBirds.show();

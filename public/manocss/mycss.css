@@ -278,16 +278,6 @@ a {
 }
 
 @font-face {
-  /* font-family: "Edmondsans";
-  src: url("http://designitcodeit.com/live/huP64P3jnA76/fonts/edmondsans-bold-webfont.eot");
-  src: url("http://designitcodeit.com/live/huP64P3jnA76/fonts/edmondsans-bold-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("http://designitcodeit.com/live/huP64P3jnA76/fonts/edmondsans-bold-webfont.woff")
-      format("woff"),
-    url("http://designitcodeit.com/live/huP64P3jnA76/fonts/edmondsans-bold-webfont.ttf")
-      format("truetype"),
-    url("http://designitcodeit.com/live/huP64P3jnA76/fonts/edmondsans-bold-webfont.svg#EdmondsansBoldRegular")
-      format("svg"); */
   font-weight: bold;
   font-style: normal;
 }
@@ -470,14 +460,27 @@ background-color: rgba(102, 214, 218, 0.5);
 -webkit-text-fill-color: #66d6da;
 }
 
-.filtercontainer{
-background: linear-gradient(90deg, rgba(0, 0, 0, 0.8869922969187675) 20%, rgba(3, 177, 177, 1) 100%);
-display: flex;
-justify-content: space-between;
+.filtercontainer {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.8869922969187675) 20%, rgba(3, 177, 177, 1) 100%);
+  padding-bottom: 3%; /* Adjust the value based on the desired space below the container */
+  text-align: center; /* Center-align the text within the container */
 }
 
-#kilmeButtonGroup {
-display: flex;
+.btn-group {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.filtromygt {
+  background: linear-gradient(174deg, rgba(0,255,124,1) 0%, rgba(71,205,162,0.9682247899159664) 100%);
+  -webkit-text-fill-color: #000;
+  transition: border 0.1s ease; /* Add a transition for a smooth effect */
+  position: relative;
+}
+
+.filtromygt:hover {
+  -webkit-text-fill-color: #926da3;
+  border: 3px solid rgba(0, 0, 0, 0.3); /* Add a border on hover */
 }
 
 .scrollable-menu {

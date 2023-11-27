@@ -25,24 +25,21 @@
 
     {{-- --}}
     <div class="container-fluid filtercontainer">
-        <p style="text-align: center;"> Filter by: </p>
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-6 d-flex justify-content-between">
-                <div class="btn-group" id="kilmeButtonGroup">
-                    <button type="button" class="btn btn-secondary">Kilme</button>
-                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
-                        @foreach ($kilmeValues as $kilme)
-                        <a class="dropdown-item bird DropDownText" href="#">{{ $kilme }}</a>
-                        @endforeach
-                    </div>
+    <p style="text-align: center;"> Filter by: </p>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-6 d-flex justify-content-between">
+            <div class="btn-group" id="kilmeButtonGroup">
+                <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Country</button>
+                <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
+                    @foreach ($kilmeValues as $kilme)
+                    <a class="dropdown-item bird DropDownText" href="#">{{ $kilme }}</a>
+                    @endforeach
                 </div>
-                <button type="button" class="btn btn-outline-secondary" id="clearFilter">Clear Filter</button>
             </div>
+            <button type="button" class="btn btn-outline-secondary filtromygt" id="clearFilter">Clear Filter</button>
         </div>
     </div>
+</div>
     {{-- --}}
     <section class="wrapper">
         <div class="container-fostrap">
