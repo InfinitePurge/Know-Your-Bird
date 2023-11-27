@@ -76,9 +76,17 @@
                                             <input type="file" class="form-control" name="birdImage" id="birdImage" accept="image/*" required>
                                         </div>
 
-                                        <div class="mb-3">
+                                        {{-- <div class="mb-3">
                                             <label for="birdContinent" class="form-label">Bird Continent</label>
                                             <input type="text" class="form-control" name="birdContinent" id="birdContinent" placeholder="Enter bird continent" required>
+                                        </div> --}}
+                                        <div class="mb-3">
+                                            <label for="birdContinent" class="form-label">Bird Country</label>
+                                            <select class="form-control" name="birdContinent" id="birdContinent" required>
+                                                @foreach ($countries as $country)
+                                                    <option value="{{ $country }}">{{ $country }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
 
                                         <div class="mb-3" id="editor">
@@ -184,8 +192,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="birdContinent" class="form-label">Bird Continent</label>
-                            <input type="text" class="form-control" name="birdContinent" id="birdContinent" placeholder="Enter bird continent" value="{{ $bird->kilme }}" required>
+                            <label for="birdContinent" class="form-label">Bird Country</label>
+                            <select class="form-control" name="birdContinent" id="birdContinent" required>
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country }}">{{ $country }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="mb-3">
