@@ -13,7 +13,7 @@ class BirdsListController extends Controller
     {
         $countries = Countries::$countries;
         $birds = Pauksciai::all();
-        $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme');
+        $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
         // Pass variables with their keys
         return view('birdlist', ['birds' => $birds, 'kilmeValues' => $kilmeValues, 'countries' => $countries]);
@@ -27,8 +27,8 @@ class BirdsListController extends Controller
             abort(404);
         }
 
-        $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme');
-
+        $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
+        
         return view('bird', compact('bird', 'kilmeValues'));
     }
 
@@ -42,7 +42,7 @@ class BirdsListController extends Controller
             ->orWhere('kilme', 'like', '%' . $search . '%')
             ->paginate(15);
 
-        $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme');
+            $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
         // Pass variables with their keys
         return view('birdlist', ['birds' => $birds, 'kilmeValues' => $kilmeValues, 'countries' => $countries]);
@@ -50,7 +50,7 @@ class BirdsListController extends Controller
 
     public function fetchContinents()
     {
-        $continents = Pauksciai::select('kilme')->distinct()->pluck('kilme');
+        $continents = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
         return response()->json($continents);
     }
 }
