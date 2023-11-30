@@ -1,15 +1,3 @@
-// $('#editBirdModal').on('show.bs.modal', function (event) {
-//     var button = $(event.relatedTarget); // Button that triggered the modal
-//     var birdId = button.data('bird-id'); // Extract info from data-* attributes
-//     var birdDescription = button.data('bird-description'); // Assuming this holds the description
-
-//     // Update the form action
-//     var editForm = $(this).find('form');
-//     var editAction = 'your_php_script.php?id=' + birdId; // Update with your actual script
-//     editForm.attr('action', editAction);
-//     editForm.find('input[name="_method"]').val('PUT');
-// });
-
 $(document).ready(function () {
     $("#kilmeButton").click(function () {
         $("#salisDropdown").toggle();

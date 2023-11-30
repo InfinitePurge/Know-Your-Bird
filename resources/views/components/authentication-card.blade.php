@@ -1,4 +1,14 @@
-<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+<style>
+
+.bakugroundu{
+background: rgb(255,255,255);
+background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,0,0,0.6138830532212884) 100%);
+
+}
+
+</style>
+
+<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bakugroundu">
     <div>
         {{ $logo }}
     </div>
