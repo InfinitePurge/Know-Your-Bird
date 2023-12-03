@@ -22,4 +22,9 @@ class Pauksciai extends Model
     {
         return $this->belongsTo(User::class, 'edited_by');
     }
+    
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'pauksciai_tags');
+    }
 }

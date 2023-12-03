@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pauksciai;
 use Illuminate\Support\Facades\Log;
 use App\Countries;
+use App\Models\Tag;
 
 class BirdsListController extends Controller
 {
@@ -13,10 +14,11 @@ class BirdsListController extends Controller
     {
         $countries = Countries::$countries;
         $birds = Pauksciai::all();
+        $tags = Tag::all();
         $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
         // Pass variables with their keys
-        return view('birdlist', ['birds' => $birds, 'kilmeValues' => $kilmeValues, 'countries' => $countries]);
+        return view('birdlist', ['birds' => $birds, 'kilmeValues' => $kilmeValues, 'countries' => $countries, 'tags' => $tags]);
     }
 
     public function view($pavadinimas)
@@ -35,7 +37,7 @@ class BirdsListController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('search');
-
+        $tags = Tag::all();
         $countries = Countries::$countries;
 
         $birds = Pauksciai::where('pavadinimas', 'like', '%' . $search . '%')
@@ -45,7 +47,7 @@ class BirdsListController extends Controller
             $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
         // Pass variables with their keys
-        return view('birdlist', ['birds' => $birds, 'kilmeValues' => $kilmeValues, 'countries' => $countries]);
+        return view('birdlist', ['birds' => $birds, 'kilmeValues' => $kilmeValues, 'countries' => $countries, 'tags' => $tags]);
     }
 
     public function fetchContinents()
