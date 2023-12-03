@@ -1,10 +1,9 @@
 <x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+    <link href="{{ asset('manocss/loginreg.css') }}" rel="stylesheet">
 
-        <div class="mb-4 text-sm text-gray-600">
+    <div class="login-form">
+
+        <div class="mb-4 text-xl text-green-600">
             {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
         </div>
 
@@ -18,17 +17,17 @@
 
         <form method="POST" action="{{ route('password.email') }}">
             @csrf
-
-            <div class="block">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <div class="field">
+                <input id="email" type="email" name="email" :value="old('email')" required autocomplete="email"
+                    placeholder="Enter your email here">
             </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-button>
-            </div>
-        </form>
-    </x-authentication-card>
+            <button>
+                Email Password Reset Link
+            </button>
+    </form>
+    <div class="text-center link">
+    <a href="/"
+        class="underline text-sm text-green-600 hover:text-green-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Home</a>
+    </div>
+    </div>
 </x-guest-layout>
