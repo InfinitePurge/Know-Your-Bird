@@ -6,6 +6,7 @@ use App\Http\Controllers\BirdsListController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BirdFormsController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\contact_usController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,7 @@ Route::get('/', function () {
 
 Route::get('/birdlist/search', [BirdsListController::class, 'search'])->name('birdlist.search');
 Route::get('/history', [HistoryController::class, 'index']);
+Route::get('/contact_us', [contact_usController::class, 'index']);
 Route::get('/birdforms', [BirdFormsController::class, 'index']);
 Route::get('/birdlist', [BirdsListController::class, 'index'])->name('birds.index');
 Route::get('/bird/{pavadinimas}', [BirdsListController::class, 'view'])->name('bird.view');
