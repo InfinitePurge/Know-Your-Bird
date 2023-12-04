@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BirdFormsController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\contact_usController;
+use App\Http\Controllers\tagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ Route::get('/contact_us', [contact_usController::class, 'index']);
 Route::get('/birdforms', [BirdFormsController::class, 'index']);
 Route::get('/birdlist', [BirdsListController::class, 'index'])->name('birds.index');
 Route::get('/bird/{pavadinimas}', [BirdsListController::class, 'view'])->name('bird.view');
+Route::get('/tagview', [tagController::class, 'index']);
 
 
 

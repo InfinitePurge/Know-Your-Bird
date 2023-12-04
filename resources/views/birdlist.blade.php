@@ -40,6 +40,9 @@
                         @foreach ($kilmeValues as $kilme)
                             <a class="dropdown-item bird DropDownText" href="#">{{ $kilme }}</a>
                         @endforeach
+                        @foreach ($kilmeValues as $kilme)
+                            <a class="dropdown-item bird DropDownText" href="#">{{ $kilme }}</a>
+                        @endforeach
                     </div>
                 </div>
                 <button type="button" class="btn btn-outline-secondary filtromygt" id="clearFilter">Clear
