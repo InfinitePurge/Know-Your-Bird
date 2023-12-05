@@ -103,8 +103,13 @@
                                                 <div class="form-check">
                                                     <input type="checkbox" class="form-check-input" name="tags[]"
                                                         value="{{ $tag->id }}" id="tag{{ $tag->id }}">
-                                                    <label class="form-check-label"
-                                                        for="tag{{ $tag->id }}">{{ $tag->name }}</label>
+                                                    <label class="form-check-label" for="tag{{ $tag->id }}">
+                                                        @if ($tag->prefix)
+                                                            {{ $tag->prefix->prefix }}: {{ $tag->name }}
+                                                        @else
+                                                            {{ $tag->name }}
+                                                        @endif
+                                                    </label>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -247,8 +252,13 @@
                                         <input type="checkbox" class="form-check-input" name="tags[]"
                                             value="{{ $tag->id }}" id="tag{{ $tag->id }}"
                                             {{ $bird->tags->contains($tag->id) ? 'checked' : '' }}>
-                                        <label class="form-check-label"
-                                            for="tag{{ $tag->id }}">{{ $tag->name }}</label>
+                                        <label class="form-check-label" for="tag{{ $tag->id }}">
+                                            @if ($tag->prefix)
+                                                {{ $tag->prefix->prefix }}: {{ $tag->name }}
+                                            @else
+                                                {{ $tag->name }}
+                                            @endif
+                                        </label>
                                     </div>
                                 @endforeach
                             </div>

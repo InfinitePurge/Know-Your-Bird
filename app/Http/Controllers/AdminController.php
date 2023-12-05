@@ -74,6 +74,7 @@ class AdminController extends Controller
     public function editBird(Request $request, $birdId)
     {
         $bird = Pauksciai::findOrFail($birdId);
+        $tags = Tag::with('prefix')->get();
 
         $validator = Validator::make($request->all(), [
             'birdName' => 'required|string',
@@ -111,10 +112,9 @@ class AdminController extends Controller
         }
 
         // Sync tags
-        $tags = $request->has('tags') ? $request->input('tags') : [];
-        $bird->tags()->sync($tags);
+        $tagsInput = $request->has('tags') ? $request->input('tags') : [];
+        $bird->tags()->sync($tagsInput);
 
-        $bird->update($birdData);
         return redirect()->back()->with('success', 'Bird information updated successfully');
     }
 

@@ -14,7 +14,7 @@ class BirdsListController extends Controller
     {
         $countries = Countries::$countries;
         $birds = Pauksciai::all();
-        $tags = Tag::all();
+        $tags = Tag::with('prefix')->get();
         $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
         // Pass variables with their keys
@@ -37,7 +37,7 @@ class BirdsListController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('search');
-        $tags = Tag::all();
+        $tags = Tag::with('prefix')->get();
         $countries = Countries::$countries;
 
         $birds = Pauksciai::where('pavadinimas', 'like', '%' . $search . '%')

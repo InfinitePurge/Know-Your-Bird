@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             PauksciaiTableSeeder::class,
             QuestionTableSeeder::class,
             AnswerTableSeeder::class,
+            PrefixTableSeeder::class,
+            TagTableSeeder::class,
             // UserAnswersTableSeeder::class,
         ]);
 
