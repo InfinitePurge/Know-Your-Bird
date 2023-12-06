@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUs;
+use App\Mail\ContactUsConfirmation;
 
 class contact_usController extends Controller
 {
@@ -27,7 +28,11 @@ class contact_usController extends Controller
         $subject = $request->input('subject');
         $message = $request->input('message');
 
+        // Send email to admin
         Mail::to('knowyourbird@gmail.com')->send(new ContactUs($name, $email, $subject, $message));
+
+        // Confirmation email to user
+        Mail::to($email)->send(new ContactUsConfirmation($name));
 
         return redirect('/contact_us')->with('success', 'Thank you! Your message has been sent.');
     }
