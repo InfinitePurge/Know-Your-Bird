@@ -560,3 +560,7 @@ a {
     padding: 20px;
     border-radius: 8px;
 }
+
+#myDropdown .dropdown-menu {
+    top: 100%; /* Position below the button */
+}

@@ -16,7 +16,6 @@
 
 
 </head>
-
 <body
     style="background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%), linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%), url('{{ asset('images/b2.jpg') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
 
@@ -37,9 +36,6 @@
                 <div class="btn-group" id="kilmeButtonGroup">
                     <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Country</button>
                     <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
-                        @foreach ($kilmeValues as $kilme)
-                            <a class="dropdown-item bird DropDownText" href="#">{{ $kilme }}</a>
-                        @endforeach
                         @foreach ($kilmeValues as $kilme)
                             <a class="dropdown-item bird DropDownText" href="#">{{ $kilme }}</a>
                         @endforeach
