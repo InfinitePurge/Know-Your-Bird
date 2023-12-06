@@ -15,14 +15,13 @@ var dropdownElementList = [].slice.call(
 var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
     return new bootstrap.Dropdown(dropdownToggleEl, {
         popperConfig: function (defaultBsPopperConfig) {
-            // Use a modified popper config to force the dropdown to be placed at the bottom
             var bsPopperConfig = {
                 ...defaultBsPopperConfig,
                 modifiers: [
                     {
                         name: "flip",
                         options: {
-                            fallbackPlacements: ["bottom"], // Only allow 'bottom' as a fallback placement
+                            fallbackPlacements: ["bottom"],
                         },
                     },
                 ],
