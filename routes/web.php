@@ -26,13 +26,14 @@ Route::get('/', function () {
 
 Route::get('/birdlist/search', [BirdsListController::class, 'search'])->name('birdlist.search');
 Route::get('/history', [HistoryController::class, 'index']);
-Route::get('/contact_us', [contact_usController::class, 'index']);
 Route::get('/birdforms', [BirdFormsController::class, 'index']);
 Route::get('/birdlist', [BirdsListController::class, 'index'])->name('birds.index');
 Route::get('/bird/{pavadinimas}', [BirdsListController::class, 'view'])->name('bird.view');
 Route::get('/tagview', [tagController::class, 'index']);
 
-
+//Contact us
+Route::get('/contact_us', [contact_usController::class, 'index']);
+Route::post('/contact_us', [contact_usController::class, 'submit']);
 
 Route::get('/dashboard', function () {
     return view('welcome');
