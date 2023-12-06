@@ -8,10 +8,12 @@ use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Prefix;
 
 
 class AdminController extends Controller
 {
+    // Delete bird in Birdlist page
     public function deleteBird($id)
     {
         $bird = Pauksciai::find($id);
@@ -28,6 +30,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Bird deleted successfully.');
     }
 
+    // Add bird in Birdlist page
     public function addBird(Request $request)
     {
         // Validate the form data
@@ -71,6 +74,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Bird added successfully.');
     }
 
+    // Edit bird in Birdlist page
     public function editBird(Request $request, $birdId)
     {
         $bird = Pauksciai::findOrFail($birdId);
@@ -118,6 +122,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Bird information updated successfully');
     }
 
+    // Add tag in Tagview page
     public function addTag(Request $request)
     {
         // Validate the request
@@ -130,5 +135,35 @@ class AdminController extends Controller
         $tag->save();
 
         return redirect()->back()->with('success', 'Tag added successfully.');
+    }
+
+    // Delete tag in Tagview page
+    public function deleteTag($id)
+    {
+        $tag = Tag::find($id);
+
+        if (!$tag) {
+            // Handle the case where the tag is not found (optional)
+            return redirect()->back()->with('error', 'Tag not found.');
+        }
+
+        $tag->delete();
+
+        return redirect()->back()->with('success', 'Tag deleted successfully.');
+    }
+
+    // Delete prefix with tag in Tagview page
+    public function deletePrefix($id)
+    {
+        $prefix = Prefix::find($id);
+
+        if (!$prefix) {
+            // Handle the case where the prefix is not found (optional)
+            return redirect()->back()->with('error', 'Prefix not found.');
+        }
+
+        $prefix->delete();
+
+        return redirect()->back()->with('success', 'Prefix deleted successfully.');
     }
 }

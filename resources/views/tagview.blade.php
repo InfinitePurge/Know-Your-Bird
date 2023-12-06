@@ -55,27 +55,40 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($prefix as $prefixxx)
+                            @foreach ($prefix as $currentPrefix)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">
-                                                    {{ $prefixxx->id }}
+                                                    {{ $currentPrefix->id }}
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">{{ $prefixxx->prefix }}</div>
+                                        <div class="text-sm text-gray-900">{{ $currentPrefix->prefix }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <a href="" class="text-yellow-500 hover:text-yellow-800 mx-5">Edit</a>
-
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
+                                        <form action="{{ route('admin.prefix.delete', $currentPrefix->id) }}"
+                                            method="POST" id="deleteForm{{ $currentPrefix->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <a href="#" class="text-red-500 hover:text-red-800 mx-5"
+                                                onclick="deletePrefix({{ $currentPrefix->id }})">Delete</a>
+                                        </form>
 
-                                        <a href="" class="text-red-500 hover:text-red-800 mx-5">Delete</a>
+                                        <script>
+                                            function deletePrefix(prefixId) {
+                                                if (confirm('Are you sure you want to delete this prefix?')) {
+                                                    document.getElementById('deleteForm' + prefixId).submit();
+                                                }
+                                            }
+                                        </script>
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -153,9 +166,23 @@
                                                             </td>
                                                             <td
                                                                 class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
+                                                                <form action="{{ route('admin.tag.delete', $tag->id) }}"
+                                                                    method="POST"
+                                                                    id="deleteTagForm{{ $tag->id }}">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="button"
+                                                                        onclick="deleteTag({{ $tag->id }})"
+                                                                        class="text-red-500 hover:text-red-800 mx-5">Delete</button>
+                                                                </form>
 
-                                                                <a href=""
-                                                                    class="text-red-500 hover:text-red-800 mx-5">Delete</a>
+                                                                <script>
+                                                                    function deleteTag(tagId) {
+                                                                        if (confirm('Are you sure you want to delete this tag?')) {
+                                                                            document.getElementById('deleteTagForm' + tagId).submit();
+                                                                        }
+                                                                    }
+                                                                </script>
                                                             </td>
                                                         </tr>
                                                     @endforeach

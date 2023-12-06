@@ -63,5 +63,6 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/bird/delete/{id}', [AdminController::class, 'deleteBird'])->name('admin.bird.delete');
     Route::put('/admin/bird/edit/{birdId}', [AdminController::class, 'editBird'])->name('admin.editBird');
     Route::post('/admin/bird/add', [AdminController::class, 'addBird'])->name('admin.bird.add');
-    Route::put('/admin/bird/edit/{birdId}', [AdminController::class, 'editBird'])->name('admin.editBird');
+    Route::delete('/tag/delete/{id}', [AdminController::class, 'deleteTag'])->name('admin.tag.delete');
+    Route::delete('/prefix/delete/{id}', [AdminController::class, 'deletePrefix'])->name('admin.prefix.delete');
 });

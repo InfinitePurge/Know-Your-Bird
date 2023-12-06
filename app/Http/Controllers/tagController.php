@@ -15,7 +15,5 @@ class tagController extends Controller
         $prefix = Prefix::all();
         $tags=Tag::with('prefix')->get();
         return view('tagview', ['prefix' => $prefix, 'tags' => $tags]);
-        
     }
-
 }
