@@ -48,7 +48,7 @@
                                 <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     <a href="">
-                                        <button id="createNewBtn"
+                                        <button id="createNewBtnn"
                                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                             Create New
                                         </button>
@@ -90,14 +90,20 @@
                             </div>
                         </div>
                 </div>
+                <script>
+                    function closeModal() {
+                        var modal = document.getElementById('createNewModal');
+                        modal.style.display = 'none';
+                    }
+                </script>
 
                 <script>
                     var modal = document.getElementById('createNewModal');
-                    var createNewBtn = document.getElementById('createNewBtn');
+                    var createNewBtn = document.getElementById('createNewBtnn');
                     var closeModalSpan = document.getElementById('closeModalSpan');
                     var form = document.getElementById('prefixForm');
 
-                    createNewBtn.onclick = function(event) {
+                    createNewBtnn.onclick = function(event) {
                         event.preventDefault();
                         modal.style.display = 'block';
                     }
@@ -277,7 +283,7 @@
                                         <input type="text" name="tagName" placeholder="Enter Tag Name" required>
                                     </div>
                                     <div class="button-container">
-                                        <button class="button-style btn" type="button" onclick="closeModal()">
+                                        <button class="button-style btn" type="button" onclick="closeTagForm()">
                                             Cancel
                                         </button>
                                         <button class="button-style btn" type="submit">
@@ -287,6 +293,12 @@
                                 </form>
                         </div>
                     </div>
+                    <script>
+                        function closeTagForm() {
+                            var tagForm = document.getElementById('createTagForm');
+                            tagForm.style.display = 'none';
+                        }
+                    </script>
 
                     <script>
                         function openCreateTagForm(prefixId) {
@@ -321,7 +333,7 @@
                     <button class="btn btn-secondary w-100 dropdown-toggle" type="button"
                         id="dropdownMenuButtonNull" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                         aria-haspopup="true" aria-expanded="false">
-                        Null Prefix
+                        Null Prefixes
                     </button>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                         <div class="flex justify-center">
@@ -359,18 +371,19 @@
                                                         </div> --}}
                                                         <div id="createTagModal" class="hidden">
                                                             <div class="login-box">
-                                                            
+
                                                                 <form action="/admin/tag/add" method="post">
                                                                     @csrf
                                                                     <h2 for="prefixName">Null Tag Name:</h2>
                                                                     <form>
                                                                         <div class="user-box">
                                                                             <input type="text" name="tagName"
-                                                                    placeholder="Enter Tag Name" required>
+                                                                                placeholder="Enter Tag Name" required>
                                                                         </div>
                                                                         <div class="button-container">
                                                                             <button class="button-style btn"
-                                                                                type="button" onclick="closeModal()">
+                                                                                type="button"
+                                                                                onclick="closeTagModal()">
                                                                                 Cancel
                                                                             </button>
                                                                             <button class="button-style btn"
@@ -381,6 +394,14 @@
                                                                     </form>
                                                             </div>
                                                         </div>
+
+                                                        <script>
+                                                            function closeTagModal() {
+                                                                var tagForm = document.getElementById('createTagModal');
+                                                                tagForm.style.display = 'none';
+                                                            }
+                                                        </script>
+
                                     </div>
                                     <script>
                                         function openCreateModal() {
@@ -419,8 +440,24 @@
                                                     <td
                                                         class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
 
-                                                        <a href=""
-                                                            class="text-red-500 hover:text-red-800 mx-5">Delete</a>
+                                                         <form
+                                                                    action="{{ route('admin.tag.delete', $tag->id) }}"
+                                                                    method="POST"
+                                                                    id="deleteTagForm{{ $tag->id }}">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="button"
+                                                                        onclick="deleteTag({{ $tag->id }})"
+                                                                        class="text-red-500 hover:text-red-800 mx-5">Delete</button>
+                                                                </form>
+
+                                                                <script>
+                                                                    function deleteTag(tagId) {
+                                                                        if (confirm('Are you sure you want to delete this tag?')) {
+                                                                            document.getElementById('deleteTagForm' + tagId).submit();
+                                                                        }
+                                                                    }
+                                                                </script>
                                                     </td>
                                                 </tr>
                                             @endif
