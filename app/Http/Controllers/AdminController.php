@@ -125,16 +125,40 @@ class AdminController extends Controller
     // Add tag in Tagview page
     public function addTag(Request $request)
     {
-        // Validate the request
         $validatedData = $request->validate([
             'tagName' => 'required|string|unique:tags,name',
         ]);
 
-        // Create a new tag
         $tag = new Tag(['name' => $validatedData['tagName']]);
         $tag->save();
 
         return redirect()->back()->with('success', 'Tag added successfully.');
+    }
+
+    public function addTagWithPrefix(Request $request)
+    {
+        $validatedData = $request->validate([
+            'tagName' => 'required|string|unique:tags,name',
+            'prefixId' => 'required|exists:prefix,id'
+        ]);
+
+        $tag = new Tag(['name' => $validatedData['tagName'], 'prefix_id' => $validatedData['prefixId']]);
+        $tag->save();
+
+        return redirect()->back()->with('success', 'Tag added successfully.');
+    }
+
+    // Add prefix with tag in Tagview page
+    public function addPrefix(Request $request)
+    {
+        $validatedData = $request->validate([
+            'prefixName' => 'required|string|unique:prefix,prefix',
+        ]);
+
+        $prefix = new Prefix(['prefix' => $validatedData['prefixName']]);
+        $prefix->save();
+
+        return redirect()->back()->with('success', 'Prefix added successfully.');
     }
 
     // Delete tag in Tagview page
@@ -143,7 +167,6 @@ class AdminController extends Controller
         $tag = Tag::find($id);
 
         if (!$tag) {
-            // Handle the case where the tag is not found (optional)
             return redirect()->back()->with('error', 'Tag not found.');
         }
 
@@ -158,7 +181,6 @@ class AdminController extends Controller
         $prefix = Prefix::find($id);
 
         if (!$prefix) {
-            // Handle the case where the prefix is not found (optional)
             return redirect()->back()->with('error', 'Prefix not found.');
         }
 

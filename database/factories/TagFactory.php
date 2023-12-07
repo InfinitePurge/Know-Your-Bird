@@ -18,9 +18,16 @@ class TagFactory extends Factory
      */
     public function definition(): array
     {
+        $name = $this->faker->unique()->word();
+        
+        while (Tag::where('name', $name)->exists()) {
+            $name = $this->faker->unique()->word();
+        }
+
         return [
-            'name' => $this->faker->unique()->word(),
+            'name' => $name,
             'prefix_id' => $this->faker->optional(0.75, null)->randomElement(Prefix::pluck('id')),
         ];
     }
 }
+

@@ -65,4 +65,7 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/admin/bird/add', [AdminController::class, 'addBird'])->name('admin.bird.add');
     Route::delete('/tag/delete/{id}', [AdminController::class, 'deleteTag'])->name('admin.tag.delete');
     Route::delete('/prefix/delete/{id}', [AdminController::class, 'deletePrefix'])->name('admin.prefix.delete');
+    Route::post('/admin/prefix/add', [AdminController::class, 'addPrefix'])->name('admin.prefix.add');
+    Route::post('/admin/tag/add', [AdminController::class, 'addTag'])->name('admin.tag.add');
+    Route::post('/admin/tagprefix/add', [AdminController::class, 'addTagWithPrefix'])->name('admin.tag.add.prefix');
 });
