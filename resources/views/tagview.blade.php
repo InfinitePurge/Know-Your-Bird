@@ -10,31 +10,32 @@
     <link href="{{ asset('manocss/tagview.css') }}" rel="stylesheet">
 </head>
 
-<style>
-    .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        /* Always position the dropdown menu below the button */
-    }
-
-    .container {
-        overflow: visible;
-        /* Let the dropdown extend outside the container */
-    }
-</style>
-
-
 <body>
+    <div class="container">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-xs-12 d-flex align-items-center">
+                            <h2 style="margin-bottom: 0; margin-right: 20px;">Manage <b>Prefixes</b></h2>
+                            <a href="" class="ml-auto">
+                                <button id="createNewBtnn" class="noselect butnew">
+                                    Create New
+                                </button>
+                                
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 
-    <div class="flex justify-center">
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <table class="w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     ID
                                 </th>
                                 <th scope="col"
@@ -43,16 +44,11 @@
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Options
+                                    Date created
                                 </th>
-                                <th
+                                <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <a href="">
-                                        <button id="createNewBtnn"
-                                            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                            Create New
-                                        </button>
-                                    </a>
+                                    Options
                                 </th>
                             </tr>
                         </thead>
@@ -78,59 +74,65 @@
                             </div>
                         </div>
                 </div>
-                <script>
-                    function closeModal() {
-                        var modal = document.getElementById('createNewModal');
-                        modal.style.display = 'none';
-                    }
-                </script>
-
-                <script>
+            </div>
+            <script>
+                function closeModal() {
                     var modal = document.getElementById('createNewModal');
-                    var createNewBtn = document.getElementById('createNewBtnn');
-                    var closeModalSpan = document.getElementById('closeModalSpan');
-                    var form = document.getElementById('prefixForm');
+                    modal.style.display = 'none';
+                }
+            </script>
 
-                    createNewBtnn.onclick = function(event) {
-                        event.preventDefault();
-                        modal.style.display = 'block';
-                    }
+            <script>
+                var modal = document.getElementById('createNewModal');
+                var createNewBtn = document.getElementById('createNewBtnn');
+                var closeModalSpan = document.getElementById('closeModalSpan');
+                var form = document.getElementById('prefixForm');
 
-                    closeModalSpan.onclick = function() {
+                createNewBtnn.onclick = function(event) {
+                    event.preventDefault();
+                    modal.style.display = 'block';
+                }
+
+                closeModalSpan.onclick = function() {
+                    modal.style.display = 'none';
+                }
+
+                window.onclick = function(event) {
+                    if (event.target == modal) {
                         modal.style.display = 'none';
                     }
+                }
 
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
-                            modal.style.display = 'none';
-                        }
-                    }
-
-                    form.onsubmit = function(event) {
-                        event.preventDefault();
-                        closeModal();
-                    }
-                </script>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach ($prefix as $currentPrefix)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">
-                                            {{ $currentPrefix->id }}
-                                        </div>
+                form.onsubmit = function(event) {
+                    event.preventDefault();
+                    closeModal();
+                }
+            </script>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach ($prefix as $currentPrefix)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        {{ $currentPrefix->id }}
                                     </div>
                                 </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ $currentPrefix->prefix }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="#" class="text-yellow-500 hover:text-yellow-800 mx-5"
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">{{ $currentPrefix->prefix }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-color: white">
+                            <div>
+                                {{ $currentPrefix->created_at }}
+                            </div>
+                        </td>
+                        <td class="px-0 py-0 whitespace-nowrap text-left text-sm font-medium">
+                            <div class="flex items-center">
+                                <a href="#" class="text-yellow-500 hover:text-yellow-800"
                                     onclick="openPrefixEditForm()">Edit</a>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
+
                                 <form action="{{ route('admin.prefix.delete', $currentPrefix->id) }}" method="POST"
                                     id="deleteForm{{ $currentPrefix->id }}">
                                     @csrf
@@ -138,24 +140,28 @@
                                     <a href="#" class="text-red-500 hover:text-red-800 mx-5"
                                         onclick="deletePrefix({{ $currentPrefix->id }})">Delete</a>
                                 </form>
+                            </div>
 
-                                <script>
-                                    function deletePrefix(prefixId) {
-                                        if (confirm('Are you sure you want to delete this prefix?')) {
-                                            document.getElementById('deleteForm' + prefixId).submit();
-                                        }
+
+                            <script>
+                                function deletePrefix(prefixId) {
+                                    if (confirm('Are you sure you want to delete this prefix?')) {
+                                        document.getElementById('deleteForm' + prefixId).submit();
                                     }
-                                </script>
+                                }
+                            </script>
 
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-                </table>
-            </div>
+                        </td>
+
+                    </tr>
+                @endforeach
+            </tbody>
+            </table>
         </div>
     </div>
     </div>
+    </div>
+
 
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -212,7 +218,8 @@
                                                                 </div>
                                                             </td>
                                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                                <div class="text-sm text-gray-900">{{ $tag->name }}
+                                                                <div class="text-sm text-gray-900">
+                                                                    {{ $tag->name }}
                                                                 </div>
                                                             </td>
                                                             <td

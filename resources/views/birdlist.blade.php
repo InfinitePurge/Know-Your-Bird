@@ -28,7 +28,7 @@
         <div class="loading-spinner"></div>
     </div>
 
-    {{-- --}}
+    {{-- Country button --}}
     <div class="container-fluid filtercontainer">
         <p style="text-align: center;"> Filter by: </p>
         <div class="row justify-content-center mt-3">
@@ -41,12 +41,45 @@
                         @endforeach
                     </div>
                 </div>
+                {{--  --}}
+                {{-- Prefix button --}}
+                    <div class="btn-group" id="">
+                    <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Prefix</button>
+                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
+
+                            <a class="dropdown-item bird DropDownText" href="#"></a>
+
+                    </div>
+                </div>
+                {{--  --}}
+                {{-- Tag button --}}
+                    <div class="btn-group" id="">
+                    <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Tag</button>
+                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
+
+                            <a class="dropdown-item bird DropDownText" href="#"></a>
+
+                    </div>
+                </div>
+                {{--  --}}
+                {{-- Null Tag button --}}
+                    <div class="btn-group" id="">
+                    <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Null Tag button</button>
+                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
+
+                            <a class="dropdown-item bird DropDownText" href="#"></a>
+
+                    </div>
+                </div>
+                {{--  --}}
+
                 <button type="button" class="btn btn-outline-secondary filtromygt" id="clearFilter">Clear
                     Filter</button>
             </div>
         </div>
     </div>
     {{-- --}}
+
     <section class="wrapper">
         <div class="container-fostrap">
             <div class="content">
