@@ -30,3 +30,22 @@ var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
         },
     });
 });
+
+
+// Null Tag edit form
+function openEditForm() {
+    document.getElementById("editTagForm").classList.remove("hidden");
+}
+
+function closeEditForm() {
+    document.getElementById("editTagForm").classList.add("hidden");
+}
+
+// Prefix edit form
+function openPrefixEditForm() {
+    document.getElementById("editPrefixForm").classList.remove("hidden");
+}
+
+function closePrefixForm() {
+    document.getElementById("editPrefixForm").classList.add("hidden");
+}

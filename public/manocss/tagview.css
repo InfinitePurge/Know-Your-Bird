@@ -194,3 +194,19 @@ body {
     bottom: 100%;
   }
 }
+
+
+
+    #prefixOptions {
+        background-color: black; /* Set background color */
+        border: 1px solid white; /* Set border color and thickness */
+        color: white; /* Set text color */
+        text-align: center;
+        width: 320px;
+    }
+
+    #prefixOptions option {
+        background-color: black; /* Set background color for options */
+        color: white; /* Set text color for options */
+        text-align: center;
+    }

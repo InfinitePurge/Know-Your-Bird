@@ -56,18 +56,6 @@
                                 </th>
                             </tr>
                         </thead>
-                        {{-- <div id="createNewModal" class="modal">
-                            <div class="modal-content">
-                                <span id="closeModalSpan" class="close" onclick="closeModal()">&times;</span>
-                                <form action="{{ route('admin.prefix.add') }}" method="POST">
-                                    @csrf
-                                    <label for="prefixName">Prefix Name:</label>
-                                    <input type="text" id="prefixName" name="prefixName" required>
-                                    <button type="button" onclick="closeModal()">Cancel</button>
-                                    <button type="submit">Submit</button>
-                                </form>
-                            </div>
-                        </div> --}}
                         <div id="createNewModal" class="modal">
                             <div class="login-box">
                                 <form action="{{ route('admin.prefix.add') }}" method="POST">
@@ -139,7 +127,8 @@
                                 <div class="text-sm text-gray-900">{{ $currentPrefix->prefix }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="" class="text-yellow-500 hover:text-yellow-800 mx-5">Edit</a>
+                                <a href="#" class="text-yellow-500 hover:text-yellow-800 mx-5"
+                                    onclick="openPrefixEditForm()">Edit</a>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
                                 <form action="{{ route('admin.prefix.delete', $currentPrefix->id) }}" method="POST"
@@ -228,9 +217,9 @@
                                                             </td>
                                                             <td
                                                                 class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                                <a href=""
-                                                                    class="text-yellow-500 hover:text-yellow-800 mx-5">Edit</a>
-
+                                                                <a href="#"
+                                                                    class="text-yellow-500 hover:text-yellow-800 mx-5"
+                                                                    onclick="openEditForm()">Edit</a>
                                                             </td>
                                                             <td
                                                                 class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
@@ -433,31 +422,34 @@
                                                     </td>
                                                     <td
                                                         class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                        <a href=""
-                                                            class="text-yellow-500 hover:text-yellow-800 mx-5">Edit</a>
-
+                                                        <a href="#"
+                                                            class="text-yellow-500 hover:text-yellow-800 mx-5"
+                                                            onclick="openEditForm()">Edit</a>
                                                     </td>
+                                                    {{-- edit formos pradzia null and others prefix --}}
+
+
+
+                                                    {{-- edit formos pabaiga --}}
                                                     <td
                                                         class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
 
-                                                         <form
-                                                                    action="{{ route('admin.tag.delete', $tag->id) }}"
-                                                                    method="POST"
-                                                                    id="deleteTagForm{{ $tag->id }}">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="button"
-                                                                        onclick="deleteTag({{ $tag->id }})"
-                                                                        class="text-red-500 hover:text-red-800 mx-5">Delete</button>
-                                                                </form>
+                                                        <form action="{{ route('admin.tag.delete', $tag->id) }}"
+                                                            method="POST" id="deleteTagForm{{ $tag->id }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button"
+                                                                onclick="deleteTag({{ $tag->id }})"
+                                                                class="text-red-500 hover:text-red-800 mx-5">Delete</button>
+                                                        </form>
 
-                                                                <script>
-                                                                    function deleteTag(tagId) {
-                                                                        if (confirm('Are you sure you want to delete this tag?')) {
-                                                                            document.getElementById('deleteTagForm' + tagId).submit();
-                                                                        }
-                                                                    }
-                                                                </script>
+                                                        <script>
+                                                            function deleteTag(tagId) {
+                                                                if (confirm('Are you sure you want to delete this tag?')) {
+                                                                    document.getElementById('deleteTagForm' + tagId).submit();
+                                                                }
+                                                            }
+                                                        </script>
                                                     </td>
                                                 </tr>
                                             @endif
@@ -474,6 +466,55 @@
     </div>
     </div>
 
+
+    <div id="editPrefixForm" class="hidden">
+        <div class="login-box">
+            <form action="" method="POST">
+                @csrf
+                <h2 for="editPrefixName">Edit Prefix</h2>
+                <div class="user-box">
+                    <input type="text" id="editPrefixName" name="editPrefixName" required
+                        placeholder="Enter Prefix Name">
+                </div>
+                <div class="button-container">
+                    <button class="button-style btn" type="button" onclick="closePrefixForm()">
+                        Cancel
+                    </button>
+                    <button class="button-style btn" type="submit">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    {{-- Forma Edit Tag ir Null --}}
+    <div id="editTagForm" class="hidden">
+        <div class="login-box">
+            <form action="" method="POST">
+                @csrf
+                <h2 for="editTagName">Edit Tag with null</h2>
+                <select id="prefixOptions" name="prefixOptions">
+                    <option value="option1">Option 1</option>
+                </select>
+                <div class="user-box">
+                    <input type="text" id="editTagName" name="editTagName" required placeholder="Enter Tag Name">
+                </div>
+                <div class="button-container">
+                    <button class="button-style btn" type="button" onclick="closeEditForm()">
+                        Cancel
+                    </button>
+                    <button class="button-style btn" type="submit">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {{-- Pabaiga edit formai Tag --}}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('jasonas/tagview.js') }}"></script>
