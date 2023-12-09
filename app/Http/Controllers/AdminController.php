@@ -78,52 +78,57 @@ class AdminController extends Controller
     // Edit bird in Birdlist page
     public function editBird(Request $request, $birdId)
     {
-        $bird = Pauksciai::findOrFail($birdId);
-        $tags = Tag::with('prefix')->get();
+        try {
+            $bird = Pauksciai::findOrFail($birdId);
+            $tags = Tag::with('prefix')->get();
 
-        $validator = Validator::make($request->all(), [
-            'birdName' => 'required|unique:pauksciai,pavadinimas|string',
-            'birdContinent' => 'required|string',
-            'birdMiniText' => 'required|string',
-            'birdImage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+            $validator = Validator::make($request->all(), [
+                'birdName' => 'required|string|unique:pauksciai,pavadinimas,' . $bird->id,
+                'birdContinent' => 'required|string',
+                'birdMiniText' => 'required|string',
+                'birdImage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->to('/birdlist')
-                ->withErrors($validator)
-                ->withInput()
-                ->with('scrollToForm', true);
+            if ($validator->fails()) {
+                return redirect()->to('/birdlist')
+                    ->withErrors($validator)
+                    ->withInput()
+                    ->with('scrollToForm', true);
+            }
+
+            $birdData = [
+                'pavadinimas' => $request->input('birdName'),
+                'kilme' => $request->input('birdContinent'),
+                'aprasymas' => $request->input('birdMiniText'),
+                'edited_by' => Auth::id(),
+            ];
+
+            // Handle image upload
+            if ($request->hasFile('birdImage')) {
+                // Delete the existing image if it exists
+                Storage::disk('bird_images')->delete($bird->image);
+
+                // Upload the new image
+                $uploadedImage = $request->file('birdImage');
+                $imageName = $bird->pavadinimas . '_' . time() . '.' . $uploadedImage->extension();
+                $uploadedImage->storeAs('', $imageName, 'bird_images');
+
+                // Set the new image path in the database
+                $birdData['image'] = $imageName;
+            }
+
+            // Synchronize tags
+            $tagsInput = $request->has('tags') ? $request->input('tags') : [];
+            $bird->tags()->sync($tagsInput);
+
+            // Update bird information
+            $bird->update($birdData);
+
+            return redirect()->back()->with('success', 'Bird information updated successfully');
+        } catch (\Exception $e) {
+            Log::error('Error updating bird information:', ['message' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'An error occurred while updating bird information');
         }
-
-        $birdData = [
-            'pavadinimas' => $request->input('birdName'),
-            'kilme' => $request->input('birdContinent'),
-            'aprasymas' => $request->input('birdMiniText'),
-            'edited_by' => Auth::id(),
-        ];
-
-        // Handle image upload
-        if ($request->hasFile('birdImage')) {
-            // Delete the existing image if it exists
-            Storage::disk('bird_images')->delete($bird->image);
-
-            // Upload the new image
-            $uploadedImage = $request->file('birdImage');
-            $imageName = $bird->pavadinimas . '_' . time() . '.' . $uploadedImage->extension();
-            $uploadedImage->storeAs('', $imageName, 'bird_images');
-
-            // Set the new image path in the database
-            $birdData['image'] = $imageName;
-        }
-
-        $bird->update($birdData);
-        $bird->save();
-        
-        $tagsInput = $request->has('tags') ? $request->input('tags') : [];
-        $bird->tags()->sync($tagsInput);
-
-
-        return redirect()->back()->with('success', 'Bird information updated successfully');
     }
 
     // Add tag in Tagview page
