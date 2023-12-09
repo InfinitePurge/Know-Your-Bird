@@ -16,6 +16,7 @@
 
 
 </head>
+
 <body
     style="background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%), linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%), url('{{ asset('images/b2.jpg') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
 
@@ -43,31 +44,32 @@
                 </div>
                 {{--  --}}
                 {{-- Prefix button --}}
-                    <div class="btn-group" id="">
+                <div class="btn-group" id="">
                     <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Prefix</button>
                     <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
 
-                            <a class="dropdown-item bird DropDownText" href="#"></a>
+                        <a class="dropdown-item bird DropDownText" href="#"></a>
 
                     </div>
                 </div>
                 {{--  --}}
                 {{-- Tag button --}}
-                    <div class="btn-group" id="">
+                <div class="btn-group" id="">
                     <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Tag</button>
                     <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
 
-                            <a class="dropdown-item bird DropDownText" href="#"></a>
+                        <a class="dropdown-item bird DropDownText" href="#"></a>
 
                     </div>
                 </div>
                 {{--  --}}
                 {{-- Null Tag button --}}
-                    <div class="btn-group" id="">
-                    <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Null Tag button</button>
+                <div class="btn-group" id="">
+                    <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Null Tag
+                        button</button>
                     <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
 
-                            <a class="dropdown-item bird DropDownText" href="#"></a>
+                        <a class="dropdown-item bird DropDownText" href="#"></a>
 
                     </div>
                 </div>
@@ -178,6 +180,11 @@
                                             <a href="#"> {{ $bird->pavadinimas }} </a>
                                         </h4>
                                         <p class=""> {{ $bird->kilme }} </p>
+                                        @foreach ($bird->tags as $tag)
+                                            <span class="badge bg-secondary">
+                                                {{ optional($tag->prefix)->prefix ? $tag->prefix->prefix . ':' : '' }}{{ $tag->name }}
+                                            </span>
+                                        @endforeach
                                         <p class="text-overflow-clamp"> {!! $bird->aprasymas !!} </p>
                                     </div>
                                     <div class="card-read-more">

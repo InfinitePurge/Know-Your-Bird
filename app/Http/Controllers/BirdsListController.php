@@ -10,28 +10,54 @@ use App\Models\Tag;
 
 class BirdsListController extends Controller
 {
+    private function sortTags($tags)
+    {
+        return $tags->sort(function ($a, $b) {
+            $aPrefixIsNull = is_null($a->prefix);
+            $bPrefixIsNull = is_null($b->prefix);
+
+            if ($aPrefixIsNull && $bPrefixIsNull) {
+                return $a->name <=> $b->name;
+            } elseif ($aPrefixIsNull || $bPrefixIsNull) {
+                return $aPrefixIsNull ? 1 : -1;
+            } else {
+                $prefixComparison = $a->prefix->prefix <=> $b->prefix->prefix;
+                return $prefixComparison == 0 ? $a->name <=> $b->name : $prefixComparison;
+            }
+        });
+    }
+
     public function index()
     {
         $countries = Countries::$countries;
-        $birds = Pauksciai::all();
-        $tags = Tag::with('prefix')->get();
+        sort($countries);
+
+        $birds = Pauksciai::with(['tags.prefix'])->get()->each(function ($bird) {
+            $bird->tags = $this->sortTags($bird->tags);
+        });
+
+        $tags = $this->sortTags(Tag::with('prefix')->get());
         $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
-        // Pass variables with their keys
-        return view('birdlist', ['birds' => $birds, 'kilmeValues' => $kilmeValues, 'countries' => $countries, 'tags' => $tags]);
+        return view('birdlist', [
+            'birds' => $birds,
+            'kilmeValues' => $kilmeValues,
+            'countries' => $countries,
+            'tags' => $tags
+        ]);
     }
 
     public function view($pavadinimas)
     {
-        $bird = Pauksciai::where('pavadinimas', $pavadinimas)->first();
+        $bird = Pauksciai::with(['tags.prefix'])->where('pavadinimas', $pavadinimas)->firstOrFail();
 
-        if (!$bird) {
-            abort(404);
-        }
+        $sortedTags = $bird->tags->sort(function ($a, $b) {
+            return [$a->prefix ? 0 : 1, $a->prefix->prefix ?? ''] <=> [$b->prefix ? 0 : 1, $b->prefix->prefix ?? ''];
+        });
 
         $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
-        
-        return view('bird', compact('bird', 'kilmeValues'));
+
+        return view('bird', compact('bird', 'kilmeValues', 'sortedTags'));
     }
 
     public function search(Request $request)
@@ -44,7 +70,7 @@ class BirdsListController extends Controller
             ->orWhere('kilme', 'like', '%' . $search . '%')
             ->paginate(15);
 
-            $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
+        $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
         // Pass variables with their keys
         return view('birdlist', ['birds' => $birds, 'kilmeValues' => $kilmeValues, 'countries' => $countries, 'tags' => $tags]);

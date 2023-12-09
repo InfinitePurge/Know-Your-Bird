@@ -101,6 +101,9 @@
                         <a class="dropdown-item DropDownText" href="/birdforms#Muscles and organs">Muscles and organs</a>
                     </div>
                 </div>
+                @if (auth()->user()->role == 1)
+                <a class="btn btn-transparent-white" href="/tagview">Tagview</a>
+                @endif
             </nav>
         @endif
     @endauth

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Prefix;
+use Illuminate\Support\Facades\Log;
 
 
 class AdminController extends Controller
@@ -189,7 +190,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Prefix deleted successfully.');
     }
 
-    public function update(Request $request, $id)
+    public function updatePrefix(Request $request, $id)
     {
         // Validate the request data as needed
         $request->validate([
@@ -203,5 +204,20 @@ class AdminController extends Controller
         $prefix->prefix = $request->input('editPrefixName');
         $prefix->save();
         return redirect()->back()->with('success', 'Prefix updated successfully');
+    }
+
+    public function updateTagAndPrefix(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|max:255',
+            'editPrefixId' => 'nullable|exists:prefix,id',
+        ]);
+    
+        $tag = Tag::findOrFail($id);
+        $tag->name = $request->name;
+        $tag->prefix_id = $request->prefix_id;
+        $tag->save();
+    
+        return redirect()->back()->with('success', 'Tag updated successfully.');
     }
 }

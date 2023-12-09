@@ -134,6 +134,7 @@
                                     onclick="openPrefixEditForm({{ $currentPrefix->id }}, '{{ $currentPrefix->prefix }}')">Edit</a>
 
 
+
                                 <form action="{{ route('admin.prefix.delete', $currentPrefix->id) }}" method="POST"
                                     id="deleteForm{{ $currentPrefix->id }}">
                                     @csrf
@@ -142,18 +143,7 @@
                                         onclick="deletePrefix({{ $currentPrefix->id }})">Delete</a>
                                 </form>
                             </div>
-
-
-                            <script>
-                                function deletePrefix(prefixId) {
-                                    if (confirm('Are you sure you want to delete this prefix?')) {
-                                        document.getElementById('deleteForm' + prefixId).submit();
-                                    }
-                                }
-                            </script>
-
                         </td>
-
                     </tr>
                 @endforeach
             </tbody>
@@ -225,9 +215,13 @@
                                                             </td>
                                                             <td
                                                                 class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+
+
                                                                 <a href="#"
                                                                     class="text-yellow-500 hover:text-yellow-800 mx-5"
-                                                                    onclick="openEditForm()">Edit</a>
+                                                                    onclick="openEditForm({{ $tag->id }})">Edit</a>
+
+
                                                             </td>
                                                             <td
                                                                 class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
@@ -241,14 +235,6 @@
                                                                         onclick="deleteTag({{ $tag->id }})"
                                                                         class="text-red-500 hover:text-red-800 mx-5">Delete</button>
                                                                 </form>
-
-                                                                <script>
-                                                                    function deleteTag(tagId) {
-                                                                        if (confirm('Are you sure you want to delete this tag?')) {
-                                                                            document.getElementById('deleteTagForm' + tagId).submit();
-                                                                        }
-                                                                    }
-                                                                </script>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -277,7 +263,8 @@
                                 <form>
                                     <div class="user-box">
                                         <input type="hidden" name="prefixId" id="prefixIdInput">
-                                        <input type="text" name="tagName" placeholder="Enter Tag Name" required maxlength="30">
+                                        <input type="text" name="tagName" placeholder="Enter Tag Name" required
+                                            maxlength="30">
                                     </div>
                                     <div class="button-container">
                                         <button class="button-style btn" type="button" onclick="closeTagForm()">
@@ -375,7 +362,8 @@
                                                                     <form>
                                                                         <div class="user-box">
                                                                             <input type="text" name="tagName"
-                                                                                placeholder="Enter Tag Name" required maxlength="30">
+                                                                                placeholder="Enter Tag Name" required
+                                                                                maxlength="30">
                                                                         </div>
                                                                         <div class="button-container">
                                                                             <button class="button-style btn"
@@ -432,7 +420,7 @@
                                                         class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                         <a href="#"
                                                             class="text-yellow-500 hover:text-yellow-800 mx-5"
-                                                            onclick="openEditForm()">Edit</a>
+                                                            onclick="openEditForm({{ $tag->id }})">Edit</a>
                                                     </td>
                                                     {{-- edit formos pradzia null and others prefix --}}
 
@@ -468,20 +456,21 @@
 
 
     @foreach ($prefix as $currentPrefix)
-    <div id="editPrefixForm{{ $currentPrefix->id }}" class="hidden">
+        <div id="editPrefixForm{{ $currentPrefix->id }}" class="hidden">
             <div class="login-box">
                 <form action="{{ route('admin.prefix.update', ['id' => $currentPrefix->id]) }}" method="POST"
-                    id="editForm{{ $currentPrefix->id }}"
-                    data-baseurl="{{ route('admin.prefix.update', ['id' => $currentPrefix->id]) }}">
+                    id="editForm{{ $currentPrefix->id }}">
                     @csrf
                     @method('PUT')
-                    <h2 for="editPrefixName">Edit Prefix {{ $currentPrefix->prefix }}</h2>
+                    <h2>Edit Prefix</h2>
                     <div class="user-box">
-                        <input type="text" id="editPrefixName" name="editPrefixName" required
-                            placeholder="Enter Prefix Name" maxlength="30">
+                        <input type="text" id="editPrefixName{{ $currentPrefix->id }}" name="editPrefixName"
+                            required placeholder="Enter Prefix Name" maxlength="30"
+                            value="{{ $currentPrefix->prefix }}">
                     </div>
                     <div class="button-container">
-                        <button class="button-style btn" type="reset" onclick="closePrefixForm({{ $currentPrefix->id }})"> <!-- Pass the current ID -->
+                        <button class="button-style btn" type="reset"
+                            onclick="closePrefixForm({{ $currentPrefix->id }})">
                             Cancel
                         </button>
                         <button class="button-style btn" type="submit">
@@ -495,34 +484,39 @@
 
 
 
-        {{-- Forma Edit Tag ir Null --}}
-        <div id="editTagForm" class="hidden">
-            <div class="login-box">
-                <form action="" method="POST">
-                    @csrf
-                    <h2 for="editTagName">Edit Tag with null</h2>
-                    <select id="prefixOptions" name="prefixOptions">
-                        <option value="option1">Option 1</option>
-                    </select>
-                    <div class="user-box">
-                        <input type="text" id="editTagName" name="editTagName" required placeholder="Enter Tag Name">
-                    </div>
-                    <div class="button-container">
-                        <button class="button-style btn" type="button" onclick="closeEditForm()">
-                            Cancel
-                        </button>
-                        <button class="button-style btn" type="submit">
-                            Save
-                        </button>
-                    </div>
-                </form>
-            </div>
+    {{-- Forma Edit Tag ir Null --}}
+    @foreach ($tags as $tag)
+        <div id="editTagForm{{ $tag->id }}" class="hidden login-box">
+            <form action="{{ route('admin.tag.update', ['id' => $tag->id]) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <h2>Edit Tag:<br>{{ optional($tag->prefix)->prefix ?? 'No Prefix' }} - {{ $tag->name }}</h2>
+                <select id="prefixOptions{{ $tag->id }}" name="prefix_id">
+                    <option value="">No Prefix</option>
+                    @foreach ($prefix as $prefixes)
+                        <option value="{{ $prefixes->id }}" {{ $tag->prefix_id == $prefixes->id ? 'selected' : '' }}>
+                            {{ $prefixes->prefix }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <div class="user-box">
+                    <input type="text" id="editTagName{{ $tag->id }}" name="name" required
+                        placeholder="Enter Tag Name" value="{{ $tag->name }}">
+                </div>
+
+                <div class="button-container">
+                    <button class="button-style btn" type="button"
+                        onclick="closeEditForm({{ $tag->id }})">Cancel</button>
+                    <button class="button-style btn" type="submit">Save</button>
+                </div>
+            </form>
         </div>
+    @endforeach
+    {{-- Pabaiga edit formai Tag --}}
 
-        {{-- Pabaiga edit formai Tag --}}
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="{{ asset('jasonas/tagview.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('jasonas/tagview.js') }}"></script>
 
 </body>
 

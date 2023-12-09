@@ -14,18 +14,26 @@
 <body>
     <main>
         <h1><strong>Bird:</strong>{{ $bird->pavadinimas }}</h1>
-         <div class="image-container">
+        <div class="image-container">
             <?php
             $imagePath = public_path('images/birds/' . basename($bird->image));
-            list($width, $height) = getimagesize($imagePath);
-            $imageClass = ($width === $height) ? 'square-image' : 'wide-image';
+            [$width, $height] = getimagesize($imagePath);
+            $imageClass = $width === $height ? 'square-image' : 'wide-image';
             ?>
-            <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}" class="{{ $imageClass }}" />
+            <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}"
+                class="{{ $imageClass }}" />
         </div>
         <p><strong>Country:</strong> {{ $bird->kilme }}</p>
+        @foreach ($sortedTags as $tag)
+            <span class="badge bg-secondary">
+                {{ optional($tag->prefix)->prefix ? $tag->prefix->prefix . ':' : '' }}{{ $tag->name }}
+                <br>
+            </span>
+        @endforeach
         <h2>About the Bird</h2>
         <p>{!! $bird->aprasymas !!}</p>
     </main>
     <x-footer></x-footer>
 </body>
+
 </html>

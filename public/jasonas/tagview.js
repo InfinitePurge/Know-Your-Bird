@@ -37,25 +37,43 @@ function deleteTag(tagId) {
     }
 }
 
+// Prefix delete form submit confirmation
+function deletePrefix(prefixId) {
+    if (confirm('Are you sure you want to delete this prefix?')) {
+        document.getElementById('deleteForm' + prefixId).submit();
+    }
+}
+
 // Null Tag edit form open
-function openEditForm() {
-    document.getElementById("editTagForm").classList.remove("hidden");
+function openEditForm(tagId) {
+    var editForms = document.querySelectorAll('[id^="editTagForm"]');
+    editForms.forEach(function(form) {
+        form.classList.add('hidden');
+    });
+    document.getElementById('editTagForm' + tagId).classList.remove('hidden');
 }
 
 // Null Tag edit form close
-function closeEditForm() {
-    document.getElementById("editTagForm").classList.add("hidden");
+function closeEditForm(tagId) {
+    document.getElementById('editTagForm' + tagId).classList.add('hidden');
 }
 
 // Prefix edit form open
+var openPrefixFormId = null;
+
 function openPrefixEditForm(prefixId, prefixName) {
     var editFormDiv = document.getElementById("editPrefixForm" + prefixId);
+    
+    if (openPrefixFormId !== null) {
+        var previousFormDiv = document.getElementById("editPrefixForm" + openPrefixFormId);
+        previousFormDiv.classList.add("hidden");
+    }
+    
     editFormDiv.classList.remove("hidden");
-    var editInput = editFormDiv.querySelector("#editPrefixName");
+    var editInput = document.getElementById("editPrefixName" + prefixId);
     editInput.value = prefixName;
-    var form = editFormDiv.querySelector("form");
-    var baseUrl = form.dataset.baseurl;
-    form.action = baseUrl;
+    
+    openPrefixFormId = prefixId;
 }
 
 // Prefix edit form close
