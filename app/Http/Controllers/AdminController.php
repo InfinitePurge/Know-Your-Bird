@@ -82,7 +82,7 @@ class AdminController extends Controller
         $tags = Tag::with('prefix')->get();
 
         $validator = Validator::make($request->all(), [
-            'birdName' => 'required|string',
+            'birdName' => 'required|unique:pauksciai,pavadinimas|string',
             'birdContinent' => 'required|string',
             'birdMiniText' => 'required|string',
             'birdImage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -119,6 +119,8 @@ class AdminController extends Controller
         // Sync tags
         $tagsInput = $request->has('tags') ? $request->input('tags') : [];
         $bird->tags()->sync($tagsInput);
+
+        $bird->update($birdData);
 
         return redirect()->back()->with('success', 'Bird information updated successfully');
     }

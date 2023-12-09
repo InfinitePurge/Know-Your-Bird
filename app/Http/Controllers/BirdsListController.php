@@ -32,6 +32,8 @@ class BirdsListController extends Controller
         $countries = Countries::$countries;
         sort($countries);
 
+        $bird_card = Pauksciai::with(['tags.prefix'])->orderBy('pavadinimas', 'asc')->get();
+
         $birds = Pauksciai::with(['tags.prefix'])->get()->each(function ($bird) {
             $bird->tags = $this->sortTags($bird->tags);
         });
@@ -40,6 +42,7 @@ class BirdsListController extends Controller
         $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
         return view('birdlist', [
+            'bird_card' => $bird_card,
             'birds' => $birds,
             'kilmeValues' => $kilmeValues,
             'countries' => $countries,
@@ -66,14 +69,20 @@ class BirdsListController extends Controller
         $tags = Tag::with('prefix')->get();
         $countries = Countries::$countries;
 
-        $birds = Pauksciai::where('pavadinimas', 'like', '%' . $search . '%')
-            ->orWhere('kilme', 'like', '%' . $search . '%')
-            ->paginate(15);
+        $bird_card = Pauksciai::with(['tags.prefix'])
+            ->when($search, function ($query) use ($search) {
+                return $query->where(function ($subquery) use ($search) {
+                    $subquery->where('pavadinimas', 'like', '%' . $search . '%')
+                        ->orWhere('kilme', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('pavadinimas', 'asc')
+            ->get();
 
         $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
         // Pass variables with their keys
-        return view('birdlist', ['birds' => $birds, 'kilmeValues' => $kilmeValues, 'countries' => $countries, 'tags' => $tags]);
+        return view('birdlist', ['kilmeValues' => $kilmeValues, 'countries' => $countries, 'bird_card' => $bird_card, 'tags' => $tags]);
     }
 
     public function fetchContinents()

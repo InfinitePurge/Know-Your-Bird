@@ -166,7 +166,7 @@
             <div class="content">
                 <div class="container">
                     <div class="row" style="display: flex; align-items: stretch;">
-                        @foreach ($birds as $bird)
+                        @foreach ($bird_card as $bird)
                             <div class="col-xs-12 col-sm-4 bird-card" data-continent="{{ $bird->kilme }}"
                                 style="margin-bottom: 7%;">
                                 <div class="card" style="height: 100%; display: flex; flex-direction: column;">
@@ -231,7 +231,7 @@
 
     {{-- EDIT BUTTON MODAL --}}
 
-    @foreach ($birds as $bird)
+    @foreach ($bird_card as $bird)
         <div class="modal fade" style="color:black" id="editBirdModal_{{ $bird->id }}" tabindex="-1"
             aria-labelledby="editBirdModalLabel" aria-hidden="true">
             <div class="modal-dialog ">
