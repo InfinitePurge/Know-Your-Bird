@@ -7,6 +7,7 @@ use App\Models\Pauksciai;
 use Illuminate\Support\Facades\Log;
 use App\Countries;
 use App\Models\Tag;
+use App\Models\Prefix;
 
 class BirdsListController extends Controller
 {
@@ -37,7 +38,12 @@ class BirdsListController extends Controller
         $birds = Pauksciai::with(['tags.prefix'])->get()->each(function ($bird) {
             $bird->tags = $this->sortTags($bird->tags);
         });
+        
+        $prefixes = Prefix::distinct()->orderBy('prefix')->get();
+        $tagies = Tag::whereNotNull('prefix_id')->distinct()->orderBy('name')->get();
+        $tagiesNull = Tag::whereNull('prefix_id')->distinct()->orderBy('name')->get();
 
+        
         $tags = $this->sortTags(Tag::with('prefix')->get());
         $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
@@ -46,7 +52,10 @@ class BirdsListController extends Controller
             'birds' => $birds,
             'kilmeValues' => $kilmeValues,
             'countries' => $countries,
-            'tags' => $tags
+            'tags' => $tags,
+            'tagies' => $tagies,
+            'tagiesNull' => $tagiesNull,
+            'prefixes' => $prefixes
         ]);
     }
 

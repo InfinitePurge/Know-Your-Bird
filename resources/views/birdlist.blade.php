@@ -45,32 +45,34 @@
                 {{--  --}}
                 {{-- Prefix button --}}
                 <div class="btn-group" id="">
-                    <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Prefix</button>
-                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
-
-                        <a class="dropdown-item bird DropDownText" href="#"></a>
-
+                    <button type="button" class="btn btn-secondary filtromygt" id="prefixButton">Prefix</button>
+                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="prefixDropdown">
+                        @foreach ($prefixes as $prefixItem)
+                            <a class="dropdown-item bird DropDownTextPrefix" data-prefix="{{ $prefixItem->id }}"
+                                href="#">{{ $prefixItem->prefix }}</a>
+                        @endforeach
                     </div>
                 </div>
                 {{--  --}}
                 {{-- Tag button --}}
                 <div class="btn-group" id="">
-                    <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Tag</button>
-                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
-
-                        <a class="dropdown-item bird DropDownText" href="#"></a>
-
+                    <button type="button" class="btn btn-secondary filtromygt" id="TagButton">Tag</button>
+                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="TagDropdown">
+                        @foreach ($tagies as $tagItem)
+                            <a class="dropdown-item bird DropDownTextTag" data-tag="{{ $tagItem->id }}"
+                                href="#">{{ $tagItem->name }}</a>
+                        @endforeach
                     </div>
                 </div>
                 {{--  --}}
                 {{-- Null Tag button --}}
                 <div class="btn-group" id="">
-                    <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Null Tag
-                        button</button>
-                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
-
-                        <a class="dropdown-item bird DropDownText" href="#"></a>
-
+                    <button type="button" class="btn btn-secondary filtromygt" id="TagNullButton">Tagnull</button>
+                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="TagNullDropdown">
+                        @foreach ($tagiesNull as $tagnullItem)
+                            <a class="dropdown-item bird DropDownTextTagNull" data-tagnull="{{ $tagnullItem->id }}"
+                                href="#">{{ $tagnullItem->name }}</a>
+                        @endforeach
                     </div>
                 </div>
                 {{--  --}}
@@ -167,7 +169,8 @@
                 <div class="container">
                     <div class="row" style="display: flex; align-items: stretch;">
                         @foreach ($bird_card as $bird)
-                            <div class="col-xs-12 col-sm-4 bird-card" data-continent="{{ $bird->kilme }}"
+                            <div class="col-xs-12 col-sm-4 bird-card" data-tagnull="{{ $tagnullItem}}" data-tag="{{ $bird->tags->pluck('id') }}"
+                                data-prefix="{{ $bird->prefix_id }}" data-continent="{{ $bird->kilme }}"
                                 style="margin-bottom: 7%;">
                                 <div class="card" style="height: 100%; display: flex; flex-direction: column;">
                                     <a class="img-card"

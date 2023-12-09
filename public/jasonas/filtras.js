@@ -17,3 +17,8 @@ $(document).ready(function () {
         console.log("Number of cards with selected Kilme:", numCards);
     });
 });
+
+
+
+
+
