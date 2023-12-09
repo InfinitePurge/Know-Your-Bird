@@ -188,4 +188,20 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Prefix deleted successfully.');
     }
+
+    public function update(Request $request, $id)
+    {
+        // Validate the request data as needed
+        $request->validate([
+            'editPrefixName' => 'required|max:30',
+        ]);
+
+        // Find the prefix by ID
+        $prefix = Prefix::find($id);
+
+        // Update the prefix name
+        $prefix->prefix = $request->input('editPrefixName');
+        $prefix->save();
+        return redirect()->back()->with('success', 'Prefix updated successfully');
+    }
 }

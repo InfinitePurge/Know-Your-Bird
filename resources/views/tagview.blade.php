@@ -22,7 +22,7 @@
                                 <button id="createNewBtnn" class="noselect butnew">
                                     Create New
                                 </button>
-                                
+
                             </a>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                                     <form>
                                         <div class="user-box">
                                             <input type="text" id="prefixName" name="prefixName" required
-                                                placeholder="Input Prefix Name">
+                                                placeholder="Input Prefix Name" maxlength="30">
                                         </div>
                                         <div class="button-container">
                                             <button class="button-style btn" type="button" onclick="closeModal()">
@@ -131,7 +131,8 @@
                         <td class="px-0 py-0 whitespace-nowrap text-left text-sm font-medium">
                             <div class="flex items-center">
                                 <a href="#" class="text-yellow-500 hover:text-yellow-800"
-                                    onclick="openPrefixEditForm()">Edit</a>
+                                    onclick="openPrefixEditForm({{ $currentPrefix->id }}, '{{ $currentPrefix->prefix }}')">Edit</a>
+
 
                                 <form action="{{ route('admin.prefix.delete', $currentPrefix->id) }}" method="POST"
                                     id="deleteForm{{ $currentPrefix->id }}">
@@ -276,7 +277,7 @@
                                 <form>
                                     <div class="user-box">
                                         <input type="hidden" name="prefixId" id="prefixIdInput">
-                                        <input type="text" name="tagName" placeholder="Enter Tag Name" required>
+                                        <input type="text" name="tagName" placeholder="Enter Tag Name" required maxlength="30">
                                     </div>
                                     <div class="button-container">
                                         <button class="button-style btn" type="button" onclick="closeTagForm()">
@@ -374,7 +375,7 @@
                                                                     <form>
                                                                         <div class="user-box">
                                                                             <input type="text" name="tagName"
-                                                                                placeholder="Enter Tag Name" required>
+                                                                                placeholder="Enter Tag Name" required maxlength="30">
                                                                         </div>
                                                                         <div class="button-container">
                                                                             <button class="button-style btn"
@@ -449,14 +450,6 @@
                                                                 onclick="deleteTag({{ $tag->id }})"
                                                                 class="text-red-500 hover:text-red-800 mx-5">Delete</button>
                                                         </form>
-
-                                                        <script>
-                                                            function deleteTag(tagId) {
-                                                                if (confirm('Are you sure you want to delete this tag?')) {
-                                                                    document.getElementById('deleteTagForm' + tagId).submit();
-                                                                }
-                                                            }
-                                                        </script>
                                                     </td>
                                                 </tr>
                                             @endif
@@ -474,57 +467,62 @@
     </div>
 
 
-    <div id="editPrefixForm" class="hidden">
-        <div class="login-box">
-            <form action="" method="POST">
-                @csrf
-                <h2 for="editPrefixName">Edit Prefix</h2>
-                <div class="user-box">
-                    <input type="text" id="editPrefixName" name="editPrefixName" required
-                        placeholder="Enter Prefix Name">
-                </div>
-                <div class="button-container">
-                    <button class="button-style btn" type="button" onclick="closePrefixForm()">
-                        Cancel
-                    </button>
-                    <button class="button-style btn" type="submit">
-                        Save
-                    </button>
-                </div>
-            </form>
+    @foreach ($prefix as $currentPrefix)
+    <div id="editPrefixForm{{ $currentPrefix->id }}" class="hidden">
+            <div class="login-box">
+                <form action="{{ route('admin.prefix.update', ['id' => $currentPrefix->id]) }}" method="POST"
+                    id="editForm{{ $currentPrefix->id }}"
+                    data-baseurl="{{ route('admin.prefix.update', ['id' => $currentPrefix->id]) }}">
+                    @csrf
+                    @method('PUT')
+                    <h2 for="editPrefixName">Edit Prefix {{ $currentPrefix->prefix }}</h2>
+                    <div class="user-box">
+                        <input type="text" id="editPrefixName" name="editPrefixName" required
+                            placeholder="Enter Prefix Name" maxlength="30">
+                    </div>
+                    <div class="button-container">
+                        <button class="button-style btn" type="reset" onclick="closePrefixForm({{ $currentPrefix->id }})"> <!-- Pass the current ID -->
+                            Cancel
+                        </button>
+                        <button class="button-style btn" type="submit">
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
 
 
 
-    {{-- Forma Edit Tag ir Null --}}
-    <div id="editTagForm" class="hidden">
-        <div class="login-box">
-            <form action="" method="POST">
-                @csrf
-                <h2 for="editTagName">Edit Tag with null</h2>
-                <select id="prefixOptions" name="prefixOptions">
-                    <option value="option1">Option 1</option>
-                </select>
-                <div class="user-box">
-                    <input type="text" id="editTagName" name="editTagName" required placeholder="Enter Tag Name">
-                </div>
-                <div class="button-container">
-                    <button class="button-style btn" type="button" onclick="closeEditForm()">
-                        Cancel
-                    </button>
-                    <button class="button-style btn" type="submit">
-                        Save
-                    </button>
-                </div>
-            </form>
+        {{-- Forma Edit Tag ir Null --}}
+        <div id="editTagForm" class="hidden">
+            <div class="login-box">
+                <form action="" method="POST">
+                    @csrf
+                    <h2 for="editTagName">Edit Tag with null</h2>
+                    <select id="prefixOptions" name="prefixOptions">
+                        <option value="option1">Option 1</option>
+                    </select>
+                    <div class="user-box">
+                        <input type="text" id="editTagName" name="editTagName" required placeholder="Enter Tag Name">
+                    </div>
+                    <div class="button-container">
+                        <button class="button-style btn" type="button" onclick="closeEditForm()">
+                            Cancel
+                        </button>
+                        <button class="button-style btn" type="submit">
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    {{-- Pabaiga edit formai Tag --}}
+        {{-- Pabaiga edit formai Tag --}}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('jasonas/tagview.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('jasonas/tagview.js') }}"></script>
 
 </body>
 

@@ -69,4 +69,5 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/admin/tag/add', [AdminController::class, 'addTag'])->name('admin.tag.add');
     Route::post('/admin/tagprefix/add', [AdminController::class, 'addTagWithPrefix'])->name('admin.tag.add.prefix');
     Route::get('/tagview', [tagController::class, 'index']);
+    Route::put('/admin/prefix/update/{id}', [AdminController::class, 'update'])->name('admin.prefix.update');
 });
