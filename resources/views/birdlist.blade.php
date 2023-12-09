@@ -231,7 +231,7 @@
 
     {{-- EDIT BUTTON MODAL --}}
 
-    @foreach ($bird_card as $bird)
+    @foreach ($birds as $bird)
         <div class="modal fade" style="color:black" id="editBirdModal_{{ $bird->id }}" tabindex="-1"
             aria-labelledby="editBirdModalLabel" aria-hidden="true">
             <div class="modal-dialog ">

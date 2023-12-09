@@ -116,11 +116,12 @@ class AdminController extends Controller
             $birdData['image'] = $imageName;
         }
 
-        // Sync tags
+        $bird->update($birdData);
+        $bird->save();
+        
         $tagsInput = $request->has('tags') ? $request->input('tags') : [];
         $bird->tags()->sync($tagsInput);
 
-        $bird->update($birdData);
 
         return redirect()->back()->with('success', 'Bird information updated successfully');
     }
@@ -214,12 +215,12 @@ class AdminController extends Controller
             'name' => 'required|max:255',
             'editPrefixId' => 'nullable|exists:prefix,id',
         ]);
-    
+
         $tag = Tag::findOrFail($id);
         $tag->name = $request->name;
         $tag->prefix_id = $request->prefix_id;
         $tag->save();
-    
+
         return redirect()->back()->with('success', 'Tag updated successfully.');
     }
 }
