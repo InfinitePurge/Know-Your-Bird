@@ -34,6 +34,6 @@ class contact_usController extends Controller
         // Confirmation email to user
         Mail::to($email)->send(new ContactUsConfirmation($name));
 
-        return redirect('/contact_us')->with('success', 'Thank you! Your message has been sent.');
+        return redirect('/contact_us')->with('success', 'Thank you! Your message has been sent and will get back to you as soon as possible.');
     }
 }
