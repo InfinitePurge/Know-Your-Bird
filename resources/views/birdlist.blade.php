@@ -22,7 +22,6 @@
 
     <x-custom-header></x-custom-header>
     <script src="{{ asset('jasonas/jasonas.js') }}"></script>
-    <script src="{{ asset('jasonas/filtras.js') }}"></script>
     <script src="{{ asset('jasonas/loading.js') }}"></script>
 
     <div class="loading-overlay">

@@ -113,23 +113,34 @@ $(document).ready(function () {
     });
 
     // Kilme Dropdown Click Event
-    $(".DropDownText").on("click", function () {
-        var selectedKilme = $(this).text();
-        $("#kilmeButton").text(selectedKilme); // Change Kilme button text
-        $("#salisDropdown").hide(); // Hide the dropdown
-        // Rest of your existing code...
-        allBirds.hide();
-        var filteredBirds = allBirds.filter(
-            '[data-continent="' + selectedKilme + '"]'
-        );
-        filteredBirds.show();
-        allBirds = filteredBirds;
-        currentPage = 1;
-        paginateBirds();
-    });
+        // Attach a click event listener to the kilme dropdown items
+        $(".DropDownText").on("click", function () {
+             
+             
+            // Get the selected kilme value
+            var selectedKilme = $(this).text();
+
+            console.log("Selected Kilme:", selectedKilme);
+
+            // Hide all bird cards
+            $(".bird-card").hide();
+
+            // Show only the cards with the selected kilme
+            $('.bird-card[data-continent="' + selectedKilme + '"]').show();
+
+            // Log the number of cards found
+            var numCards = $(
+                '.bird-card[data-continent="' + selectedKilme + '"]'
+            ).length;
+            console.log("Number of cards with selected Kilme:", numCards);
+            $("#salisDropdown").hide();
+            return false;
+        });
+    
 
     // Prefix Dropdown Click Event
    $("#prefixDropdown").on("click", ".DropDownTextPrefix", function () {
+     
     var selectedPrefix = $(this).text().trim(); // Get the text of the selected prefix
     console.log("Selected Prefix:", selectedPrefix);
 
@@ -145,10 +156,14 @@ $(document).ready(function () {
         if (hasPrefix) {
             $(this).show();
         }
+        $("#prefixDropdown").hide();
+        
     });
+    return false;
 });
 
 $("#TagDropdown").on("click", ".DropDownTextTag", function () {
+     
     var selectedTag = $(this).text().trim(); // Get the text of the selected prefix
     console.log("Selected Tag:", selectedTag);
 
@@ -167,10 +182,14 @@ $("#TagDropdown").on("click", ".DropDownTextTag", function () {
         if (hasTag) {
             $(this).show();
         }
+        $("#TagDropdown").hide();
+        
     });
+    return false;
 });
 
 $("#TagNullDropdown").on("click", ".DropDownTextTagNull", function () {
+     
     var selectedTagNull = $(this).text().trim(); // Get the text of the selected prefix
     console.log("Selected Tag Null:", selectedTagNull);
 
@@ -189,7 +208,12 @@ $("#TagNullDropdown").on("click", ".DropDownTextTagNull", function () {
         if (hasTagNull) {
             $(this).show();
         }
+        $("#TagNullDropdown").hide();
+        
     });
+    return false;
 });
+
+
 
 });

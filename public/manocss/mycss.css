@@ -466,12 +466,12 @@ a {
     -webkit-text-fill-color: rgba(3, 177, 177, 1);
 }
 
-.DropDownText {
+.DropDownText, .DropDownTextPrefix, .DropDownTextTag, .DropDownTextTagNull {
     -webkit-text-fill-color: #76dbb4;
     white-space: nowrap;
 }
 
-.DropDownText:hover {
+.DropDownText:hover, .DropDownTextPrefix:hover, .DropDownTextTag:hover, .DropDownTextTagNull:hover {
     background-color: rgba(102, 214, 218, 0.5);
     -webkit-text-fill-color: #66d6da;
 }
