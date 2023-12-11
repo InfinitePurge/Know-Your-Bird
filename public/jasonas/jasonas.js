@@ -115,8 +115,6 @@ $(document).ready(function () {
     // Kilme Dropdown Click Event
         // Attach a click event listener to the kilme dropdown items
         $(".DropDownText").on("click", function () {
-             
-             
             // Get the selected kilme value
             var selectedKilme = $(this).text();
 
@@ -133,86 +131,106 @@ $(document).ready(function () {
                 '.bird-card[data-continent="' + selectedKilme + '"]'
             ).length;
             console.log("Number of cards with selected Kilme:", numCards);
+
+            // Hide the dropdown
             $("#salisDropdown").hide();
+
+            // Update the button text to the selected option
+            $("#kilmeButton").text(selectedKilme);
+
             return false;
         });
-    
 
-    // Prefix Dropdown Click Event
-   $("#prefixDropdown").on("click", ".DropDownTextPrefix", function () {
-     
-    var selectedPrefix = $(this).text().trim(); // Get the text of the selected prefix
-    console.log("Selected Prefix:", selectedPrefix);
+        // Prefix Dropdown Click Event
+        $("#prefixDropdown").on("click", ".DropDownTextPrefix", function () {
+            var selectedPrefix = $(this).text().trim(); // Get the text of the selected prefix
+            console.log("Selected Prefix:", selectedPrefix);
 
-    // Hide all bird cards
-    $('.bird-card').hide();
+            // Hide all bird cards
+            $(".bird-card").hide();
 
-    // Filter and show cards that contain the selected prefix in their tags
-    $('.bird-card').each(function() {
-        var hasPrefix = $(this).find('.badge').filter(function() {
-            return $(this).text().includes(selectedPrefix);
-        }).length > 0;
+            // Filter and show cards that contain the selected prefix in their tags
+            $(".bird-card").each(function () {
+                var hasPrefix =
+                    $(this)
+                        .find(".badge")
+                        .filter(function () {
+                            return $(this).text().includes(selectedPrefix);
+                        }).length > 0;
 
-        if (hasPrefix) {
-            $(this).show();
-        }
-        $("#prefixDropdown").hide();
-        
-    });
-    return false;
-});
+                if (hasPrefix) {
+                    $(this).show();
+                }
+            });
 
-$("#TagDropdown").on("click", ".DropDownTextTag", function () {
-     
-    var selectedTag = $(this).text().trim(); // Get the text of the selected prefix
-    console.log("Selected Tag:", selectedTag);
+            // Hide the dropdown
+            $("#prefixDropdown").hide();
 
-    // Hide all bird cards
-    $(".bird-card").hide();
+            // Update the button text to the selected option
+            $("#prefixButton").text(selectedPrefix);
 
-    // Filter and show cards that contain the selected prefix in their tags
-    $(".bird-card").each(function () {
-        var hasTag =
-            $(this)
-                .find(".badge")
-                .filter(function () {
-                    return $(this).text().includes(selectedTag);
-                }).length > 0;
+            return false;
+        });
 
-        if (hasTag) {
-            $(this).show();
-        }
-        $("#TagDropdown").hide();
-        
-    });
-    return false;
-});
+        $("#TagDropdown").on("click", ".DropDownTextTag", function () {
+            var selectedTag = $(this).text().trim(); // Get the text of the selected prefix
+            console.log("Selected Tag:", selectedTag);
 
-$("#TagNullDropdown").on("click", ".DropDownTextTagNull", function () {
-     
-    var selectedTagNull = $(this).text().trim(); // Get the text of the selected prefix
-    console.log("Selected Tag Null:", selectedTagNull);
+            // Hide all bird cards
+            $(".bird-card").hide();
 
-    // Hide all bird cards
-    $(".bird-card").hide();
+            // Filter and show cards that contain the selected prefix in their tags
+            $(".bird-card").each(function () {
+                var hasTag =
+                    $(this)
+                        .find(".badge")
+                        .filter(function () {
+                            return $(this).text().includes(selectedTag);
+                        }).length > 0;
 
-    // Filter and show cards that contain the selected prefix in their tags
-    $(".bird-card").each(function () {
-        var hasTagNull =
-            $(this)
-                .find(".badge")
-                .filter(function () {
-                    return $(this).text().includes(selectedTagNull);
-                }).length > 0;
+                if (hasTag) {
+                    $(this).show();
+                }
+            });
 
-        if (hasTagNull) {
-            $(this).show();
-        }
-        $("#TagNullDropdown").hide();
-        
-    });
-    return false;
-});
+            // Hide the dropdown
+            $("#TagDropdown").hide();
+
+            // Update the button text to the selected option
+            $("#TagButton").text(selectedTag);
+
+            return false;
+        });
+
+        $("#TagNullDropdown").on("click", ".DropDownTextTagNull", function () {
+            var selectedTagNull = $(this).text().trim(); // Get the text of the selected prefix
+            console.log("Selected Tag Null:", selectedTagNull);
+
+            // Hide all bird cards
+            $(".bird-card").hide();
+
+            // Filter and show cards that contain the selected prefix in their tags
+            $(".bird-card").each(function () {
+                var hasTagNull =
+                    $(this)
+                        .find(".badge")
+                        .filter(function () {
+                            return $(this).text().includes(selectedTagNull);
+                        }).length > 0;
+
+                if (hasTagNull) {
+                    $(this).show();
+                }
+            });
+
+            // Hide the dropdown
+            $("#TagNullDropdown").hide();
+
+            // Update the button text to the selected option
+            $("#TagNullButton").text(selectedTagNull);
+
+            return false;
+        });
 
 
 
