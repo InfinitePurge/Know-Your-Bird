@@ -15,13 +15,18 @@
     <main>
         <h1><strong>Bird:</strong>{{ $bird->pavadinimas }}</h1>
         <div class="image-container">
-            <?php
-            $imagePath = public_path('images/birds/' . basename($bird->image));
-            [$width, $height] = getimagesize($imagePath);
-            $imageClass = $width === $height ? 'square-image' : 'wide-image';
-            ?>
-            <img src="{{ asset('images/birds/' . basename($bird->image)) }}" alt="{{ $bird->pavadinimas }}"
-                class="{{ $imageClass }}" />
+            @php
+                $images = explode('|', $bird->image);
+            @endphp
+        
+            @foreach($images as $image)
+                <?php
+                $imagePath = public_path($image);
+                [$width, $height] = getimagesize($imagePath);
+                $imageClass = $width === $height ? 'square-image' : 'wide-image';
+                ?>
+                <img src="{{ asset($image) }}" alt="{{ $bird->pavadinimas }}" class="{{ $imageClass }}" />
+            @endforeach
         </div>
         <p><strong>Country:</strong> {{ $bird->kilme }}</p>
         @foreach ($sortedTags as $tag)

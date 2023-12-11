@@ -114,9 +114,9 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="birdImage" class="form-label">Upload Bird Image</label>
-                                            <input type="file" class="form-control" name="birdImage" id="birdImage"
-                                                accept="image/*" required>
+                                            <label for="birdImages" class="form-label">Upload Bird Images</label>
+                                            <input type="file" class="form-control" name="images[]" id="birdImages"
+                                                multiple accept="image/*" required>
                                         </div>
 
                                         <div class="mb-3">
@@ -172,11 +172,34 @@
                                 data-prefix="{{ $bird->prefix_id }}" data-continent="{{ $bird->kilme }}"
                                 style="margin-bottom: 7%;">
                                 <div class="card" style="height: 100%; display: flex; flex-direction: column;">
-                                    <a class="img-card"
-                                        href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">
-                                        <img src="{{ asset('images/birds/' . basename($bird->image)) }}"
-                                            alt="{{ $bird->pavadinimas }}" />
-                                    </a>
+                                    <!-- Bootstrap Carousel -->
+                                    <div class="img-card">
+                                    <div id="carousel{{ $bird->id }}" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @php
+                                                $images = explode('|', $bird->image);
+                                            @endphp
+    
+                                            @foreach($images as $index => $image)
+                                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                                    <img src="{{ asset($image) }}" class="d-block w-100" alt="{{ $bird->pavadinimas }}">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    
+                                        @if(count($images) > 1)
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ $bird->id }}" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ $bird->id }}" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        @endif
+                                    </div>
+                                </div>
+                                    <!-- Card Content -->
                                     <div class="card-content" style="flex: 1;">
                                         <h4 class="card-title">
                                             <a href="#"> {{ $bird->pavadinimas }} </a>
@@ -190,6 +213,7 @@
                                         <p class="text-overflow-clamp"> {!! $bird->aprasymas !!} </p>
                                     </div>
                                     <div class="card-read-more">
+                                        <!-- Buttons for delete, view, and edit -->
                                         <!-- Add your buttons for delete, view, and edit here -->
                                         @if (auth()->check() && auth()->user()->role == 1)
                                             <form action="{{ route('admin.bird.delete', ['id' => $bird->id]) }}"
@@ -216,6 +240,7 @@
             </div>
         </div>
     </section>
+    
 
 
     <div class="container">
@@ -255,18 +280,20 @@
                             </div>
 
                             <div class="mb-3 text-center">
-                                <label for="birdName" class="form-label">Current image</label>
-                            </div>
+                                <!-- Display current images -->
+                                @php
+                                    $images = explode('|', $bird->image);
+                                @endphp
 
-                            <div class="mb-3 text-center"">
-                                <img src="{{ asset('images/birds/' . basename($bird->image)) }}"
-                                    alt="{{ $bird->pavadinimas }}"
-                                    style="width: 400px; height: 400px; object-fit: cover;">
+                                @foreach ($images as $image)
+                                    <img src="{{ asset($image) }}" alt="{{ $bird->pavadinimas }}"
+                                        style="width: 200px; height: 200px; object-fit: cover; margin: 5px;">
+                                @endforeach
                             </div>
 
                             <div class="mb-3">
-                                <label for="birdImage" class="form-label">Change Bird Image</label>
-                                <input type="file" class="form-control" name="birdImage" id="birdImage"
+                                <label for="birdImages" class="form-label">Change Bird Images</label>
+                                <input type="file" class="form-control" name="images[]" id="birdImages" multiple
                                     accept="image/*">
                             </div>
 

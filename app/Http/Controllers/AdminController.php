@@ -14,39 +14,63 @@ use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
+    public function saveImages(Request $request)
+    {
+        $imageUrls = array();
+        if ($files = $request->file('images')) {
+            foreach ($files as $file) {
+                $image_name = md5(rand(1000, 10000));
+                $ext = strtolower($file->getClientOriginalExtension());
+                $image_full_name = $image_name . '.' . $ext;
+                $upload_path = 'images/birds/'; // Relative path for storing images
+                $image_url = $upload_path . $image_full_name;
+                $file->move(public_path($upload_path), $image_full_name); // Moving file to the destination
+                $imageUrls[] = $image_url;
+            }
+        }
+        return implode('|', $imageUrls);
+    }
+
     // Delete bird in Birdlist page
     public function deleteBird($id)
     {
         $bird = Pauksciai::find($id);
 
         if (!$bird) {
-            // Handle the case where the bird is not found (optional)
             return redirect()->back()->with('error', 'Bird not found.');
         }
 
-        Storage::disk('bird_images')->delete($bird->image);
+        // Delete all images associated with the bird
+        $images = explode('|', $bird->image);
+        foreach ($images as $image) {
+            // Correct the path using DIRECTORY_SEPARATOR
+            $correctedImagePath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $image);
+            $fullPath = public_path($correctedImagePath);
+
+            if (file_exists($fullPath)) {
+                unlink($fullPath);
+            }
+        }
 
         $bird->delete();
 
         return redirect()->back()->with('success', 'Bird deleted successfully.');
     }
 
+
     // Add bird in Birdlist page
     public function addBird(Request $request)
     {
         // Validate the form data
+        // Updated validation rules to handle multiple images
         $validator = Validator::make($request->all(), [
             'birdName' => 'required|string|unique:pauksciai,pavadinimas',
-            'birdImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images' => 'required', // Updated to handle multiple images
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for each image
             'birdContinent' => 'required|string',
             'birdMiniText' => 'required|string',
-        ], [
-            'birdName.unique' => 'The bird name must be unique.',
-            'birdContinent.required' => 'The continent field is required.',
-            'birdMiniText.required' => 'The mini text field is required.',
         ]);
 
-        // Check if validation fails
         if ($validator->fails()) {
             return redirect()->to('/birdlist')
                 ->withErrors($validator)
@@ -54,19 +78,20 @@ class AdminController extends Controller
                 ->with('scrollToForm', true);
         }
 
-        $imageName = $request->birdName . '_' . time() . '.' . $request->birdImage->extension();
-        $request->birdImage->storeAs('', $imageName, 'bird_images');
+        // Handle multiple image upload
+        $imagesString = $this->saveImages($request);
 
         $bird = new Pauksciai([
             'pavadinimas' => $request->birdName,
             'aprasymas' => $request->birdMiniText,
             'kilme' => $request->birdContinent,
-            'image' => $imageName,
+            'image' => $imagesString,
             'created_by' => Auth::id(),
         ]);
 
         $bird->save();
 
+        // Synchronize tags
         $tags = $request->input('tags');
         if (!empty($tags)) {
             $bird->tags()->sync($tags);
@@ -80,13 +105,12 @@ class AdminController extends Controller
     {
         try {
             $bird = Pauksciai::findOrFail($birdId);
-            $tags = Tag::with('prefix')->get();
 
             $validator = Validator::make($request->all(), [
                 'birdName' => 'required|string|unique:pauksciai,pavadinimas,' . $bird->id,
                 'birdContinent' => 'required|string',
                 'birdMiniText' => 'required|string',
-                'birdImage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for each image
             ]);
 
             if ($validator->fails()) {
@@ -103,22 +127,21 @@ class AdminController extends Controller
                 'edited_by' => Auth::id(),
             ];
 
-            // Handle image upload
-            if ($request->hasFile('birdImage')) {
-                // Delete the existing image if it exists
-                Storage::disk('bird_images')->delete($bird->image);
+            // Handle multiple image upload
+            if ($request->hasFile('images')) {
+                // Delete existing images
+                $existingImages = explode('|', $bird->image);
+                foreach ($existingImages as $image) {
+                    Storage::disk('bird_images')->delete($image);
+                }
 
-                // Upload the new image
-                $uploadedImage = $request->file('birdImage');
-                $imageName = $bird->pavadinimas . '_' . time() . '.' . $uploadedImage->extension();
-                $uploadedImage->storeAs('', $imageName, 'bird_images');
-
-                // Set the new image path in the database
-                $birdData['image'] = $imageName;
+                // Upload new images
+                $imagesString = $this->saveImages($request);
+                $birdData['image'] = $imagesString;
             }
 
             // Synchronize tags
-            $tagsInput = $request->has('tags') ? $request->input('tags') : [];
+            $tagsInput = $request->input('tags', []);
             $bird->tags()->sync($tagsInput);
 
             // Update bird information
