@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<a href="/" class="home-button">Home</a>
+<a href="/" class="home-button"> Go Back</a>
 
 <div class="container">
   <div class="header">Question</div>
