@@ -13,10 +13,125 @@ $(document).ready(function () {
         $("#TagNullDropdown").toggle();
     });
 
+   var selectedKilmes = [];
+   var selectedPrefixes = [];
+   var selectedTags = [];
+   var selectedTagNulls = [];
     var allBirds = $(".bird-card");
     var itemsPerPage = 15;
     var currentPage = 1;
     var maxPageNumbersToShow = 10;
+
+
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function () {
+            var context = this,
+                args = arguments;
+            var later = function () {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    }
+
+    // Debounced version of filterBirds
+    var debouncedFilterBirds = debounce(function () {
+        filterBirds();
+    }, 1); // Wait for 250 ms before invoking again
+
+    function addFilterTag(category, value, arrayName) {
+        // Create the tag element
+        var tag = $("<span>").addClass("filter-tag").text(value);
+        var closeBtn = $("<button>").text("x").addClass("close-filter");
+        tag.append(closeBtn);
+        $(".filter-tags-container").append(tag);
+
+        closeBtn.on("click", function () {
+            // Correctly reference the corresponding array based on category
+            var filterArray = (category === "Kilmes") ? selectedKilmes :
+                              (category === "Prefixes") ? selectedPrefixes :
+                              (category === "Tags") ? selectedTags :
+                              selectedTagNulls; // default to selectedTagNulls
+
+            filterArray = filterArray.filter(function (item) {
+                return item !== value;
+            });
+
+            // Update the global array
+            if (category === "Kilmes") selectedKilmes = filterArray;
+            else if (category === "Prefixes") selectedPrefixes = filterArray;
+            else if (category === "Tags") selectedTags = filterArray;
+            else selectedTagNulls = filterArray;
+
+            tag.remove();
+            debouncedFilterBirds();
+        });
+    }
+
+
+    function filterBirds() {
+        $(".bird-card").hide();
+
+        // Show only the cards with the selected kilmes
+        selectedKilmes.forEach(function (selectedKilme) {
+            $('.bird-card[data-continent="' + selectedKilme + '"]').show();
+        });
+
+        // Show only the cards with the selected prefixes
+        selectedPrefixes.forEach(function (selectedPrefix) {
+            $(".bird-card").each(function () {
+                var hasPrefix =
+                    $(this)
+                        .find(".badge")
+                        .filter(function () {
+                            return $(this).text().includes(selectedPrefix);
+                        }).length > 0;
+
+                if (hasPrefix) {
+                    $(this).show();
+                }
+            });
+        });
+
+        // Show only the cards with the selected tags
+        selectedTags.forEach(function (selectedTag) {
+            $(".bird-card").each(function () {
+                var hasTag =
+                    $(this)
+                        .find(".badge")
+                        .filter(function () {
+                            return $(this).text().includes(selectedTag);
+                        }).length > 0;
+
+                if (hasTag) {
+                    $(this).show();
+                }
+            });
+        });
+
+        // Show only the cards with the selected tag nulls
+        selectedTagNulls.forEach(function (selectedTagNull) {
+            $(".bird-card").each(function () {
+                var hasTagNull =
+                    $(this)
+                        .find(".badge")
+                        .filter(function () {
+                            return $(this).text().includes(selectedTagNull);
+                        }).length > 0;
+
+                if (hasTagNull) {
+                    $(this).show();
+                }
+            });
+        });
+
+        renderPagination();
+    }
 
     function createPageItem(page, isDisabled) {
         var liClass = page === currentPage && !isDisabled ? "active" : "";
@@ -113,125 +228,39 @@ $(document).ready(function () {
     });
 
     // Kilme Dropdown Click Event
-        // Attach a click event listener to the kilme dropdown items
-        $(".DropDownText").on("click", function () {
-            // Get the selected kilme value
-            var selectedKilme = $(this).text();
+    // Attach a click event listener to the kilme dropdown items
+    $("#salisDropdown").on("click", ".DropDownText", function () {
+        var selectedKilme = $(this).text();
+        selectedKilmes.push(selectedKilme);
+        addFilterTag("Kilmes", selectedKilme, "selectedKilmes");
+        filterBirds();
+        debouncedFilterBirds();
+    });
 
-            console.log("Selected Kilme:", selectedKilme);
+    // Prefix Dropdown Click Event
+    $("#prefixDropdown").on("click", ".DropDownTextPrefix", function () {
+        var selectedPrefix = $(this).text().trim();
+        selectedPrefixes.push(selectedPrefix);
+        addFilterTag("Prefixes", selectedPrefix, "selectedPrefixes");
+        filterBirds();
+        debouncedFilterBirds();
+    });
 
-            // Hide all bird cards
-            $(".bird-card").hide();
+    // Tag Dropdown Click Event
+    $("#TagDropdown").on("click", ".DropDownTextTag", function () {
+        var selectedTag = $(this).text().trim();
+        selectedTags.push(selectedTag);
+        addFilterTag("Tags", selectedTag, "selectedTags");
+        filterBirds();
+        debouncedFilterBirds();
+    });
 
-            // Show only the cards with the selected kilme
-            $('.bird-card[data-continent="' + selectedKilme + '"]').show();
-
-            // Log the number of cards found
-            var numCards = $(
-                '.bird-card[data-continent="' + selectedKilme + '"]'
-            ).length;
-            console.log("Number of cards with selected Kilme:", numCards);
-
-            // Hide the dropdown
-            $("#salisDropdown").hide();
-
-            // Update the button text to the selected option
-            $("#kilmeButton").text(selectedKilme);
-
-            return false;
-        });
-
-        // Prefix Dropdown Click Event
-        $("#prefixDropdown").on("click", ".DropDownTextPrefix", function () {
-            var selectedPrefix = $(this).text().trim(); // Get the text of the selected prefix
-            console.log("Selected Prefix:", selectedPrefix);
-
-            // Hide all bird cards
-            $(".bird-card").hide();
-
-            // Filter and show cards that contain the selected prefix in their tags
-            $(".bird-card").each(function () {
-                var hasPrefix =
-                    $(this)
-                        .find(".badge")
-                        .filter(function () {
-                            return $(this).text().includes(selectedPrefix);
-                        }).length > 0;
-
-                if (hasPrefix) {
-                    $(this).show();
-                }
-            });
-
-            // Hide the dropdown
-            $("#prefixDropdown").hide();
-
-            // Update the button text to the selected option
-            $("#prefixButton").text(selectedPrefix);
-
-            return false;
-        });
-
-        $("#TagDropdown").on("click", ".DropDownTextTag", function () {
-            var selectedTag = $(this).text().trim(); // Get the text of the selected prefix
-            console.log("Selected Tag:", selectedTag);
-
-            // Hide all bird cards
-            $(".bird-card").hide();
-
-            // Filter and show cards that contain the selected prefix in their tags
-            $(".bird-card").each(function () {
-                var hasTag =
-                    $(this)
-                        .find(".badge")
-                        .filter(function () {
-                            return $(this).text().includes(selectedTag);
-                        }).length > 0;
-
-                if (hasTag) {
-                    $(this).show();
-                }
-            });
-
-            // Hide the dropdown
-            $("#TagDropdown").hide();
-
-            // Update the button text to the selected option
-            $("#TagButton").text(selectedTag);
-
-            return false;
-        });
-
-        $("#TagNullDropdown").on("click", ".DropDownTextTagNull", function () {
-            var selectedTagNull = $(this).text().trim(); // Get the text of the selected prefix
-            console.log("Selected Tag Null:", selectedTagNull);
-
-            // Hide all bird cards
-            $(".bird-card").hide();
-
-            // Filter and show cards that contain the selected prefix in their tags
-            $(".bird-card").each(function () {
-                var hasTagNull =
-                    $(this)
-                        .find(".badge")
-                        .filter(function () {
-                            return $(this).text().includes(selectedTagNull);
-                        }).length > 0;
-
-                if (hasTagNull) {
-                    $(this).show();
-                }
-            });
-
-            // Hide the dropdown
-            $("#TagNullDropdown").hide();
-
-            // Update the button text to the selected option
-            $("#TagNullButton").text(selectedTagNull);
-
-            return false;
-        });
-
-
-
+    // TagNull Dropdown Click Event
+    $("#TagNullDropdown").on("click", ".DropDownTextTagNull", function () {
+        var selectedTagNull = $(this).text().trim();
+        selectedTagNulls.push(selectedTagNull);
+        addFilterTag("TagNulls", selectedTagNull, "selectedTagNulls");
+        filterBirds();
+        debouncedFilterBirds();
+    });
 });

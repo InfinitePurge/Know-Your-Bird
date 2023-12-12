@@ -564,3 +564,20 @@ a {
 #myDropdown .dropdown-menu {
     top: 100%; /* Position below the button */
 }
+
+
+.filter-tag {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #ddd;
+    border-radius: 20px;
+}
+
+.close-filter {
+    margin-left: 10px;
+    color: red;
+    cursor: pointer;
+    border: none;
+    background: none;
+}

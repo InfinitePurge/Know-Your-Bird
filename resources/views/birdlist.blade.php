@@ -37,7 +37,7 @@
                     <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Country</button>
                     <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
                         @foreach ($kilmeValues as $kilme)
-                            <a class="dropdown-item bird DropDownText" href="#">{{ $kilme }}</a>
+                            <a class="dropdown-item bird DropDownText" href="javascript:void(0);">{{ $kilme }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                     <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="prefixDropdown">
                         @foreach ($prefixes as $prefixItem)
                             <a class="dropdown-item bird DropDownTextPrefix" data-prefix="{{ $prefixItem->id }}"
-                                href="#">{{ $prefixItem->prefix }}</a>
+                                href="javascript:void(0);">{{ $prefixItem->prefix }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                     <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="TagDropdown">
                         @foreach ($tagies as $tagItem)
                             <a class="dropdown-item bird DropDownTextTag" data-tag="{{ $tagItem->id }}"
-                                href="#">{{ $tagItem->name }}</a>
+                                href="javascript:void(0);">{{ $tagItem->name }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                     <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="TagNullDropdown">
                         @foreach ($tagiesNull as $tagnullItem)
                             <a class="dropdown-item bird DropDownTextTagNull" data-tagnull="{{ $tagnullItem->id }}"
-                                href="#">{{ $tagnullItem->name }}</a>
+                                href="javascript:void(0);">{{ $tagnullItem->name }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -80,6 +80,9 @@
                     Filter</button>
             </div>
         </div>
+        <div class="filter-tags-container">
+    <!-- Filter tags will be appended here by JavaScript -->
+</div>
     </div>
     {{-- --}}
 
