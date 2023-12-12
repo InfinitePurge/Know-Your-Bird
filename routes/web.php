@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BirdsListController;
@@ -24,7 +25,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/birdlist/search', [BirdsListController::class, 'search'])->name('birdlist.search');
+Route::get('/birdlist/search', [BirdsListController::class, 'index'])->name('birdlist.search');
 Route::get('/history', [HistoryController::class, 'index']);
 Route::get('/birdforms', [BirdFormsController::class, 'index']);
 Route::get('/birdlist', [BirdsListController::class, 'index'])->name('birds.index');

@@ -28,12 +28,30 @@ class BirdsListController extends Controller
         });
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search');
         $countries = Countries::$countries;
         sort($countries);
 
-        $bird_card = Pauksciai::with(['tags.prefix'])->orderBy('pavadinimas', 'asc')->get();
+        $searchTerms = explode(' ', $search);
+        $bird_card = Pauksciai::with(['tags.prefix'])
+        ->when($searchTerms, function ($query) use ($searchTerms) {
+            return $query->where(function ($subquery) use ($searchTerms) {
+                foreach ($searchTerms as $term) {
+                    $subquery->where('pavadinimas', 'like', '%' . $term . '%')
+                        ->orWhere('kilme', 'like', '%' . $term . '%')
+                        ->orWhereHas('tags', function ($subquery) use ($term) {
+                            $subquery->where('name', 'like', '%' . $term . '%');
+                        })
+                        ->orWhereHas('tags.prefix', function ($subquery) use ($term) {
+                            $subquery->where('prefix', 'like', '%' . $term . '%');
+                        });
+                }
+            });
+        })
+        ->orderBy('pavadinimas', 'asc')
+        ->get();
 
         $birds = Pauksciai::with(['tags.prefix'])->get()->each(function ($bird) {
             $bird->tags = $this->sortTags($bird->tags);
@@ -70,28 +88,6 @@ class BirdsListController extends Controller
         $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
         return view('bird', compact('bird', 'kilmeValues', 'sortedTags'));
-    }
-
-    public function search(Request $request)
-    {
-        $search = $request->input('search');
-        $tags = Tag::with('prefix')->get();
-        $countries = Countries::$countries;
-
-        $bird_card = Pauksciai::with(['tags.prefix'])
-            ->when($search, function ($query) use ($search) {
-                return $query->where(function ($subquery) use ($search) {
-                    $subquery->where('pavadinimas', 'like', '%' . $search . '%')
-                        ->orWhere('kilme', 'like', '%' . $search . '%');
-                });
-            })
-            ->orderBy('pavadinimas', 'asc')
-            ->get();
-
-        $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
-
-        // Pass variables with their keys
-        return view('birdlist', ['kilmeValues' => $kilmeValues, 'countries' => $countries, 'bird_card' => $bird_card, 'tags' => $tags]);
     }
 
     public function fetchContinents()
