@@ -17,7 +17,7 @@
 
 </head>
 
-<body
+<body loading="lazy"
     style="background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%), linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%), url('{{ asset('images/b2.jpg') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
 
     <x-custom-header></x-custom-header>
@@ -182,7 +182,7 @@
     
                                             @foreach($images as $index => $image)
                                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                                    <img src="{{ asset($image) }}" class="d-block w-100" alt="{{ $bird->pavadinimas }}">
+                                                    <img src="{{ asset($image) }}" loading="lazy" class="d-block w-100" alt="{{ $bird->pavadinimas }}">
                                                 </div>
                                             @endforeach
                                         </div>
