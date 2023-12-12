@@ -1,0 +1,105 @@
+
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+  }
+  .container {
+    width: 90%;
+    max-width: 900px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  .header {
+    padding: 20px;
+    background-color: #ddd;
+    text-align: center;
+    font-size: 1.5em;
+    word-wrap: break-word; /* Ensure words break and wrap onto the next line */
+  }
+  .image-container {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.8869922969187675) 20%,
+      rgba(3, 177, 177, 1) 100%
+    );
+    padding: 20px;
+    color: white;
+    text-align: center;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+  }
+  .button-row {
+    display: flex;
+  }
+  .button {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    font-size: 1em;
+    cursor: pointer;
+    border: 2px solid white;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .button.red { background-color: #ff4b4b; }
+  .button.green { background-color: #28a745; }
+  .button.blue { background-color: #007bff; }
+  .button.yellow { background-color: #ffc107; }
+  .button:hover {
+    opacity: 0.9;
+  }
+  .skip-button {
+    padding: 10px 20px;
+    background-color: #ddd;
+    color: #333;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  @media (max-width: 600px) {
+    .container {
+      width: 95%;
+      max-width: none;
+    }
+    .button {
+      padding: 15px;
+      font-size: 0.9em;
+    }
+    .header {
+      font-size: 1.3em;
+    }
+  }
+
+  .home-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    color: black;
+    text-decoration: none;
+  }
+  .home-button:before {
+    content: '\2190';
+    margin-right: 8px;
+  }

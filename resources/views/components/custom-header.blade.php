@@ -110,7 +110,7 @@
     @guest
     <nav>
         <a class="btn btn-transparent-white" href="/">Home</a>
-        <a class="btn btn-transparent-white" href="#">Quizz</a>
+        <a class="btn btn-transparent-white" href="quizz">Quizz</a>
         <div class="btn-group">
             <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle"
                 data-bs-toggle="dropdown">History</button>
