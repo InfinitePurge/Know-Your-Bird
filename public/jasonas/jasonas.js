@@ -13,15 +13,15 @@ $(document).ready(function () {
         $("#TagNullDropdown").toggle();
     });
 
-   var selectedKilmes = [];
-   var selectedPrefixes = [];
-   var selectedTags = [];
-   var selectedTagNulls = [];
+    var filteredBirds = [];
+    var selectedKilmes = [];
+    var selectedPrefixes = [];
+    var selectedTags = [];
+    var selectedTagNulls = [];
     var allBirds = $(".bird-card");
     var itemsPerPage = 15;
     var currentPage = 1;
     var maxPageNumbersToShow = 10;
-
 
     function debounce(func, wait, immediate) {
         var timeout;
@@ -53,10 +53,14 @@ $(document).ready(function () {
 
         closeBtn.on("click", function () {
             // Correctly reference the corresponding array based on category
-            var filterArray = (category === "Kilmes") ? selectedKilmes :
-                              (category === "Prefixes") ? selectedPrefixes :
-                              (category === "Tags") ? selectedTags :
-                              selectedTagNulls; // default to selectedTagNulls
+            var filterArray =
+                category === "Kilmes"
+                    ? selectedKilmes
+                    : category === "Prefixes"
+                    ? selectedPrefixes
+                    : category === "Tags"
+                    ? selectedTags
+                    : selectedTagNulls; // default to selectedTagNulls
 
             filterArray = filterArray.filter(function (item) {
                 return item !== value;
@@ -70,12 +74,22 @@ $(document).ready(function () {
 
             tag.remove();
             debouncedFilterBirds();
+
+            // Check if no filter tags are left and trigger page refresh
+            if (
+                selectedKilmes.length === 0 &&
+                selectedPrefixes.length === 0 &&
+                selectedTags.length === 0 &&
+                selectedTagNulls.length === 0
+            ) {
+                window.location.reload();
+            }
         });
     }
 
-
     function filterBirds() {
         $(".bird-card").hide();
+        filteredBirds = [];
 
         // Show only the cards with the selected kilmes
         selectedKilmes.forEach(function (selectedKilme) {
@@ -129,9 +143,29 @@ $(document).ready(function () {
                 }
             });
         });
+        $(".bird-card:visible").each(function () {
+            filteredBirds.push(this);
+        });
+        paginateFilteredBirds();
+    }
 
+    function paginateBirds() {
+        var startIndex = (currentPage - 1) * itemsPerPage;
+        var endIndex = startIndex + itemsPerPage;
+        var totalPages = Math.ceil(allBirds.length / itemsPerPage);
+
+        var visibleCards;
+
+        if (filteredBirds.length > 0) {
+            visibleCards = $(filteredBirds); // Convert filteredBirds to a jQuery object
+        } else {
+            visibleCards = allBirds; // Select all cards when no filters are applied
+        }
+
+        visibleCards.hide().slice(startIndex, endIndex).show();
         renderPagination();
     }
+    paginateBirds();
 
     function createPageItem(page, isDisabled) {
         var liClass = page === currentPage && !isDisabled ? "active" : "";
@@ -194,15 +228,51 @@ $(document).ready(function () {
         }
     }
 
-    function paginateBirds() {
+    function paginateFilteredBirds() {
         var startIndex = (currentPage - 1) * itemsPerPage;
         var endIndex = startIndex + itemsPerPage;
-        allBirds.hide().slice(startIndex, endIndex).show();
+        var totalPages = Math.ceil(filteredBirds.length / itemsPerPage);
+
+        var paginationUl = $(".pagination ul");
+        paginationUl.find("li:not(.prev, .next)").remove(); // Clear existing
+
+        var startPage = Math.max(
+            currentPage - Math.floor(maxPageNumbersToShow / 2),
+            1
+        );
+        var endPage = Math.min(
+            startPage + maxPageNumbersToShow - 1,
+            totalPages
+        );
+
+        if (endPage - startPage < maxPageNumbersToShow) {
+            startPage = Math.max(endPage - maxPageNumbersToShow + 1, 1);
+        }
+
+        // Check and insert ellipses before page number 1 if needed
+        if (startPage > 2) {
+            paginationUl.find(".prev").after(createPageItem("...", true));
+        }
+        if (startPage > 1) {
+            paginationUl.find(".prev").after(createPageItem(1));
+        }
+
+        for (var i = startPage; i <= endPage; i++) {
+            paginationUl.find(".next").before(createPageItem(i));
+        }
+
+        // Check and insert ellipses before the last page if needed
+        if (endPage < totalPages - 1) {
+            paginationUl.find(".next").before(createPageItem("...", true));
+        }
+        if (endPage < totalPages) {
+            paginationUl.find(".next").before(createPageItem(totalPages));
+        }
+
+        // Show the filtered cards for the current page
+        $(filteredBirds).hide().slice(startIndex, endIndex).show();
         renderPagination();
     }
-
-    // Initialize Pagination
-    paginateBirds();
 
     // Clear Filter Button
     $("#clearFilter").on("click", function () {
@@ -214,16 +284,28 @@ $(document).ready(function () {
         e.preventDefault();
         if (currentPage !== 1) {
             currentPage--;
-            paginateBirds();
+            if (filteredBirds.length > 0) {
+                paginateFilteredBirds();
+            } else {
+                paginateBirds();
+            }
         }
     });
 
     $(".pagination .next").on("click", function (e) {
         e.preventDefault();
-        var lastPage = Math.ceil(allBirds.length / itemsPerPage);
+        var lastPage = Math.ceil(
+            filteredBirds.length > 0
+                ? filteredBirds.length
+                : allBirds.length / itemsPerPage
+        );
         if (currentPage !== lastPage) {
             currentPage++;
-            paginateBirds();
+            if (filteredBirds.length > 0) {
+                paginateFilteredBirds();
+            } else {
+                paginateBirds();
+            }
         }
     });
 

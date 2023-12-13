@@ -570,7 +570,11 @@ a {
     display: inline-block;
     margin: 5px;
     padding: 5px 10px;
-    background-color: #ddd;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.8869922969187675) 20%,
+        rgba(5, 156, 156, 1) 100%
+    );
     border-radius: 20px;
 }
 
