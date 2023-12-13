@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 @if (auth()->user()->role == 1)
-                <a class="btn btn-transparent-white" href="/tagview">Tagview</a>
+                <a class="btn btn-transparent-white" href="/adminpanel">Admin Panel</a>
                 @endif
             </nav>
         @endif

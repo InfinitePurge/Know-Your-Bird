@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    <x-adminsidebar></x-adminsidebar>
     <div class="container">
         <div class="table-responsive">
             <div class="table-wrapper">
@@ -514,7 +515,7 @@
         </div>
     @endforeach
     {{-- Pabaiga edit formai Tag --}}
-
+            
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('jasonas/tagview.js') }}"></script>
 
