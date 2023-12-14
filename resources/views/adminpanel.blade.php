@@ -120,6 +120,7 @@ $(document).ready(function(){
           <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editUsernameModal">Edit Username</button>
           <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editEmailModal">Edit Email</button>
           <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editRoleModal">Edit Role</button>
+		  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editPasswordModal">Edit Password</button>
         </div>				
       </div>
       <div class="modal-footer">
@@ -188,6 +189,30 @@ $(document).ready(function(){
 					<div class="modal-body">					
 						<div class="form-group">
 							<label>Role</label>
+							<input type="text" class="form-control" required>
+						</div>					
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-info" value="Save">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{{-- END --}}
+	{{-- Edit Password --}}
+	<div id="editPasswordModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form>
+					<div class="modal-header">						
+						<h4 class="modal-title">Edit Password</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<div class="form-group">
+							<label>Password</label>
 							<input type="text" class="form-control" required>
 						</div>					
 					</div>
