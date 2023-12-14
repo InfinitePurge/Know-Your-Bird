@@ -66,14 +66,19 @@
                                 <br>
                                 <label for="email_verified">Email Verification:</label>
                                 <select name="email_verified" id="email_verified">
-                                    <option value="" {{ request('email_verified') == '' ? 'selected' : '' }}>All</option>
-                                    <option value="verified" {{ request('email_verified') == 'verified' ? 'selected' : '' }}>Verified</option>
-                                    <option value="not_verified" {{ request('email_verified') == 'not_verified' ? 'selected' : '' }}>Not Verified</option>
+                                    <option value="" {{ request('email_verified') == '' ? 'selected' : '' }}>All
+                                    </option>
+                                    <option value="verified"
+                                        {{ request('email_verified') == 'verified' ? 'selected' : '' }}>Verified
+                                    </option>
+                                    <option value="not_verified"
+                                        {{ request('email_verified') == 'not_verified' ? 'selected' : '' }}>Not Verified
+                                    </option>
                                 </select>
                                 <button type="submit">Apply Filter</button>
-                            </form>  
+                            </form>
                         </div>
-                    </div>                
+                    </div>
                 </div>
                 <table class="table table-striped table-hover">
                     <thead>
@@ -95,12 +100,12 @@
                         @foreach ($users as $user)
                             <tr>
                                 <td>
-                                    @if($user->role == 2)
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox{{ $user->id }}" class="user-checkbox"
-                                            name="options[]" value="{{ $user->id }}">
-                                        <label for="checkbox{{ $user->id }}"></label>
-                                    </span>
+                                    @if ($user->role == 2)
+                                        <span class="custom-checkbox">
+                                            <input type="checkbox" id="checkbox{{ $user->id }}"
+                                                class="user-checkbox" name="options[]" value="{{ $user->id }}">
+                                            <label for="checkbox{{ $user->id }}"></label>
+                                        </span>
                                     @elseif($user->role == 1)
                                     @endif
                                 </td>
@@ -115,17 +120,19 @@
                                 </td>
                                 <td>{{ $user->role == 1 ? 'Meras' : 'User' }}</td>
                                 <td>
-                                    @if($user->role == 2)
-                                    <a href="#editOptionsModal{{ $user->id }}" class="edit" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-                                    </a>
-                                    <a href="#deleteModal{{ $user->id }}" class="delete" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
-                                    </a>
+                                    @if ($user->role == 2)
+                                        <a href="#editOptionsModal{{ $user->id }}" class="edit"
+                                            data-toggle="modal">
+                                            <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                        </a>
+                                        <a href="#deleteModal{{ $user->id }}" class="delete" data-toggle="modal">
+                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        </a>
                                     @elseif($user->role == 1)
-                                    <a href="#editOptionsModal{{ $user->id }}" class="edit" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-                                    </a>
+                                        <a href="#editOptionsModal{{ $user->id }}" class="edit"
+                                            data-toggle="modal">
+                                            <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                        </a>
                                     @endif
                                 </td>
                             </tr>
@@ -287,7 +294,7 @@
                             </div>
                             {{-- END --}}
                             {{-- Edit Password --}}
-                            <div id="editPasswordModal{{$user->id}}" class="modal fade">
+                            <div id="editPasswordModal{{ $user->id }}" class="modal fade">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <form action="{{ route('adminpanel.updatePassword', $user->id) }}"
@@ -364,14 +371,18 @@
                             @if ($users->onFirstPage())
                                 <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
                             @else
-                                <li class="page-item"><a href="{{ $users->previousPageUrl() }}"
+                                <li class="page-item"><a
+                                        href="{{ $users->appends(request()->query())->previousPageUrl() }}"
                                         class="page-link">Previous</a></li>
                             @endif
 
                             {{-- First Page Link --}}
                             @if ($users->currentPage() > 4)
-                                <li class="page-item"><a href="{{ $users->url(1) }}" class="page-link">1</a></li>
+                                <li class="page-item"><a href="{{ $users->appends(request()->query())->url(1) }}"
+                                        class="page-link">1</a>
+                                </li>
                             @endif
+
 
                             {{-- Pagination Elements --}}
                             @for ($i = max(1, $users->currentPage() - 3); $i <= min($users->lastPage(), $users->currentPage() + 3); $i++)
@@ -379,22 +390,24 @@
                                     <li class="page-item active"><a href="#"
                                             class="page-link">{{ $i }}</a></li>
                                 @else
-                                    <li class="page-item"><a href="{{ $users->url($i) }}"
+                                    <li class="page-item"><a
+                                            href="{{ $users->appends(request()->query())->url($i) }}"
                                             class="page-link">{{ $i }}</a></li>
                                 @endif
                             @endfor
 
                             {{-- Last Page Link --}}
                             @if ($users->currentPage() < $users->lastPage() - 3)
-                                <li class="page-item"><a href="{{ $users->url($users->lastPage()) }}"
+                                <li class="page-item"><a
+                                        href="{{ $users->appends(request()->query())->url($users->lastPage()) }}"
                                         class="page-link">{{ $users->lastPage() }}</a></li>
                             @endif
 
                             {{-- Next Page Link --}}
                             @if ($users->hasMorePages())
-                                <li class="page-item"><a href="{{ $users->nextPageUrl() }}"
-                                        class="page-link">Next</a>
-                                </li>
+                                <li class="page-item"><a
+                                        href="{{ $users->appends(request()->query())->nextPageUrl() }}"
+                                        class="page-link">Next</a></li>
                             @else
                                 <li class="page-item disabled"><a href="#" class="page-link">Next</a></li>
                             @endif
