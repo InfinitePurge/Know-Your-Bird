@@ -4,17 +4,16 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js">
-        SHA - 256
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
-        SHA - 384
-    </script>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js">SHA - 256</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">SHA - 384</script>
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
+    
+    <!-- Add Animate.css link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-
+    
 </head>
 
 <body loading="lazy"
@@ -28,62 +27,58 @@
         <div class="loading-spinner"></div>
     </div>
 
-    {{-- Country button --}}
-    <div class="container-fluid filtercontainer">
-        <p style="text-align: center;"> Filter by: </p>
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-6 d-flex justify-content-between">
-                <div class="btn-group" id="kilmeButtonGroup">
-                    <button type="button" class="btn btn-secondary filtromygt" id="kilmeButton">Country</button>
-                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="salisDropdown">
-                        @foreach ($kilmeValues as $kilme)
-                            <a class="dropdown-item bird DropDownText" href="javascript:void(0);">{{ $kilme }}</a>
-                        @endforeach
-                    </div>
+    {{-- Sidebar code --}}
+    
+<div id="wrapper">
+   <div class="overlay"></div>
+    
+        <!-- Sidebar -->
+     <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
+        <ul class="nav sidebar-nav">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <a href="#">Filter</a>
                 </div>
-                {{--  --}}
-                {{-- Prefix button --}}
-                <div class="btn-group" id="">
-                    <button type="button" class="btn btn-secondary filtromygt" id="prefixButton">Prefix</button>
-                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="prefixDropdown">
-                        @foreach ($prefixes as $prefixItem)
-                            <a class="dropdown-item bird DropDownTextPrefix" data-prefix="{{ $prefixItem->id }}"
-                                href="javascript:void(0);">{{ $prefixItem->prefix }}</a>
-                        @endforeach
-                    </div>
-                </div>
-                {{--  --}}
-                {{-- Tag button --}}
-                <div class="btn-group" id="">
-                    <button type="button" class="btn btn-secondary filtromygt" id="TagButton">Tag</button>
-                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="TagDropdown">
-                        @foreach ($tagies as $tagItem)
-                            <a class="dropdown-item bird DropDownTextTag" data-tag="{{ $tagItem->id }}"
-                                href="javascript:void(0);">{{ $tagItem->name }}</a>
-                        @endforeach
-                    </div>
-                </div>
-                {{--  --}}
-                {{-- Null Tag button --}}
-                <div class="btn-group" id="">
-                    <button type="button" class="btn btn-secondary filtromygt" id="TagNullButton">Tagnull</button>
-                    <div class="dropdown-menu scrollable-menu DropDownDesignForNav" id="TagNullDropdown">
-                        @foreach ($tagiesNull as $tagnullItem)
-                            <a class="dropdown-item bird DropDownTextTagNull" data-tagnull="{{ $tagnullItem->id }}"
-                                href="javascript:void(0);">{{ $tagnullItem->name }}</a>
-                        @endforeach
-                    </div>
-                </div>
-                {{--  --}}
-
-                <button type="button" class="btn btn-outline-secondary filtromygt" id="clearFilter">Clear
-                    Filter</button>
             </div>
-        </div>
-        <div class="filter-tags-container">
-    <!-- Filter tags will be appended here by JavaScript -->
-</div>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Country <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Dropdown Item 1</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Prefix <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Dropdown Item 1</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tag <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Dropdown Item 1</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">TagNull <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Dropdown Item 1</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Clear filters</a></li>
+        <li><a href="#">Filter</a></li>
+        </ul>
+    </nav>
+
+    <div id="page-content-wrapper">
+        <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
+            <span class="hamb-top"></span>
+            <span class="hamb-middle"></span>
+            <span class="hamb-bottom"></span>
+        </button>
     </div>
+
+</div>
+    
     {{-- --}}
 
     <section class="wrapper">
@@ -171,8 +166,7 @@
                 <div class="container">
                     <div class="row" style="display: flex; align-items: stretch;">
                         @foreach ($bird_card as $bird)
-                            <div class="col-xs-12 col-sm-4 bird-card" data-tagnull="{{ $tagnullItem}}" data-tag="{{ $bird->tags->pluck('id') }}"
-                                data-prefix="{{ $bird->prefix_id }}" data-continent="{{ $bird->kilme }}"
+                            <div class="col-xs-12 col-sm-4 bird-card"
                                 style="margin-bottom: 7%;">
                                 <div class="card" style="height: 100%; display: flex; flex-direction: column;">
                                     <!-- Bootstrap Carousel -->
