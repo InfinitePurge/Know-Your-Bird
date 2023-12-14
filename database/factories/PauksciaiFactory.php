@@ -20,8 +20,10 @@ class PauksciaiFactory extends Factory
     public function definition(): array
     {
 
-        $createdByUser = User::inRandomOrder()->first();
-        $editedByUser = $this->faker->boolean(30) ? User::inRandomOrder()->first() : null;
+        // $createdByUser = User::inRandomOrder()->first();
+        $createdByUser = User::find(1);
+        // $editedByUser = $this->faker->boolean(30) ? User::inRandomOrder()->first() : null;
+        $editedByUser = $this->faker->boolean(80) ? null : User::find(1);
 
         // Directory to store images
         $imageDirectory = public_path('images/birds');

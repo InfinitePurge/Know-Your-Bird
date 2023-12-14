@@ -12,6 +12,7 @@ use App\Http\Controllers\tagController;
 use App\Http\Controllers\QuizzController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\AdminPanelController;
+use App\Http\Controllers\ManageUsers;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,7 +75,14 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/admin/prefix/add', [AdminController::class, 'addPrefix'])->name('admin.prefix.add');
     Route::post('/admin/tag/add', [AdminController::class, 'addTag'])->name('admin.tag.add');
     Route::post('/admin/tagprefix/add', [AdminController::class, 'addTagWithPrefix'])->name('admin.tag.add.prefix');
-    Route::get('/tagview', [tagController::class, 'index']);
     Route::put('/admin/prefix/update/{id}', [AdminController::class, 'updatePrefix'])->name('admin.prefix.update');
     Route::put('/admin/tag/update/{id}', [AdminController::class, 'updateTagAndPrefix'])->name('admin.tag.update');
+    Route::get('/adminpanel', [ManageUsers::class, 'index'])->name('adminpanel');
+    Route::delete('/deleteuser/{id}', [ManageUsers::class, 'deleteUser'])->name('admin.user.delete');
+    Route::delete('/admin/users/deleteSelected', [ManageUsers::class, 'deleteSelected'])->name('admin.users.deleteSelected');
+    Route::put('/adminpanel/user/{id}/role', [ManageUsers::class, 'updateRole'])->name('adminpanel.updateRole');
+    Route::post('/adminpanel/user/{id}/username', [ManageUsers::class, 'updateUsername'])->name('adminpanel.updateUsername');
+    Route::post('/adminpanel/user/{id}/email', [ManageUsers::class, 'updateEmail'])->name('adminpanel.updateEmail');
+    Route::post('/adminpanel/user/{id}/password', [ManageUsers::class, 'updatePassword'])->name('adminpanel.updatePassword');
+    Route::get('/tagview', [tagController::class, 'index']);
 });

@@ -59,12 +59,4 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
-
-    /**
-     * Get the roles associated with the user.
-     */
-    public function roles()
-    {
-        return $this->belongsTo(Role::class, 'roles', 'role_id');
-    }
 }

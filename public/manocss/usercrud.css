@@ -224,3 +224,12 @@ table.table .avatar {
 .modal form label {
     font-weight: normal;
 }
+
+.icon-style {
+    font-size: 20px;
+    color: green;
+}
+
+.glyphicon-remove-sign {
+    color: red;
+}

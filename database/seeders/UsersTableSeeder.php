@@ -25,6 +25,6 @@ class UsersTableSeeder extends Seeder
             'role' => 1,
         ]);
 
-        User::factory()->count(25)->create();
+        User::factory()->count(250)->create();
     }
 }
