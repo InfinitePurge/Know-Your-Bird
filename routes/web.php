@@ -70,6 +70,8 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/bird/delete/{id}', [AdminController::class, 'deleteBird'])->name('admin.bird.delete');
     Route::put('/admin/bird/edit/{birdId}', [AdminController::class, 'editBird'])->name('admin.editBird');
     Route::post('/admin/bird/add', [AdminController::class, 'addBird'])->name('admin.bird.add');
+    // Tagview routes for admin
+    Route::get('/tagview', [tagController::class, 'index']);
     Route::delete('/tag/delete/{id}', [AdminController::class, 'deleteTag'])->name('admin.tag.delete');
     Route::delete('/prefix/delete/{id}', [AdminController::class, 'deletePrefix'])->name('admin.prefix.delete');
     Route::post('/admin/prefix/add', [AdminController::class, 'addPrefix'])->name('admin.prefix.add');
@@ -77,6 +79,7 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/admin/tagprefix/add', [AdminController::class, 'addTagWithPrefix'])->name('admin.tag.add.prefix');
     Route::put('/admin/prefix/update/{id}', [AdminController::class, 'updatePrefix'])->name('admin.prefix.update');
     Route::put('/admin/tag/update/{id}', [AdminController::class, 'updateTagAndPrefix'])->name('admin.tag.update');
+    // Manage users for admin
     Route::get('/adminpanel', [ManageUsers::class, 'index'])->name('adminpanel');
     Route::delete('/deleteuser/{id}', [ManageUsers::class, 'deleteUser'])->name('admin.user.delete');
     Route::delete('/admin/users/deleteSelected', [ManageUsers::class, 'deleteSelected'])->name('admin.users.deleteSelected');
@@ -84,5 +87,4 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/adminpanel/user/{id}/username', [ManageUsers::class, 'updateUsername'])->name('adminpanel.updateUsername');
     Route::post('/adminpanel/user/{id}/email', [ManageUsers::class, 'updateEmail'])->name('adminpanel.updateEmail');
     Route::post('/adminpanel/user/{id}/password', [ManageUsers::class, 'updatePassword'])->name('adminpanel.updatePassword');
-    Route::get('/tagview', [tagController::class, 'index']);
 });
