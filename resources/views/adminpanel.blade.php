@@ -56,8 +56,24 @@
                             <button id="deleteSelected" class="btn btn-danger">
                                 <i class="material-icons">&#xE15C;</i> <span>Delete Selected</span>
                             </button>
+                            <form method="get" action="{{ route('adminpanel') }}">
+                                <label for="role">Filter by Role:</label>
+                                <select name="role" id="role">
+                                    <option value="" {{ request('role') == '' ? 'selected' : '' }}>All</option>
+                                    <option value="1" {{ request('role') == '1' ? 'selected' : '' }}>Meras</option>
+                                    <option value="2" {{ request('role') == '2' ? 'selected' : '' }}>User</option>
+                                </select>
+                                <br>
+                                <label for="email_verified">Email Verification:</label>
+                                <select name="email_verified" id="email_verified">
+                                    <option value="" {{ request('email_verified') == '' ? 'selected' : '' }}>All</option>
+                                    <option value="verified" {{ request('email_verified') == 'verified' ? 'selected' : '' }}>Verified</option>
+                                    <option value="not_verified" {{ request('email_verified') == 'not_verified' ? 'selected' : '' }}>Not Verified</option>
+                                </select>
+                                <button type="submit">Apply Filter</button>
+                            </form>  
                         </div>
-                    </div>
+                    </div>                
                 </div>
                 <table class="table table-striped table-hover">
                     <thead>
@@ -79,11 +95,14 @@
                         @foreach ($users as $user)
                             <tr>
                                 <td>
+                                    @if($user->role == 2)
                                     <span class="custom-checkbox">
                                         <input type="checkbox" id="checkbox{{ $user->id }}" class="user-checkbox"
                                             name="options[]" value="{{ $user->id }}">
                                         <label for="checkbox{{ $user->id }}"></label>
                                     </span>
+                                    @elseif($user->role == 1)
+                                    @endif
                                 </td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
@@ -96,12 +115,18 @@
                                 </td>
                                 <td>{{ $user->role == 1 ? 'Meras' : 'User' }}</td>
                                 <td>
+                                    @if($user->role == 2)
                                     <a href="#editOptionsModal{{ $user->id }}" class="edit" data-toggle="modal">
                                         <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                     </a>
                                     <a href="#deleteModal{{ $user->id }}" class="delete" data-toggle="modal">
                                         <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                                     </a>
+                                    @elseif($user->role == 1)
+                                    <a href="#editOptionsModal{{ $user->id }}" class="edit" data-toggle="modal">
+                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                    </a>
+                                    @endif
                                 </td>
                             </tr>
                             <!-- Edit Modal HTML -->

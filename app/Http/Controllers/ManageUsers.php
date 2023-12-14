@@ -8,11 +8,26 @@ use Illuminate\Support\Facades\Log;
 
 class ManageUsers extends Controller
 {
-    public function index()
-    {
-        $users = User::orderBy('name')->paginate(10);
-        return view('adminpanel', compact('users'));
+    public function index(Request $request)
+{
+    $users = User::orderBy('name');
+
+    if ($request->filled('role')) {
+        $users->where('role', $request->input('role'));
     }
+
+    if ($request->filled('email_verified')) {
+        if ($request->input('email_verified') == 'verified') {
+            $users->whereNotNull('email_verified_at');
+        } elseif ($request->input('email_verified') == 'not_verified') {
+            $users->whereNull('email_verified_at');
+        }
+    }
+
+    $users = $users->paginate(10);
+
+    return view('adminpanel', compact('users'));
+}
 
 
     public function updateRole(Request $request, $id)
