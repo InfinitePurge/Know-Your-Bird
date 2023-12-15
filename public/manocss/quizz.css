@@ -1,105 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&display=swap');
 
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-  }
-  .container {
-    width: 90%;
-    max-width: 900px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-  .header {
-    padding: 20px;
-    background-color: #ddd;
-    text-align: center;
-    font-size: 1.5em;
-    word-wrap: break-word; /* Ensure words break and wrap onto the next line */
-  }
-  .image-container {
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.8869922969187675) 20%,
-      rgba(3, 177, 177, 1) 100%
-    );
-    padding: 20px;
-    color: white;
-    text-align: center;
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .buttons {
-    display: flex;
-    flex-direction: column;
-  }
-  .button-row {
-    display: flex;
-  }
-  .button {
-    flex: 1;
-    padding: 20px;
-    text-align: center;
-    font-size: 1em;
-    cursor: pointer;
-    border: 2px solid white;
-    transition: background-color 0.3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  .button.red { background-color: #ff4b4b; }
-  .button.green { background-color: #28a745; }
-  .button.blue { background-color: #007bff; }
-  .button.yellow { background-color: #ffc107; }
-  .button:hover {
-    opacity: 0.9;
-  }
-  .skip-button {
-    padding: 10px 20px;
-    background-color: #ddd;
-    color: #333;
-    text-align: center;
-    text-decoration: none;
-    display: block;
-    margin: auto;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  @media (max-width: 600px) {
-    .container {
-      width: 95%;
-      max-width: none;
-    }
-    .button {
-      padding: 15px;
-      font-size: 0.9em;
-    }
-    .header {
-      font-size: 1.3em;
-    }
-  }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  
+  box-sizing: border-box;
+}
 
-  .home-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-    color: black;
-    text-decoration: none;
-  }
-  .home-button:before {
-    content: '\2190';
-    margin-right: 8px;
-  }
+body {
+  font-family: 'EB Garamond', serif;
+  font-weight: 400;
+  letter-spacing: 0.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  background-image: url('nature2.png');
+  background-size: cover;
+  background-position: center;
+  flex-direction: column;
+}
+
+.header {
+  padding: 20px;
+  width: 70%;
+  text-align: center;
+  font-size: 1.5em;
+  -webkit-text-fill-color: whitesmoke;
+  word-wrap: break-word;
+  margin: auto; 
+}
+
+.image-container {
+  width: 100%; /* Use 100% of the container's width */
+  max-height: 300px; /* Set a max-height for the image container */
+  margin: 20px auto; /* Center the container on the page with automatic horizontal margins */
+  overflow: hidden; /* Hide overflow to maintain the box shape */
+  display: flex; /* Use flexbox for easy centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for some depth */
+  position: relative; /* Position relative for positioning any child absolute elements */
+}
+
+.image-container img {
+  max-width: 100%; /* Maximum width of the image is 100% of its container */
+  max-height: 100%; /* Maximum height of the image is 100% of its container */
+  object-fit: contain; /* Contain the image within its box without stretching */
+  object-position: center; /* Center the image within its container */
+}
+
+.buttons {
+  /* ... */
+  margin-top: 20px; /* Add margin above the buttons for spacing */
+}
+
+.quiz-button {
+  display: block; /* Block level element */
+  width: 80%; /* Button width */
+  margin: 10px auto; /* Center button with auto margins */
+  padding: 15px 0; /* Padding top and bottom */
+  background-image: linear-gradient(to right, #6db65b, #4aae9b); /* Gradient background */
+  border: none; /* No border */
+  border-radius: 25px; /* Rounded corners */
+  color: white; /* White text */
+  font-size: 1em; /* Font size */
+  font-family: 'Roboto', sans-serif; /* Roboto font */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Transition for background color, transform, and box shadow */
+}
+
+.quiz-button:hover {
+  background-image: linear-gradient(to left, #6db65b, #4aae9b); /* Change direction of gradient on hover */
+  transform: translateY(-3px); /* Slight raise effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger box shadow on hover */
+}
+
+
+.home-button {
+  position: fixed; /* Fixed position to keep the button visible */
+  top: 20px; /* Distance from the top of the viewport */
+  left: 20px; /* Distance from the left of the viewport */
+  background-color: #4CAF50; /* Green background to match the quiz theme */
+  padding: 10px 15px; /* Padding inside the button */
+  border-radius: 50%; /* Rounded shape */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  display: flex; /* Use flexbox for centering the icon */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  text-decoration: none; /* Remove underline from link */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+}
+
+.home-button:hover {
+  background-color: #367B35; /* Darker green on hover */
+  transform: translateY(-3px); /* Lift the button up slightly */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow on hover */
+}
+
+.home-button i {
+  color: white; /* White icon color for contrast */
+  font-size: 24px; /* Size of the house icon */
+}
