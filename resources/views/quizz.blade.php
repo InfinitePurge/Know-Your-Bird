@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<a href="/" class="home-button"><i class="fas fa-home"></i></a>
+<a href="theme" class="home-button"><i class="fas fa-home"></i></a>
 
 <div class="container">
   <div class="header">Question</div>

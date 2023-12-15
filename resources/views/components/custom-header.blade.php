@@ -85,7 +85,7 @@
         @if (auth()->user()->email_verified_at)
             <nav>
                 <a class="btn btn-transparent-white" href="/">Home</a>
-                <a class="btn btn-transparent-white" href="quizz">Quiz</a>
+                <a class="btn btn-transparent-white" href="theme">Quiz</a>
                 <div class="btn-group">
                     <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle"
                         data-bs-toggle="dropdown">History</button>
@@ -124,7 +124,7 @@
 @guest
     <nav>
         <a class="btn btn-transparent-white" href="/">Home</a>
-        <a class="btn btn-transparent-white" href="quizz">Quiz</a>
+        <a class="btn btn-transparent-white" href="theme">Quiz</a>
         <div class="btn-group">
             <button type="button" class="btn btn-link btn btn-transparent-white dropdown-toggle"
                 data-bs-toggle="dropdown">History</button>
