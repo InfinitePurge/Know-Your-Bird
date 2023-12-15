@@ -19,53 +19,67 @@
                         <img src="{{ URL('images/birdlogo.png') }}" class="logo" style="width: 100%; height: 100%">
                     </a>
                 @endguest
-                </div>
-                <div class="col text-center">
-                    <h1 style="white-space: nowrap; margin: 0;">Know Your Bird</h1>
-                </div>
-                <div class="col text-right">
-                    @if (Route::has('login'))
-                        @auth
-                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                                @csrf
-                                <button type="submit"
-                                    class="btn btn-primary lr-button register custom-button reg">Logout</button>
-                            </form>
+            </div>
+            <div class="col text-center">
+                <h1 style="white-space: nowrap; margin: 0;">Know Your Bird</h1>
+            </div>
+            <div class="col text-right">
+                @if (Route::has('login'))
+                    @auth
+                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                            @csrf
+                            <button type="submit"
+                                class="btn btn-primary lr-button register custom-button reg">Logout</button>
+                        </form>
 
-                            <a class="btn btn-primary lr-button login custom-button log"
-                                href="{{ route('profile.show') }}">Profile</a>
-                        @else
-                            <a class="btn btn-primary lr-button login custom-button log" href="{{ route('login') }}">Login</a>
-                            <a class="btn btn-primary lr-button register custom-button reg"
-                                href="{{ route('register') }}">Register</a>
-                        @endauth
-                    @endif
-                </div>
+                        <a class="btn btn-primary lr-button login custom-button log"
+                            href="{{ route('profile.show') }}">Profile</a>
+                    @else
+                        <a class="btn btn-primary lr-button login custom-button log" href="{{ route('login') }}">Login</a>
+                        <a class="btn btn-primary lr-button register custom-button reg"
+                            href="{{ route('register') }}">Register</a>
+                    @endauth
+                @endif
             </div>
         </div>
-        @auth
-            @if (auth()->user()->email_verified_at)
-                <div class="container">
-                    <form action="{{ route('birdlist.search') }}" method="GET" class="mb-3 d-flex justify-content-center">
-                        <div class="input-group" style="max-width: 60%;">
-                            <input type="text" class="form-control" placeholder="Search for birds" name="search">
-                            <button class="btn btn-primary search-button" type="submit">Search</button>
-                        </div>
-                    </form>
+    </div>
+    @auth
+        @if (auth()->user()->email_verified_at)
+            <div class="container">
+                <form action="{{ route('birdlist.search') }}" method="GET" class="mb-3 d-flex justify-content-center">
+                    <div class="input-group" style="max-width: 60%;">
+                        <input type="text" class="form-control" placeholder="Search for birds" name="search">
+                        <button class="btn btn-primary search-button" type="submit">Search</button>
+                    </div>
+                </form>
+                @if ($errors->any())
+                <div>
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
                 </div>
             @endif
-        @endauth
-        @guest
-            <div class="container">
-                    <form action="{{ route('birdlist.search') }}" method="GET" class="mb-3 d-flex justify-content-center">
-                        <div class="input-group" style="max-width: 60%;">
-                            <input type="text" class="form-control" placeholder="Search for birds" name="search">
-                            <button class="btn btn-primary search-button" type="submit">Search</button>
-                        </div>
-                    </form>
+            </div>
+        @endif
+    @endauth
+    @guest
+        <div class="container">
+            <form action="{{ route('birdlist.search') }}" method="GET" class="mb-3 d-flex justify-content-center">
+                <div class="input-group" style="max-width: 60%;">
+                    <input type="text" class="form-control" placeholder="Search for birds" name="search">
+                    <button class="btn btn-primary search-button" type="submit">Search</button>
                 </div>
-        @endguest
-    </header>
+            </form>
+            @if ($errors->any())
+                <div>
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+    @endguest
+</header>
 
     @auth
         @if (auth()->user()->email_verified_at)
@@ -103,11 +117,11 @@
                 </div>
                 @if (auth()->user()->role == 1)
                 <a class="btn btn-transparent-white" href="/adminpanel">Admin Panel</a>
-                @endif
-            </nav>
-        @endif
-    @endauth
-    @guest
+            @endif
+        </nav>
+    @endif
+@endauth
+@guest
     <nav>
         <a class="btn btn-transparent-white" href="/">Home</a>
         <a class="btn btn-transparent-white" href="quizz">Quiz</a>
@@ -141,4 +155,4 @@
             </div>
         </div>
     </nav>
-    @endguest
+@endguest

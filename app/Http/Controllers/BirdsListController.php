@@ -34,34 +34,43 @@ class BirdsListController extends Controller
         $countries = Countries::$countries;
         sort($countries);
 
-        $searchTerms = explode(' ', $search);
+        $validatedData = $request->validate([
+            'search' => ['regex:/^[a-zA-Z0-9\s]+$/', 'max:50'],
+        ], [
+            'search.regex' => 'The search term contains invalid characters.',
+            'search.max' => 'The search term must not exceed 50 characters.',
+        ]);
+
+        $search = $validatedData['search'] ?? '';
+        $searchTerms = array_filter(explode(' ', trim($search)));
+
         $bird_card = Pauksciai::with(['tags.prefix'])
-        ->when($searchTerms, function ($query) use ($searchTerms) {
-            return $query->where(function ($subquery) use ($searchTerms) {
-                foreach ($searchTerms as $term) {
-                    $subquery->where('pavadinimas', 'like', '%' . $term . '%')
-                        ->orWhere('kilme', 'like', '%' . $term . '%')
-                        ->orWhereHas('tags', function ($subquery) use ($term) {
-                            $subquery->where('name', 'like', '%' . $term . '%');
-                        })
-                        ->orWhereHas('tags.prefix', function ($subquery) use ($term) {
-                            $subquery->where('prefix', 'like', '%' . $term . '%');
-                        });
-                }
-            });
-        })
-        ->orderBy('pavadinimas', 'asc')
-        ->get();
+            ->when($searchTerms, function ($query) use ($searchTerms) {
+                return $query->where(function ($subquery) use ($searchTerms) {
+                    foreach ($searchTerms as $term) {
+                        $subquery->where('pavadinimas', 'like', '%' . $term . '%')
+                            ->orWhere('kilme', 'like', '%' . $term . '%')
+                            ->orWhereHas('tags', function ($subquery) use ($term) {
+                                $subquery->where('name', 'like', '%' . $term . '%');
+                            })
+                            ->orWhereHas('tags.prefix', function ($subquery) use ($term) {
+                                $subquery->where('prefix', 'like', '%' . $term . '%');
+                            });
+                    }
+                });
+            })
+            ->orderBy('pavadinimas', 'asc')
+            ->get();
 
         $birds = Pauksciai::with(['tags.prefix'])->get()->each(function ($bird) {
             $bird->tags = $this->sortTags($bird->tags);
         });
-        
+
         $prefixes = Prefix::distinct()->orderBy('prefix')->get();
         $tagies = Tag::whereNotNull('prefix_id')->distinct()->orderBy('name')->get();
         $tagiesNull = Tag::whereNull('prefix_id')->distinct()->orderBy('name')->get();
 
-        
+
         $tags = $this->sortTags(Tag::with('prefix')->get());
         $kilmeValues = Pauksciai::select('kilme')->distinct()->pluck('kilme')->sort();
 
@@ -73,7 +82,7 @@ class BirdsListController extends Controller
             'tags' => $tags,
             'tagies' => $tagies,
             'tagiesNull' => $tagiesNull,
-            'prefixes' => $prefixes
+            'prefixes' => $prefixes,
         ]);
     }
 
