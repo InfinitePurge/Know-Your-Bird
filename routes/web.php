@@ -36,6 +36,7 @@ Route::get('/theme', [ThemeController::class, 'index']);
 Route::get('/birdforms', [BirdFormsController::class, 'index']);
 Route::get('/birdlist', [BirdsListController::class, 'index'])->name('birds.index');
 Route::get('/bird/{pavadinimas}', [BirdsListController::class, 'view'])->name('bird.view');
+Route::get('/birdslist/filter', [BirdsListController::class, 'index'])->name('birdlist.filter');
 
 
 //Contact us

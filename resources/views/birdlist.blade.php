@@ -4,16 +4,20 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js">SHA - 256</script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">SHA - 384</script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js">
+        SHA - 256
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+        SHA - 384
+    </script>
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
-    
+
     <!-- Add Animate.css link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-    
+
 </head>
 
 <body loading="lazy"
@@ -28,57 +32,86 @@
     </div>
 
     {{-- Sidebar code --}}
-    
-<div id="wrapper">
-   <div class="overlay"></div>
-    
-        <!-- Sidebar -->
-     <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
-        <ul class="nav sidebar-nav">
-            <div class="sidebar-header">
-                <div class="sidebar-brand">
-                    <a href="#">Filter</a>
-                </div>
-            </div>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Country <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Dropdown Item 1</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Prefix <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Dropdown Item 1</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tag <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Dropdown Item 1</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">TagNull <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Dropdown Item 1</a></li>
-                </ul>
-            </li>
-            <li><a href="#">Clear filters</a></li>
-        <li><a href="#">Filter</a></li>
-        </ul>
-    </nav>
 
-    <div id="page-content-wrapper">
-        <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
-            <span class="hamb-top"></span>
-            <span class="hamb-middle"></span>
-            <span class="hamb-bottom"></span>
-        </button>
+    <div id="wrapper">
+        <div class="overlay"></div>
+
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
+            <form method="GET" action="{{ route('birdlist.filter') }}" id="filterForm">
+                <ul class="nav sidebar-nav">
+                    <div class="sidebar-header">
+                        <div class="sidebar-brand">
+                            <a href="#">Filter</a>
+                        </div>
+                    </div>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Country</a>
+                        <ul class="dropdown-menu">
+                            @foreach ($countriesWithBirds as $countryWithBird)
+                                <li>
+                                    <a href="#"
+                                        onclick="toggleFilterValue('countries', '{{ $countryWithBird }}', this);">
+                                        {{ $countryWithBird }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <input type="hidden" id="countries" name="countries" value="{{ request('countries', '') }}">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Prefix</a>
+                        <ul class="dropdown-menu">
+                            @foreach ($usedPrefixes as $prefix)
+                                <li>
+                                    <a href="#"
+                                        onclick="toggleFilterValue('prefixes', '{{ $prefix->prefix }}', this);">{{ $prefix->prefix }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <input type="hidden" id="prefixes" name="prefixes" value="{{ request('prefixes', '') }}">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tag</a>
+                        <ul class="dropdown-menu">
+                            @foreach ($usedTagsWithPrefix as $tag)
+                                <li>
+                                    <a href="#"
+                                        onclick="toggleFilterValue('tags', '{{ $tag->name }}', this);">{{ $tag->name }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <input type="hidden" id="tags" name="tags" value="{{ request('tags', '') }}">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">TagNull</a>
+                        <ul class="dropdown-menu">
+                            @foreach ($usedTagsWithNullPrefix as $tagNull)
+                                <li>
+                                    <a href="#"
+                                        onclick="toggleFilterValue('tagNulls', '{{ $tagNull->name }}', this);">{{ $tagNull->name }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <input type="hidden" id="tagNulls" name="tagNulls" value="{{ request('tagNulls', '') }}">
+                    <li><a href="#" onclick="document.getElementById('filterForm').submit();">Apply Filter</a>
+                    </li>
+                    <li><a href="/birdslist/filter?kilme=&prefix=&tag=">Clear Filter</a></li>
+                </ul>
+            </form>
+        </nav>
+
+        <div id="page-content-wrapper">
+            <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
+                <span class="hamb-top"></span>
+                <span class="hamb-middle"></span>
+                <span class="hamb-bottom"></span>
+            </button>
+        </div>
+
     </div>
 
-</div>
-    
     {{-- --}}
 
     <section class="wrapper">
@@ -107,14 +140,14 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label for="birdName" class="form-label">Bird Name</label>
-                                            <input type="text" class="form-control" name="birdName" id="birdName"
-                                                placeholder="Enter bird name" required>
+                                            <input type="text" class="form-control" name="birdName"
+                                                id="birdName" placeholder="Enter bird name" required>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="birdImages" class="form-label">Upload Bird Images</label>
-                                            <input type="file" class="form-control" name="images[]" id="birdImages"
-                                                multiple accept="image/*" required>
+                                            <input type="file" class="form-control" name="images[]"
+                                                id="birdImages" multiple accept="image/*" required>
                                         </div>
 
                                         <div class="mb-3">
@@ -166,36 +199,43 @@
                 <div class="container">
                     <div class="row" style="display: flex; align-items: stretch;">
                         @foreach ($bird_card as $bird)
-                            <div class="col-xs-12 col-sm-4 bird-card"
-                                style="margin-bottom: 7%;">
+                            <div class="col-xs-12 col-sm-4 bird-card" style="margin-bottom: 7%;">
                                 <div class="card" style="height: 100%; display: flex; flex-direction: column;">
                                     <!-- Bootstrap Carousel -->
                                     <div class="img-card">
-                                    <div id="carousel{{ $bird->id }}" class="carousel slide" data-bs-ride="carousel">
-                                        <div class="carousel-inner">
-                                            @php
-                                                $images = explode('|', $bird->image);
-                                            @endphp
-    
-                                            @foreach($images as $index => $image)
-                                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                                    <img src="{{ asset($image) }}" loading="lazy" class="d-block w-100" alt="{{ $bird->pavadinimas }}">
-                                                </div>
-                                            @endforeach
+                                        <div id="carousel{{ $bird->id }}" class="carousel slide"
+                                            data-bs-ride="carousel">
+                                            <div class="carousel-inner">
+                                                @php
+                                                    $images = explode('|', $bird->image);
+                                                @endphp
+
+                                                @foreach ($images as $index => $image)
+                                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                                        <img src="{{ asset($image) }}" loading="lazy"
+                                                            class="d-block w-100" alt="{{ $bird->pavadinimas }}">
+                                                    </div>
+                                                @endforeach
+                                            </div>
+
+                                            @if (count($images) > 1)
+                                                <button class="carousel-control-prev" type="button"
+                                                    data-bs-target="#carousel{{ $bird->id }}"
+                                                    data-bs-slide="prev">
+                                                    <span class="carousel-control-prev-icon"
+                                                        aria-hidden="true"></span>
+                                                    <span class="visually-hidden">Previous</span>
+                                                </button>
+                                                <button class="carousel-control-next" type="button"
+                                                    data-bs-target="#carousel{{ $bird->id }}"
+                                                    data-bs-slide="next">
+                                                    <span class="carousel-control-next-icon"
+                                                        aria-hidden="true"></span>
+                                                    <span class="visually-hidden">Next</span>
+                                                </button>
+                                            @endif
                                         </div>
-                                    
-                                        @if(count($images) > 1)
-                                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ $bird->id }}" data-bs-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Previous</span>
-                                            </button>
-                                            <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ $bird->id }}" data-bs-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Next</span>
-                                            </button>
-                                        @endif
                                     </div>
-                                </div>
                                     <!-- Card Content -->
                                     <div class="card-content" style="flex: 1;">
                                         <h4 class="card-title">
@@ -237,7 +277,7 @@
             </div>
         </div>
     </section>
-    
+
 
 
     <div class="container">
@@ -341,6 +381,22 @@
     @endforeach
     {{-- EDIT BUTTON MODAL END --}}
     <x-footer></x-footer>
+    <script>
+        function toggleFilterValue(filterName, value, element) {
+            var input = document.getElementById(filterName);
+            var currentValues = input.value ? input.value.split(',') : [];
+            var valueIndex = currentValues.indexOf(value);
+
+            if (valueIndex === -1) {
+                currentValues.push(value); // Add the value if not present
+            } else {
+                currentValues.splice(valueIndex, 1); // Remove the value if already present
+            }
+
+            input.value = currentValues.join(','); // Update the hidden input value
+            element.classList.toggle('selected'); // Optional: for visual feedback
+        }
+    </script>
 </body>
 
 </html>
