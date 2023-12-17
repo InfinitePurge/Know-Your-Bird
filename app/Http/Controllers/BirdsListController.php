@@ -93,7 +93,7 @@ class BirdsListController extends Controller
             });
         }
 
-        $bird_card = $bird_card_query->orderBy('pavadinimas', 'asc')->get();
+        $bird_card = $bird_card_query->orderBy('pavadinimas', 'asc')->paginate(15);
 
         // Get prefixes that are used by at least one bird
         $usedPrefixes = Prefix::whereHas('tags', function ($query) {

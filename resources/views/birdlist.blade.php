@@ -278,19 +278,70 @@
         </div>
     </section>
 
+    @if ($bird_card->hasPages())
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <div class="pagination">
+                    <ul>
+                        @php
+                            $queryParameters = request()->query();
+                            unset($queryParameters['page']);
+                            $queryParameters = http_build_query($queryParameters);
+                        @endphp
 
+                        {{-- Previous Page Link --}}
+                        @if ($bird_card->onFirstPage())
+                            <li class="prev disabled"><a href="#">◄</a></li>
+                        @else
+                            <li class="prev"><a
+                                    href="{{ $bird_card->previousPageUrl() . (parse_url($bird_card->previousPageUrl(), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">◄</a>
+                            </li>
+                        @endif
 
-    <div class="container">
-        <div class="d-flex justify-content-center">
-            <div class="pagination">
-                <ul>
-                    <li class="prev"><a href="">◄</a></li>
-                    <li class="next"><a href="">►</a></li>
-                </ul>
+                        {{-- First Page Link --}}
+                        @if ($bird_card->currentPage() != 1)
+                            <li><a
+                                    href="{{ $bird_card->url(1) . (parse_url($bird_card->url(1), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">1</a>
+                            </li>
+                        @endif
+
+                        {{-- Four Pages Before Current Page --}}
+                        @for ($i = max($bird_card->currentPage() - 4, 2); $i < $bird_card->currentPage(); $i++)
+                            <li><a
+                                    href="{{ $bird_card->url($i) . (parse_url($bird_card->url($i), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">{{ $i }}</a>
+                            </li>
+                        @endfor
+
+                        {{-- Current Page --}}
+                        <li class="active"><a href="#">{{ $bird_card->currentPage() }}</a></li>
+
+                        {{-- Four Pages After Current Page --}}
+                        @for ($i = $bird_card->currentPage() + 1; $i <= min($bird_card->currentPage() + 4, $bird_card->lastPage() - 1); $i++)
+                            <li><a
+                                    href="{{ $bird_card->url($i) . (parse_url($bird_card->url($i), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">{{ $i }}</a>
+                            </li>
+                        @endfor
+
+                        {{-- Last Page Link --}}
+                        @if ($bird_card->currentPage() < $bird_card->lastPage())
+                            <li><a
+                                    href="{{ $bird_card->url($bird_card->lastPage()) . (parse_url($bird_card->url($bird_card->lastPage()), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">{{ $bird_card->lastPage() }}</a>
+                            </li>
+                        @endif
+
+                        {{-- Next Page Link --}}
+                        @if ($bird_card->hasMorePages())
+                            <li class="next"><a
+                                    href="{{ $bird_card->nextPageUrl() . (parse_url($bird_card->nextPageUrl(), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">►</a>
+                            </li>
+                        @else
+                            <li class="next disabled"><a href="#">►</a></li>
+                        @endif
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-
+    @endif
 
 
     {{-- EDIT BUTTON MODAL --}}
