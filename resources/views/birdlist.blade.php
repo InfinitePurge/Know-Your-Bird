@@ -3,6 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js">
         SHA - 256
@@ -11,6 +12,7 @@
         SHA - 384
     </script>
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
+    need to import js file for this page
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
 
@@ -26,6 +28,7 @@
     <x-custom-header></x-custom-header>
     <script src="{{ asset('jasonas/jasonas.js') }}"></script>
     <script src="{{ asset('jasonas/loading.js') }}"></script>
+    <script src="{{ asset('jasonas/add_edit_birdlist.js') }}"></script>
 
     <div id="wrapper">
         <div class="overlay"></div>
@@ -152,9 +155,14 @@
 
                                         <div class="mb-3">
                                             <label for="birdImages" class="form-label">Upload Bird Images</label>
+                                            <!-- The file input retains its original 'form-control' class for styling -->
                                             <input type="file" class="form-control" name="images[]"
-                                                id="birdImages" multiple accept="image/*" required>
+                                                id="birdImages" multiple accept="image/*"
+                                                onchange="handleFiles(this.files)">
+                                            <!-- Div to display file names and replace/remove buttons -->
+                                            <div id="file-list" class="file-list"></div>
                                         </div>
+
 
                                         <div class="mb-3">
                                             <label for="birdContinent" class="form-label">Bird Country</label>
@@ -188,7 +196,8 @@
                                             <textarea class="form-control" name="birdMiniText" id="birdMiniText" rows="3"
                                                 placeholder="Enter mini text about the bird"></textarea>
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Add Bird</button>
+                                        <button type="submit" onclick="submitForm()" class="btn btn-primary">Add
+                                            Bird</button>
                                     </form>
                                 </div>
                             </div>
@@ -284,72 +293,72 @@
         </div>
     </section>
 
-   @if ($bird_card->hasPages())
-    <div class="container">
-        <div class="d-flex justify-content-center">
-            <div class="pagination">
-                <ul>
-                    @php
-                        $queryParameters = request()->query();
-                        unset($queryParameters['page']);
-                        $queryParameters = http_build_query($queryParameters);
-                        $totalPages = $bird_card->lastPage();
-                        $currentPage = $bird_card->currentPage();
-                        $visiblePages = 8; // Number of pages to display
-                        $halfVisible = floor($visiblePages / 2);
-                        $startPage = max(1, $currentPage - $halfVisible);
-                        $endPage = min($totalPages, $startPage + $visiblePages - 1);
-                    @endphp
+    @if ($bird_card->hasPages())
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <div class="pagination">
+                    <ul>
+                        @php
+                            $queryParameters = request()->query();
+                            unset($queryParameters['page']);
+                            $queryParameters = http_build_query($queryParameters);
+                            $totalPages = $bird_card->lastPage();
+                            $currentPage = $bird_card->currentPage();
+                            $visiblePages = 8; // Number of pages to display
+                            $halfVisible = floor($visiblePages / 2);
+                            $startPage = max(1, $currentPage - $halfVisible);
+                            $endPage = min($totalPages, $startPage + $visiblePages - 1);
+                        @endphp
 
-                    {{-- Previous Page Link --}}
-                    @if ($bird_card->onFirstPage())
-                        <li class="prev disabled"><a href="javascript:void(0)">◄</a></li>
-                    @else
-                        <li class="prev"><a
-                                href="{{ $bird_card->previousPageUrl() . (parse_url($bird_card->previousPageUrl(), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">◄</a>
-                        </li>
-                    @endif
-
-                    {{-- First Page Link --}}
-                    @if ($startPage > 1)
-                        <li><a
-                                href="{{ $bird_card->url(1) . (parse_url($bird_card->url(1), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">1</a>
-                        </li>
-                        @if ($startPage > 2)
-                            <li><a>...</a></li>
+                        {{-- Previous Page Link --}}
+                        @if ($bird_card->onFirstPage())
+                            <li class="prev disabled"><a href="javascript:void(0)">◄</a></li>
+                        @else
+                            <li class="prev"><a
+                                    href="{{ $bird_card->previousPageUrl() . (parse_url($bird_card->previousPageUrl(), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">◄</a>
+                            </li>
                         @endif
-                    @endif
 
-                    {{-- Page Numbers --}}
-                    @for ($i = $startPage; $i <= $endPage; $i++)
-                        <li @if ($i == $currentPage) class="active" @endif><a
-                                href="{{ $bird_card->url($i) . (parse_url($bird_card->url($i), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">{{ $i }}</a>
-                        </li>
-                    @endfor
-
-                    {{-- Last Page Link --}}
-                    @if ($endPage < $totalPages)
-                        @if ($endPage < $totalPages - 1)
-                            <li><a>...</a></li>
+                        {{-- First Page Link --}}
+                        @if ($startPage > 1)
+                            <li><a
+                                    href="{{ $bird_card->url(1) . (parse_url($bird_card->url(1), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">1</a>
+                            </li>
+                            @if ($startPage > 2)
+                                <li><a>...</a></li>
+                            @endif
                         @endif
-                        <li><a
-                                href="{{ $bird_card->url($totalPages) . (parse_url($bird_card->url($totalPages), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">{{ $totalPages }}</a>
-                        </li>
-                    @endif
 
-                    {{-- Next Page Link --}}
-                    @if ($bird_card->hasMorePages())
-                        <li class="next"><a
-                                href="{{ $bird_card->nextPageUrl() . (parse_url($bird_card->nextPageUrl(), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">►</a>
-                        </li>
-                    @else
-                        <li class="next disabled"><a href="javascript:void(0)">►</a></li>
-                    @endif
-                </ul>
+                        {{-- Page Numbers --}}
+                        @for ($i = $startPage; $i <= $endPage; $i++)
+                            <li @if ($i == $currentPage) class="active" @endif><a
+                                    href="{{ $bird_card->url($i) . (parse_url($bird_card->url($i), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">{{ $i }}</a>
+                            </li>
+                        @endfor
+
+                        {{-- Last Page Link --}}
+                        @if ($endPage < $totalPages)
+                            @if ($endPage < $totalPages - 1)
+                                <li><a>...</a></li>
+                            @endif
+                            <li><a
+                                    href="{{ $bird_card->url($totalPages) . (parse_url($bird_card->url($totalPages), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">{{ $totalPages }}</a>
+                            </li>
+                        @endif
+
+                        {{-- Next Page Link --}}
+                        @if ($bird_card->hasMorePages())
+                            <li class="next"><a
+                                    href="{{ $bird_card->nextPageUrl() . (parse_url($bird_card->nextPageUrl(), PHP_URL_QUERY) ? '&' : '?') . $queryParameters }}">►</a>
+                            </li>
+                        @else
+                            <li class="next disabled"><a href="javascript:void(0)">►</a></li>
+                        @endif
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-@endif
+    @endif
 
 
 
@@ -444,7 +453,7 @@
     {{-- EDIT BUTTON MODAL END --}}
     <x-footer></x-footer>
     <script>
-       window.onload = function () {
+        window.onload = function() {
             createFilterTags('countries');
             createFilterTags('prefixes');
             createFilterTags('tags');
@@ -510,7 +519,8 @@
                 filterTag.innerHTML = '';
 
                 for (var i = 0; i < currentValues.length; i++) {
-                    filterTag.innerHTML += '<a>' + currentValues[i] + '</a><span class="close-btn" onclick="removeFilterTag(\'' +
+                    filterTag.innerHTML += '<a>' + currentValues[i] +
+                        '</a><span class="close-btn" onclick="removeFilterTag(\'' +
                         filterTagId + '\', \'' + currentValues[i] + '\')">x</span>';
                 }
             } else {

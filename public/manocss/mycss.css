@@ -879,3 +879,38 @@ a {
   -webkit-transform: translate3d(-100px,0,0);
   -webkit-transition: all .35s ease-in-out;
 }
+
+.file-list {
+    margin-top: 10px;
+    /* Additional styles here */
+}
+
+.file-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.file-name {
+    flex-grow: 1;
+    margin-right: 10px; /* Adjust spacing between text and buttons */
+}
+
+.file-actions {
+    display: flex;
+    align-items: center;
+}
+
+.replace-btn {
+    /* Style for replace button */
+}
+
+.remove-btn {
+    /* Style for remove button */
+    margin-left: 10px; /* Adjust spacing between buttons */
+}

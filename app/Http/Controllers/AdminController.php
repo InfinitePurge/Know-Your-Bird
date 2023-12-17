@@ -62,16 +62,20 @@ class AdminController extends Controller
     public function addBird(Request $request)
     {
         // Validate the form data
-        // Updated validation rules to handle multiple images
         $validator = Validator::make($request->all(), [
             'birdName' => 'required|string|unique:pauksciai,pavadinimas',
-            'images' => 'required', // Updated to handle multiple images
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for each image
+            'images' => 'required',
+            'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
             'birdContinent' => 'required|string',
             'birdMiniText' => 'required|string',
         ]);
 
         if ($validator->fails()) {
+            // Check if the request expects a JSON response (common for AJAX requests)
+            if ($request->expectsJson()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+            // For regular requests, redirect with validation errors
             return redirect()->to('/birdlist')
                 ->withErrors($validator)
                 ->withInput()
@@ -97,7 +101,8 @@ class AdminController extends Controller
             $bird->tags()->sync($tags);
         }
 
-        return redirect()->back()->with('success', 'Bird added successfully.');
+        // Return a JSON response for successful AJAX requests
+        return response()->json(['success' => 'Bird added successfully.', 'birdId' => $bird->id]);
     }
 
     // Edit bird in Birdlist page
