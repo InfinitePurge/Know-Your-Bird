@@ -566,25 +566,30 @@ a {
 }
 
 
-.filter-tag {
-    display: inline-block;
-    margin: 5px;
-    padding: 5px 10px;
-    background: linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0.8869922969187675) 20%,
-        rgba(5, 156, 156, 1) 100%
-    );
-    border-radius: 20px;
-}
+.filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px; /* Adjust the gap as needed */
+            margin-bottom: 10px; /* Adjust margin as needed */
+        }
 
-.close-filter {
-    margin-left: 10px;
-    color: red;
-    cursor: pointer;
-    border: none;
-    background: none;
-}
+        .filter-tag {
+            display: flex;
+            -webkit-text-fill-color: #000;
+            align-items: center;
+            background-color: #6e6e6e;
+            padding: 5px 8px;
+            border-radius: 4px;
+            margin-right: 8px; /* Adjust margin as needed */
+        }
+
+        .filter-tag a {
+            margin-right: 5px; /* Adjust margin as needed */
+        }
+
+        .close-btn {
+            cursor: pointer;
+        }
 
 #wrapper {
     padding-left: 0;
