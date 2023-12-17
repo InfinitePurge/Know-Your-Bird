@@ -1,7 +1,7 @@
 <x-guest-layout>
     <link href="{{ asset('manocss/loginreg.css') }}" rel="stylesheet">
     <div class="login-form">
-        <div class="mb-4 text-xl text-green-600">
+        <div class="mb-4 text-xl text-black-600">
             {{ __('Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
         </div>
 
@@ -23,7 +23,7 @@
         </div>
         <div class="text-center">
             <a href="{{ route('profile.show') }}"
-                class="underline text-sm text-green-600 hover:text-green-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                class="underline text-sm text-black-600 hover:text-green-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 {{ __('Edit Profile') }}
             </a>
         </div>
@@ -31,13 +31,13 @@
             <form method="POST" action="{{ route('logout') }}" class="inline" style="margin-right: 2%">
                 @csrf
                 <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
-                    class="underline text-sm text-green-600 hover:text-green-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-2">
+                    class="underline text-sm text-black-600 hover:text-green-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-2">
                     {{ __('Log Out') }}
                 </a>
             </form>
         <div class="text-center">
         <a href="/"
-            class="underline text-sm text-green-600 hover:text-green-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Home</a>
+            class="underline text-sm text-black-600 hover:text-green-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Home</a>
     </div>
     </div>
     </div>

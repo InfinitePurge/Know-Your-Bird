@@ -27,12 +27,6 @@
     <script src="{{ asset('jasonas/jasonas.js') }}"></script>
     <script src="{{ asset('jasonas/loading.js') }}"></script>
 
-    <div class="loading-overlay">
-        <div class="loading-spinner"></div>
-    </div>
-
-    {{-- Sidebar code --}}
-
     <div id="wrapper">
         <div class="overlay"></div>
 
@@ -45,6 +39,7 @@
                             <a href="#">Filter</a>
                         </div>
                     </div>
+                    <!-- Country Filter -->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Country</a>
                         <ul class="dropdown-menu">
@@ -59,6 +54,8 @@
                         </ul>
                     </li>
                     <input type="hidden" id="countries" name="countries" value="{{ request('countries', '') }}">
+
+                    <!-- Prefix Filter -->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Prefix</a>
                         <ul class="dropdown-menu">
@@ -71,6 +68,8 @@
                         </ul>
                     </li>
                     <input type="hidden" id="prefixes" name="prefixes" value="{{ request('prefixes', '') }}">
+
+                    <!-- Tag Filter -->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tag</a>
                         <ul class="dropdown-menu">
@@ -83,6 +82,8 @@
                         </ul>
                     </li>
                     <input type="hidden" id="tags" name="tags" value="{{ request('tags', '') }}">
+
+                    <!-- TagNull Filter -->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">TagNull</a>
                         <ul class="dropdown-menu">
@@ -95,9 +96,11 @@
                         </ul>
                     </li>
                     <input type="hidden" id="tagNulls" name="tagNulls" value="{{ request('tagNulls', '') }}">
+
                     <li><a href="#" onclick="document.getElementById('filterForm').submit();">Apply Filter</a>
                     </li>
-                    <li><a href="/birdslist/filter?kilme=&prefix=&tag=">Clear Filter</a></li>
+                    <li><a href="{{ route('birdlist.filter') }}">Clear Filter</a></li>
+                    <div id="filter-tags" class="filter-tags"> </div>
                 </ul>
             </form>
         </nav>
@@ -109,6 +112,9 @@
                 <span class="hamb-bottom"></span>
             </button>
         </div>
+
+        <!-- Filter Tags Display -->
+
 
     </div>
 
@@ -433,9 +439,39 @@
     {{-- EDIT BUTTON MODAL END --}}
     <x-footer></x-footer>
     <script>
+       window.onload = function () {
+            createFilterTags('countries');
+            createFilterTags('prefixes');
+            createFilterTags('tags');
+            createFilterTags('tagNulls');
+        };
+
+        function createFilterTags(filterName) {
+            var input = document.getElementById(filterName);
+            var values = input.value ? input.value.split(',') : [];
+
+            // Check if values are present before creating the filter tag div
+            if (values.length > 0) {
+                var filterTagId = filterName + '-filter-tag';
+                var filterTagsContainer = document.getElementById('filter-tags');
+                var filterTag = document.createElement('div');
+                filterTag.id = filterTagId;
+                filterTag.className = 'filter-tag';
+
+                for (var i = 0; i < values.length; i++) {
+                    filterTag.innerHTML += '<a>' + values[i] + '</a><span class="close-btn" onclick="removeFilterTag(\'' +
+                        filterTagId + '\', \'' + values[i] + '\')">x</span>';
+                }
+
+                filterTagsContainer.appendChild(filterTag);
+            }
+        }
+
         function toggleFilterValue(filterName, value, element) {
             var input = document.getElementById(filterName);
             var currentValues = input.value ? input.value.split(',') : [];
+
+            // Check if the value is already selected
             var valueIndex = currentValues.indexOf(value);
 
             if (valueIndex === -1) {
@@ -446,8 +482,54 @@
 
             input.value = currentValues.join(','); // Update the hidden input value
             element.classList.toggle('selected'); // Optional: for visual feedback
+
+            // Update the filter tag
+            updateFilterTag(filterName, value, currentValues);
+        }
+
+        function updateFilterTag(filterName, value, currentValues) {
+            var filterTagId = filterName + '-filter-tag';
+            var filterTagName = value;
+            var filterTag = document.getElementById(filterTagId);
+
+            if (!filterTag) {
+                // Create filter tag element if not present
+                filterTag = document.createElement('div');
+                filterTag.id = filterTagId;
+                filterTag.className = 'filter-tag';
+                document.getElementById('filter-tags').appendChild(filterTag);
+            }
+
+            // Check if values are present before updating the filter tag div
+            if (currentValues.length > 0) {
+                filterTag.innerHTML = '';
+
+                for (var i = 0; i < currentValues.length; i++) {
+                    filterTag.innerHTML += '<a>' + currentValues[i] + '</a><span class="close-btn" onclick="removeFilterTag(\'' +
+                        filterTagId + '\', \'' + currentValues[i] + '\')">x</span>';
+                }
+            } else {
+                // Remove the filter tag div if no values are present
+                filterTag.parentNode.removeChild(filterTag);
+            }
+        }
+
+        function removeFilterTag(filterTagId, value) {
+            // Remove the value from the hidden input
+            var input = document.getElementById(filterTagId.replace('-filter-tag', ''));
+            var currentValues = input.value ? input.value.split(',') : [];
+            var valueIndex = currentValues.indexOf(value);
+
+            if (valueIndex !== -1) {
+                currentValues.splice(valueIndex, 1);
+                input.value = currentValues.join(','); // Update the hidden input value
+            }
+
+            // Update the filter tag
+            updateFilterTag(filterTagId.replace('-filter-tag', ''), value, currentValues);
         }
     </script>
+
 </body>
 
 </html>

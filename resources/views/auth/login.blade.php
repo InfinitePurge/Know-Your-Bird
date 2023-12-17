@@ -38,7 +38,7 @@
                 <div class="block mt-4">
                     <label for="remember_me" class="flex items-center">
                         <x-checkbox id="remember_me" name="remember" />
-                        <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                        <span class="ms-2 text-sm text-black-600">{{ __('Remember me') }}</span>
                     </label>
                 </div>
                 <button>{{ __('Log in') }}</button>
