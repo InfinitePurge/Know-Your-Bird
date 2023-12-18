@@ -12,7 +12,6 @@
         SHA - 384
     </script>
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
-    need to import js file for this page
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
 

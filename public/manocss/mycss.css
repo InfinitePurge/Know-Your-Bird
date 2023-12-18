@@ -632,10 +632,12 @@ a {
 }
 
 #page-content-wrapper {
+    position: fixed;
     width: 100%;
     padding-top: 70px;
     transition: all 0.5s ease;
     text-align: center;
+    z-index: 1100; /* Set a higher z-index value */
 }
 
 #wrapper.toggled #page-content-wrapper {
