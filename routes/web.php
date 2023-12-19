@@ -30,7 +30,7 @@ Route::get('/', function () {
 Route::get('/birdlist/search', [BirdsListController::class, 'index'])->name('birdlist.search');
 Route::get('/history', [HistoryController::class, 'index']);
 Route::get('/quizz', [QuizzController::class, 'index']);
-Route::get('/theme', [ThemeController::class, 'index']);
+Route::get('/theme', [QuizzController::class, 'theme']);
 Route::get('/birdforms', [BirdFormsController::class, 'index']);
 Route::get('/birdlist', [BirdsListController::class, 'index'])->name('birds.index');
 Route::get('/bird/{pavadinimas}', [BirdsListController::class, 'view'])->name('bird.view');

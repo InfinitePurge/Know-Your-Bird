@@ -12,13 +12,9 @@
     <button class="home-button buttonhome" onclick="window.location.href='/'">&#8962; Home</button>
 
     <div class="button-container">
-        <button class="buttons buttonhome" onclick="window.location.href='/quizz'">Theme 1</button>
-        <button class="buttons buttonhome">Theme 2</button>
-        <button class="buttons buttonhome">Theme 3</button>
-        <button class="buttons buttonhome">Theme 4</button>
-        <button class="buttons buttonhome">Theme 5</button>
-        <button class="buttons buttonhome">Theme 6</button>
-        <button class="buttons buttonhome">Theme 7</button>
+        @foreach ($quizzes as $quiz)
+            <button class="buttons buttonhome" onclick="window.location.href='/quizz'">{{ $quiz->title}}</button>
+        @endforeach
     </div>
 
     @guest
