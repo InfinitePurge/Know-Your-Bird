@@ -12,7 +12,6 @@
         SHA - 384
     </script>
     <link href="{{ asset('manocss/mycss.css') }}" rel="stylesheet">
-    need to import js file for this page
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
 
@@ -99,6 +98,10 @@
                         </ul>
                     </li>
                     <input type="hidden" id="tagNulls" name="tagNulls" value="{{ request('tagNulls', '') }}">
+
+                    @foreach (request()->except(['filter', 'page']) as $filter => $value)
+                        <input type="hidden" name="{{ $filter }}" value="{{ $value }}">
+                    @endforeach
 
                     <li><a href="#" onclick="document.getElementById('filterForm').submit();">Apply Filter</a>
                     </li>

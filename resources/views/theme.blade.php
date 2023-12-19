@@ -23,7 +23,7 @@
 
     
        <div class="box">
-        <a href="#m3-o" class="link-1" id="m3-c" style="display: none;"></a> <!-- Hidden link -->
+        <a href="#m3-o" class="link-1" id="m3-c" style="display: none;"></a>
 
         <div class="modal-container" id="m3-o" style="--m-background: var(--global-background);">
             <div class="modal" style="--m-shadow: 0 0 10rem 0">
