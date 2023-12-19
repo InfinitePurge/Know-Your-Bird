@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Quiz;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\SeedManager;
 use Database\Factories\AnswerFactory;
@@ -19,11 +21,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UsersTableSeeder::class,
             PauksciaiTableSeeder::class,
-            QuestionTableSeeder::class,
-            AnswerTableSeeder::class,
+            // QuestionTableSeeder::class,
+            // AnswerTableSeeder::class,
+            QuizTableSeeder::class,
             PrefixTableSeeder::class,
             TagTableSeeder::class,
-            // UserAnswersTableSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();

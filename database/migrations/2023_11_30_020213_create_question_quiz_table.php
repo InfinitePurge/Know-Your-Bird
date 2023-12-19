@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions_tags', function (Blueprint $table) {
+        Schema::create('question_quiz', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('question_id');
-            $table->unsignedBigInteger('tag_id');
+            $table->unsignedBigInteger('quiz_id');
             $table->timestamps();
 
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
-            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions_tags');
+        Schema::dropIfExists('question_quiz');
     }
 };

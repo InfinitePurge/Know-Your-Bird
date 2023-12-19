@@ -11,7 +11,6 @@ use App\Http\Controllers\contact_usController;
 use App\Http\Controllers\tagController;
 use App\Http\Controllers\QuizzController;
 use App\Http\Controllers\ThemeController;
-use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\ManageUsers;
 
 /*
@@ -28,7 +27,6 @@ use App\Http\Controllers\ManageUsers;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/adminpanel', [AdminPanelController::class, 'index']);
 Route::get('/birdlist/search', [BirdsListController::class, 'index'])->name('birdlist.search');
 Route::get('/history', [HistoryController::class, 'index']);
 Route::get('/quizz', [QuizzController::class, 'index']);

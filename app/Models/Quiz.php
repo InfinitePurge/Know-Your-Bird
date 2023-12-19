@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class Quiz extends Model
 {
     use HasFactory;
 
-    protected $table = 'questions';
-    protected $fillable = ['question', 'image', 'created_by', 'edited_by'];
+    protected $table = 'quizzes';
+    protected $fillable = ['title', 'created_by', 'edited_by'];
 
     public function creator()
     {
@@ -20,5 +20,10 @@ class Question extends Model
     public function editor()
     {
         return $this->belongsTo(User::class, 'edited_by', 'id');
+    }
+
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class, 'question_quiz');
     }
 }
