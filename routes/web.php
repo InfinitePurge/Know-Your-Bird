@@ -29,12 +29,16 @@ Route::get('/', function () {
 });
 Route::get('/birdlist/search', [BirdsListController::class, 'index'])->name('birdlist.search');
 Route::get('/history', [HistoryController::class, 'index']);
-Route::get('/quizz', [QuizzController::class, 'index']);
-Route::get('/theme', [QuizzController::class, 'theme']);
 Route::get('/birdforms', [BirdFormsController::class, 'index']);
 Route::get('/birdlist', [BirdsListController::class, 'index'])->name('birds.index');
 Route::get('/bird/{pavadinimas}', [BirdsListController::class, 'view'])->name('bird.view');
 Route::get('/birdlist/filter', [BirdsListController::class, 'index'])->name('birdlist.filter');
+
+// Quiz routes
+Route::get('/theme', [QuizzController::class, 'theme'])->name('theme');
+Route::get('/quizz/{title}', [QuizzController::class, 'index'])->name('quiz');
+Route::post('/answer/{title}', [QuizzController::class, 'answerQuestion'])->name('answer');
+Route::post('/reset-theme/{title}', [QuizzController::class, 'resetTheme'])->name('resetTheme');
 
 
 //Contact us

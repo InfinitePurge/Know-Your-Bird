@@ -1,31 +1,51 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-<title>Quiz</title>
-<link href="{{ asset('manocss/quizz.css') }}" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $theme->title }} Quiz</title>
+    <link href="{{ asset('manocss/quizz.css') }}" rel="stylesheet">
 </head>
+
 <body>
 
-<a href="theme" class="home-button"><i class="fas fa-home"></i></a>
+    <a href="{{ route('theme') }}" class="home-button"><i class="fas fa-home"></i></a>
 
-<div class="container">
-  <div class="header">Question</div>
-<div class="image-container">
+    <div class="container">
+        @if (isset($question))
+            <div class="header">{{ $question->question }}</div>
+            <div class="image-container">
+                <img src="{{ $question->image_url }}" alt="Error on loading image" style="max-width:100%;height:auto;">
+            </div>
+            <div class="buttons">
+                @foreach ($question->answers as $answer)
+                <form method="post" action="{{ route('answer', ['title' => $theme->title]) }}">
+                        @csrf
+                        <input type="hidden" name="answer_id" value="{{ $answer->id }}">
+                        <button type="submit" class="quiz-button green">{{ $answer->AnswerText }} {{$answer->isCorrect}}</button>
+                    </form>
+                @endforeach
+            </div>
+        @else
+            <p>No questions available for this quiz.</p>
+        @endif
 
-  <img src="" alt="Error on loading image" style="max-width:100%;height:auto;">
-</div>
-  <div class="buttons">
-    <button class="quiz-button green">Answer A</button>
-    <button class="quiz-button red">Answer B</button>
-    <button class="quiz-button yellow">Answer C</button>
-    <button class="quiz-button blue">Answer D</button>
-  </div>
-</div>
+        @if (isset($isCorrect))
+            <div class="feedback">
+                @if ($isCorrect)
+                    <p class="correct">Correct! Well done.</p>
+                @else
+                    <p class="incorrect">Incorrect. Try again!</p>
+                @endif
+            </div>
+        @endif
+
+        @if (!isset($question) && !isset($isCorrect))
+            <p>Congratulations! You've completed the quiz.</p>
+        @endif
+    </div>
 
 </body>
+
 </html>
