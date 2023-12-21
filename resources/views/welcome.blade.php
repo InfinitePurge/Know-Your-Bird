@@ -9,7 +9,7 @@
 </head>
 
 <body
-    style="background-image: url('images/b2.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; color: white;">
+    style="background-image: url('images/b2.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
     <x-custom-header></x-custom-header>
     <script src="{{ asset('jasonas/loading.js') }}"></script>
 

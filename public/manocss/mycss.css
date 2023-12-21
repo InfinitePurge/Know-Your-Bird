@@ -5,17 +5,16 @@ body {
     padding: 0;
 }
 
-header {
-    background: linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0.8869922969187675) 20%,
-        rgba(3, 177, 177, 1) 100%
-    );
-    color: #fff;
-    /* Set text color to white */
-    padding: 20px;
-    text-align: center;
-}
+ header {
+            background: linear-gradient(
+                90deg,
+                rgba(0, 0, 0, 0.8869922969187675) 20%,
+                rgba(3, 177, 177, 0.9) 100%
+            );
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
 
 h1 {
     font-size: 36px;
@@ -24,8 +23,8 @@ h1 {
 nav {
     background: linear-gradient(
         90deg,
-        rgba(0, 0, 0, 0.8869922969187675) 20%,
-        rgba(5, 156, 156, 1) 100%
+        rgba(0, 0, 0, 0.9) 20%,
+        rgba(5, 156, 156, 0.9) 100%
     );
     color: #fff;
     text-align: center;
@@ -262,8 +261,8 @@ footer {
     width: 100%;
     background: linear-gradient(
         0deg,
-        rgba(0, 0, 0, 0.9206057422969187) 26%,
-        rgb(150, 149, 149) 100%
+        rgba(0, 0, 0, 0.9206057422969187) 20%,
+        rgba(150, 149, 149, 0.5) 100%
     );
     color: white;
     padding: 20px;
@@ -730,7 +729,7 @@ a {
     background: linear-gradient(
         90deg,
         rgba(0, 0, 0, 0.8869922969187675) 20%,
-        rgba(5, 156, 156, 1) 100%
+        rgb(4, 109, 109) 100%
     );
    padding-top: 1em;
 }
@@ -916,3 +915,26 @@ a {
     /* Style for remove button */
     margin-left: 10px; /* Adjust spacing between buttons */
 }
+
+        .btn-delete,
+        .btn-edit {
+            padding: 5px 10px;
+            background-color: transparent; /* Set the background to transparent */
+            color: #3f3e3e; /* Bootstrap's btn-danger text color */
+            border: none;
+            cursor: pointer;
+            font-size: 20px; /* Adjust font size as needed */
+        }
+
+        .btn-delete:hover,
+        .btn-edit:hover {
+            background-color: #f81024; /* Bootstrap's btn-danger hover background color (optional) */
+        }
+
+        .btn-edit {
+            color: #ffc107; /* Bootstrap's btn-warning text color */
+        }
+
+        .btn-edit:hover {
+            background-color: #f1bc1a; /* Bootstrap's btn-warning hover background color (optional) */
+        }
