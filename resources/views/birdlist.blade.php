@@ -38,7 +38,7 @@
                 <ul class="nav sidebar-nav">
                     <div class="sidebar-header">
                         <div class="sidebar-brand">
-                            <a href="#">Filter</a>
+                            <a>Filter</a>
                         </div>
                     </div>
                     <!-- Country Filter -->
@@ -263,25 +263,21 @@
                                         @endforeach
                                         <p class="text-overflow-clamp"> {!! $bird->aprasymas !!} </p>
                                     </div>
-                                    <div class="card-read-more">
-                                        <!-- Buttons for delete, view, and edit -->
-                                        <!-- Add your buttons for delete, view, and edit here -->
-                                        @if (auth()->check() && auth()->user()->role == 1)
-                                            <form action="{{ route('admin.bird.delete', ['id' => $bird->id]) }}"
-                                                method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-delete"
-                                                    data-action="delete">Delete</button>
-                                            </form>
+                                    @if (auth()->check() && auth()->user()->role == 1)
+                                    <form action="{{ route('admin.bird.delete', ['id' => $bird->id]) }}" method="POST"
+                                        style="position: absolute; top: 0; right: 0;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-delete" data-action="delete">&#10006;</button>
+                                    </form>
+                                @endif
+                                @if (auth()->check() && auth()->user()->role == 1)
+                                 <button class="btn btn-warning btn-edit" data-action="edit" style="position: absolute; top: 0; left: 0;"
+                                        data-bs-toggle="modal" data-bs-target="#editBirdModal_{{ $bird->id }}">&#9998;</button>
                                         @endif
+                                    <div class="card-read-more">
                                         <a
                                             href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">View</a>
-                                        @if (auth()->check() && auth()->user()->role == 1)
-                                            <button href="#" class="btn btn-warning btn-edit"
-                                                data-action="edit" data-bs-toggle="modal"
-                                                data-bs-target="#editBirdModal_{{ $bird->id }}">Edit</button>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
