@@ -12,7 +12,7 @@
         <form method="post" action="{{ route('resetTheme', ['title' => $theme->title]) }}">
             @csrf
             <button onclick="window.location.href='{{ route('resetTheme', ['title' => $theme->title]) }}'">
-                Reset Theme
+                Back to theme
             </button>
         </form>
     </div>

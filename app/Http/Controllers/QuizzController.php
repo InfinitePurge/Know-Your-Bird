@@ -30,7 +30,7 @@ class QuizzController extends Controller
         $questionIndex = $request->session()->get('questionIndex', 0);
 
         if ($questionIndex >= count($questions)) {
-            return response()->json(['message' => 'Quiz completed'], 200);
+            return view('quiz_completed', compact('theme'));
         }
 
         $question = $questions[$questionIndex];
@@ -53,7 +53,7 @@ class QuizzController extends Controller
 
         $request->session()->forget('questionIndex');
 
-        return redirect()->route('quiz', ['title' => $title]);
+        return redirect()->route('theme', ['title' => $theme->title]);
     }
 
     public function theme()
