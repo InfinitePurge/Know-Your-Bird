@@ -99,10 +99,6 @@
                     </li>
                     <input type="hidden" id="tagNulls" name="tagNulls" value="{{ request('tagNulls', '') }}">
 
-                    @foreach (request()->except(['filter', 'page']) as $filter => $value)
-                        <input type="hidden" name="{{ $filter }}" value="{{ $value }}">
-                    @endforeach
-
                     <li><a href="#" onclick="document.getElementById('filterForm').submit();">Apply Filter</a>
                     </li>
                     <li><a href="{{ route('birdlist.filter') }}">Clear Filter</a></li>
