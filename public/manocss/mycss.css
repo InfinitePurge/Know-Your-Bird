@@ -263,7 +263,7 @@ footer {
     background: linear-gradient(
         0deg,
         rgba(0, 0, 0, 0.9206057422969187) 26%,
-        rgba(104, 126, 255, 1) 100%
+        rgb(150, 149, 149) 100%
     );
     color: white;
     padding: 20px;

@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>{{ $theme->title }} Quiz</title>
     <link href="{{ asset('manocss/quizz.css') }}" rel="stylesheet">
 </head>
 
 <body>
 
-    <a href="{{ route('theme') }}" class="home-button"><i class="fas fa-home"></i></a>
+    <a href="{{ route('theme') }}" class="home-button"><i class="fas fa-arrow-left"></i></a>
 
     <div class="container">
         @if (isset($question))

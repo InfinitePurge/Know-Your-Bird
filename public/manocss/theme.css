@@ -2,6 +2,9 @@ body {
     background-image: url("nature1.png");
     background-size: cover;
     background-position: center;
+    background-attachment: fixed; /* Added to prevent the image from scrolling */
+    background-blend-mode: overlay; /* Blends the image with the background color */
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for better readability */
     margin: 0;
     padding: 0;
     font-family: "Arial", sans-serif;
@@ -10,7 +13,7 @@ body {
     align-items: center;
     justify-content: start;
     height: 100vh;
-    padding-top: 30px; /* Added padding at the top */
+    padding-top: 30px;
 }
 
 .home-button {
@@ -19,87 +22,96 @@ body {
     font-weight: bold;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: #5f2c82;
-    background-color: #49a09d;
+    color: #ffffff; /* Changed to white for contrast */
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.8869922969187675) 20%,
+        rgba(3, 177, 177, 1) 100%
+    );
     border: 2px solid #49a09d;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     z-index: 10;
-    margin-bottom: 30px; /* Separation from the button grid */
+    margin-bottom: 30px;
 }
 
 .home-button:hover {
     background-color: #5f2c82;
-    border-color: #5f2c82;
+    border-color: rgb(255, 255, 255);
     color: #ffffff;
+    transform: translateY(-2px); /* Subtle effect for hover */
 }
 
 .button-container {
-    width: 80%; /* Width of the button container */
+    width: 80%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two columns */
-    grid-gap: 40px; /* Spacing between buttons */
-    margin-top: 20px; /* Separation from the home button */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+    grid-gap: 20px;
+    margin-top: 20px;
 }
 
 .buttons {
-    padding: 1em 2em; /* Padding inside the buttons */
+     padding: 1em 2em;
     border: none;
     border-radius: 5px;
     font-weight: bold;
-    letter-spacing: 5px;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    color: #2c9caf;
+    color: #ffffff; /* White text for better contrast */
     transition: all 0.3s ease;
-    font-size: 15px;
+    font-size: 1rem; /* Adjusted font size */
     position: relative;
     overflow: hidden;
-    outline: 2px solid #2c9caf;
-    background-image: linear-gradient(45deg, #49a09d, #5f2c82);
+    outline: none;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.8869922969187675) 20%,
+        rgba(3, 177, 177, 1) 100%
+    );
     cursor: pointer;
-    width: 100%; /* Buttons take full width of the column */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.buttons::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(253, 253, 253, 0.096); /* Color for the effect */
+    transition: all 0.5s ease;
+    border-radius: 5px; /* Rounded corners */
+    z-index: 0;
+    transform: skewX(-20deg); /* Skewed shape for the sliding effect */
+}
+
+.buttons:hover::before {
+    left: 100%;
+}
+
+.buttons span {
+    position: relative;
+    z-index: 1; /* Make sure the text is above the pseudo-element */
 }
 
 .buttonhome:hover {
-    color: #ffffff;
-    transform: scale(1.05);
-    outline: 2px solid #70bdca;
-    box-shadow: 4px 5px 17px -4px #268391;
-}
-
-.buttonhome::before {
-    content: "";
-    position: absolute;
-    left: -50px;
-    top: 0;
-    width: 0;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0) 20%,
-        rgba(3, 177, 177, 1) 100%
-    );
-    transform: skewX(45deg);
-    z-index: -1;
-    transition: width 0.3s ease;
-}
-
-.buttonhome:hover::before {
-    width: 250%;
+    transform: translateY(-2px); /* Subtle lift effect */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover for depth */
 }
 
 @media (max-width: 768px) {
     .button-container {
-        width: 95%; /* Adjusted for smaller screens */
-        grid-template-columns: 1fr; /* Stack buttons on smaller screens */
+        width: 95%;
+        grid-template-columns: 1fr;
     }
 
     .buttons {
-        justify-self: center; /* Center buttons on smaller screens */
+        justify-self: center;
+        padding: 1em; /* Adjust padding for smaller screens */
     }
 }
-
 
 .close-button {
   position: absolute;
@@ -128,7 +140,7 @@ body {
   align-items: center;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .modal-container:target {
@@ -140,13 +152,15 @@ body {
   padding: 4rem 2rem;
   border-radius: .8rem;
   color: #fff;
-  background: linear-gradient(45deg, #3498db, #9b59b6); /* Blue to purple gradient */
+  background-color: #333; /* More muted background color */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Blue to purple gradient */
   position: relative;
   overflow: hidden;
 }
 
 .modal__title {
   font-size: 3.2rem;
+   color: #fff;
 }
 
 .modal__text {
@@ -154,6 +168,7 @@ body {
   margin-top: 4rem;
   font-size: 1.6rem;
   line-height: 2;
+   color: #bbb;
 }
 
 .modal__btn {
@@ -162,12 +177,14 @@ body {
   border: 1px solid #fff;
   border-radius: 100rem;
   color: #fff;
-  background: transparent;
   font-size: 1.4rem;
   font-family: inherit;
   letter-spacing: .2rem;
   transition: .2s;
   cursor: pointer;
+  background-color: #5f2c82; /* Solid color for buttons */
+  border-color: #5f2c82;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .modal__btn:nth-of-type(1) {
@@ -176,7 +193,6 @@ body {
 
 .modal__btn:hover,
 .modal__btn:focus {
-  background: #5f2c82; /* Purple color on hover/focus */
-  border-color: #5f2c82;
-  transform: translateY(-.2rem);
+  background-color: #49a09d; /* Hover color */
+    transform: translateY(-2px);
 }
