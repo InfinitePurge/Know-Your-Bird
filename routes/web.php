@@ -27,6 +27,7 @@ use App\Http\Controllers\ManageUsers;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/birdlist/search', [BirdsListController::class, 'index'])->name('birdlist.search');
 Route::get('/history', [HistoryController::class, 'index']);
 Route::get('/birdforms', [BirdFormsController::class, 'index']);
@@ -45,9 +46,9 @@ Route::post('/reset-theme/{title}', [QuizzController::class, 'resetTheme'])->nam
 Route::get('/contact_us', [contact_usController::class, 'index']);
 Route::post('/contact_us', [contact_usController::class, 'submit']);
 
-Route::get('/dashboard', function () {
-    return view('welcome');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('welcome');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
