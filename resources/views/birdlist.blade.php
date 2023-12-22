@@ -108,11 +108,11 @@
         </nav>
 
         <div id="page-content-wrapper">
-            <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
-                <span class="hamb-top"></span>
-                <span class="hamb-middle"></span>
-                <span class="hamb-bottom"></span>
-            </button>
+            <div id="page-content-wrapper">
+                <button type="button" class="filter-button animated fadeInLeft is-closed" data-toggle="offcanvas">
+                    Filters
+                </button>
+            </div>
         </div>
 
         <!-- Filter Tags Display -->
@@ -172,22 +172,25 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
+                                        <label for="birdTags" class="form-label">Select Tags</label>
                                         <div class="mb-3">
-                                            <label for="birdTags" class="form-label">Select Tags</label>
-                                            @foreach ($tags as $tag)
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="tags[]"
-                                                        value="{{ $tag->id }}" id="tag{{ $tag->id }}">
-                                                    <label class="form-check-label" for="tag{{ $tag->id }}">
-                                                        @if ($tag->prefix)
-                                                            {{ $tag->prefix->prefix }}: {{ $tag->name }}
-                                                        @else
-                                                            {{ $tag->name }}
-                                                        @endif
-                                                    </label>
-                                                </div>
-                                            @endforeach
+                                            <div
+                                                style="max-height: 150px; overflow-y: auto; border: 1px solid #ccc; padding: 5px;">
+                                                @foreach ($tags as $tag)
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            name="tags[]" value="{{ $tag->id }}"
+                                                            id="tag{{ $tag->id }}" onmousedown="blurInputs()">
+                                                        <label class="form-check-label" for="tag{{ $tag->id }}">
+                                                            @if ($tag->prefix)
+                                                                {{ $tag->prefix->prefix }}: {{ $tag->name }}
+                                                            @else
+                                                                {{ $tag->name }}
+                                                            @endif
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
 
                                         <div class="mb-3" id="editor">
@@ -264,17 +267,19 @@
                                         <p class="text-overflow-clamp"> {!! $bird->aprasymas !!} </p>
                                     </div>
                                     @if (auth()->check() && auth()->user()->role == 1)
-                                    <form action="{{ route('admin.bird.delete', ['id' => $bird->id]) }}" method="POST"
-                                        style="position: absolute; top: 0; right: 0;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-delete" data-action="delete">&#10006;</button>
-                                    </form>
-                                @endif
-                                @if (auth()->check() && auth()->user()->role == 1)
-                                 <button class="btn btn-warning btn-edit" data-action="edit" style="position: absolute; top: 0; left: 0;"
-                                        data-bs-toggle="modal" data-bs-target="#editBirdModal_{{ $bird->id }}">&#9998;</button>
-                                        @endif
+                                        <form action="{{ route('admin.bird.delete', ['id' => $bird->id]) }}"
+                                            method="POST" style="position: absolute; top: 0; right: 0;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-delete"
+                                                data-action="delete">&#10006;</button>
+                                        </form>
+                                    @endif
+                                    @if (auth()->check() && auth()->user()->role == 1)
+                                        <button class="btn btn-warning btn-edit" data-action="edit"
+                                            style="position: absolute; top: 0; left: 0;" data-bs-toggle="modal"
+                                            data-bs-target="#editBirdModal_{{ $bird->id }}">&#9998;</button>
+                                    @endif
                                     <div class="card-read-more">
                                         <a
                                             href="{{ route('bird.view', ['pavadinimas' => $bird->pavadinimas]) }}">View</a>
@@ -413,8 +418,9 @@
                             </div>
 
                             <input type="hidden" name="tags" value="">
-                            <div class="mb-3">
-                                <label class="form-label">Tags</label>
+                            <label class="form-label">Tags</label>
+                            <div class="mb-3" style="max-height: 150px; overflow-y: auto;">
+                                
                                 @foreach ($tags as $tag)
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" name="tags[]"
