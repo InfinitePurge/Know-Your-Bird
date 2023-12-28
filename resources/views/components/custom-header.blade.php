@@ -48,20 +48,19 @@
             <div class="container">
                 <form action="{{ route('birdlist.search') }}" method="GET" class="mb-3 d-flex justify-content-center">
                     <div class="input-group" style="max-width: 60%;">
-                        <input type="text" class="form-control" placeholder="Search for birds" name="search" value="{{ request('search') }}">
+                        <input type="text" class="form-control" placeholder="Search for birds" name="search"
+                            value="{{ request('search') }}">
                         <!-- Include the existing filter parameters as hidden inputs -->
-                        @foreach(request()->except('search') as $filter => $value)
+                        @foreach (request()->except('search') as $filter => $value)
                             <input type="hidden" name="{{ $filter }}" value="{{ $value }}">
                         @endforeach
                         <button class="btn btn-primary search-button" type="submit">Search</button>
                     </div>
                 </form>
-                @if ($errors->any())
-                    <div>
-                        @foreach ($errors->search() as $error)
-                            <div>{{ $error }}</div>
+                @if ($errors->has('search'))
+                        @foreach ($errors->get('search') as $error)
+                            {{ $error }}<br>
                         @endforeach
-                    </div>
                 @endif
             </div>
         @endif
@@ -70,20 +69,19 @@
         <div class="container">
             <form action="{{ route('birdlist.search') }}" method="GET" class="mb-3 d-flex justify-content-center">
                 <div class="input-group" style="max-width: 60%;">
-                    <input type="text" class="form-control" placeholder="Search for birds" name="search" value="{{ request('search') }}">
+                    <input type="text" class="form-control" placeholder="Search for birds" name="search"
+                        value="{{ request('search') }}">
                     <!-- Include the existing filter parameters as hidden inputs -->
-                    @foreach(request()->except('search') as $filter => $value)
+                    @foreach (request()->except('search') as $filter => $value)
                         <input type="hidden" name="{{ $filter }}" value="{{ $value }}">
                     @endforeach
                     <button class="btn btn-primary search-button" type="submit">Search</button>
                 </div>
             </form>
-            @if ($errors->any())
-                <div>
-                    @foreach ($errors->search() as $error)
-                        <div>{{ $error }}</div>
+            @if ($errors->has('search'))
+                    @foreach ($errors->get('search') as $error)
+                        {{ $error }}<br>
                     @endforeach
-                </div>
             @endif
         </div>
     @endguest

@@ -35,10 +35,10 @@ class BirdsListController extends Controller
         sort($countries);
 
         $validatedData = $request->validate([
-            'search' => ['regex:/^[a-zA-Z0-9\s]+$/', 'max:50'],
+            'search' => ['regex:/^[a-zA-Z0-9\s]+$/', 'max:100'],
         ], [
             'search.regex' => 'The search term contains invalid characters.',
-            'search.max' => 'The search term must not exceed 50 characters.',
+            'search.max' => 'The search term must not exceed 100 characters.',
         ]);
 
         $search = $validatedData['search'] ?? '';
