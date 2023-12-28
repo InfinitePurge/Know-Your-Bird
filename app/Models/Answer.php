@@ -14,13 +14,12 @@ class Answer extends Model
 
     protected $fillable = ['QuestionID', 'AnswerText', 'isCorrect'];
 
+    protected $casts = [
+        'isCorrect' => 'boolean',
+    ];
+
     public function question()
     {
         return $this->belongsTo(Question::class, 'QuestionID');
-    }
-
-    public function answer()
-    {
-        return $this->belongsTo(Answer::class, 'AnswerID');
     }
 }

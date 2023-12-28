@@ -21,10 +21,14 @@
             </div>
             <div class="buttons">
                 @foreach ($question->answers as $answer)
-                <form method="post" action="{{ route('answer', ['title' => $theme->title]) }}">
+                    <form method="post" action="{{ route('answer', ['title' => $theme->title]) }}">
                         @csrf
-                        <input type="hidden" name="answer_id" value="{{ $answer->id }}">
-                        <button type="submit" class="quiz-button green">{{ $answer->AnswerText }} {{$answer->isCorrect}}</button>
+                        <input type="hidden" name="chosen_answer_id"
+                            value="{{ $answer->AnswerID }}
+                        ">
+                        <button type="submit" class="quiz-button green">
+                            {{ $answer->AnswerID }}: {{ $answer->AnswerText }} {{ $answer->isCorrect }}
+                        </button>
                     </form>
                 @endforeach
             </div>

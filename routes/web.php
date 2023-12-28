@@ -39,7 +39,7 @@ Route::get('/birdlist/filter', [BirdsListController::class, 'index'])->name('bir
 Route::get('/theme', [QuizzController::class, 'theme'])->name('theme');
 Route::get('/quizz/{title}', [QuizzController::class, 'index'])->name('quiz');
 Route::post('/answer/{title}', [QuizzController::class, 'answerQuestion'])->name('answer');
-Route::post('/reset-theme/{title}', [QuizzController::class, 'resetTheme'])->name('resetTheme');
+Route::get('/quiz_completed/{title}', [QuizzController::class, 'quiz_completed'])->name('quiz_completed');
 
 
 //Contact us

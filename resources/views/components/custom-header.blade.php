@@ -58,7 +58,7 @@
                 </form>
                 @if ($errors->any())
                     <div>
-                        @foreach ($errors->all() as $error)
+                        @foreach ($errors->search() as $error)
                             <div>{{ $error }}</div>
                         @endforeach
                     </div>
@@ -80,7 +80,7 @@
             </form>
             @if ($errors->any())
                 <div>
-                    @foreach ($errors->all() as $error)
+                    @foreach ($errors->search() as $error)
                         <div>{{ $error }}</div>
                     @endforeach
                 </div>
