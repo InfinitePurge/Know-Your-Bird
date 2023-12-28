@@ -10,7 +10,6 @@
 </head>
 
 <body>
-
     <a href="{{ route('theme') }}" class="home-button"><i class="fas fa-arrow-left"></i></a>
 
     <div class="container">
@@ -20,14 +19,14 @@
                 <img src="{{ $question->image_url }}" alt="Error on loading image" style="max-width:100%;height:auto;">
             </div>
             <div class="buttons">
-                @foreach ($question->answers as $answer)
+                @foreach ($question->answers->shuffle() as $answer)
                     <form method="post" action="{{ route('answer', ['title' => $theme->title]) }}">
                         @csrf
                         <input type="hidden" name="chosen_answer_id"
                             value="{{ $answer->AnswerID }}
                         ">
                         <button type="submit" class="quiz-button green">
-                            {{ $answer->AnswerID }}: {{ $answer->AnswerText }} {{ $answer->isCorrect }}
+                            {{ $answer->AnswerText }} {{ $answer->isCorrect }}
                         </button>
                     </form>
                 @endforeach
@@ -35,22 +34,7 @@
         @else
             <p>No questions available for this quiz.</p>
         @endif
-
-        @if (isset($isCorrect))
-            <div class="feedback">
-                @if ($isCorrect)
-                    <p class="correct">Correct! Well done.</p>
-                @else
-                    <p class="incorrect">Incorrect. Try again!</p>
-                @endif
-            </div>
-        @endif
-
-        @if (!isset($question) && !isset($isCorrect))
-            <p>Congratulations! You've completed the quiz.</p>
-        @endif
     </div>
-
 </body>
 
 </html>

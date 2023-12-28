@@ -3,22 +3,29 @@
 
 <head>
     <title>Quiz Completed</title>
+    <link href="{{ asset('manocss/quiz_completed.css') }}" rel="stylesheet">
 </head>
 
 <body>
-    <div>
+    <div class="container">
         <h1>Congratulations!</h1>
-        <p>You have completed the quiz for {{ $theme->title }}. Well done!</p>
+        <p>You have completed the quiz for <strong>{{ $theme->title }}</strong>. Well done!</p>
+
+        <h2>Your Score: {{ $score }}%</h2>
 
         <h2>Your Answers:</h2>
-        @foreach ($userAnswers as $userAnswer)
-            <p>Question: {{ $userAnswer->question->question }}</p>
-            <p>Your Answer: {{ $userAnswer->answer->AnswerText }}</p>
-            <p>Correct: {{ $userAnswer->answer->isCorrect ? 'Yes' : 'No' }}</p>
+        @foreach ($userAnswers as $key => $userAnswer)
+            <div class="question">
+                <p class="question-counter">Question {{ $key + 1 }}: {{ $userAnswer->question->question }}</p>
+                <p class="answer"><strong>Your Answer:</strong> {{ $userAnswer->answer->AnswerText }}</p>
+                <p class="{{ $userAnswer->answer->isCorrect ? 'correct' : 'incorrect' }}">
+                    <strong>Correct:</strong> {{ $userAnswer->answer->isCorrect ? 'Yes' : 'No' }}
+                </p>
+            </div>
         @endforeach
 
         <button onclick="window.location.href='{{ route('theme') }}'">
-            Back to theme
+            Back to Theme Selection
         </button>
     </div>
 </body>

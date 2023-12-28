@@ -131,26 +131,26 @@ class QuizzController extends Controller
                 ->where('user_id', $user->id)
                 ->where('quiz_id', $quiz->id)
                 ->where('attempt_id', $attemptId)
-                ->get();
+                ->get()
+                ->map(function ($item) {
+                    // Map each item to a consistent structure with 'isCorrect'
+                    return (object)[
+                        'question' => $item->question,
+                        'answer' => $item->answer,
+                        'isCorrect' => $item->answer->isCorrect
+                    ];
+                });
         } else {
             // If the user is a guest, retrieve the guest answers from the session
             $guestAnswers = session('guest_answers', []);
 
             // Transform each guest answer into a more structured format
             $userAnswers = collect($guestAnswers)->map(function ($answer) {
-                // Retrieve the question ID from the answer, with a fallback to null if not set
                 $questionId = $answer['question_id'] ?? null;
-
-                // If a question ID exists, find the question and include its answers, else null
                 $question = $questionId ? Question::with('answers')->find($questionId) : null;
-
-                // Retrieve the chosen answer ID from the answer, with a fallback to null if not set
                 $chosenAnswerId = $answer['chosen_answer_id'] ?? null;
-
-                // If a question is found, find the specific chosen answer, else null
                 $chosenAnswer = $question ? $question->answers->find($chosenAnswerId) : null;
 
-                // Return a structured object containing the question, chosen answer, and correctness status
                 return (object)[
                     'question' => $question,
                     'answer' => $chosenAnswer,
@@ -159,11 +159,19 @@ class QuizzController extends Controller
             });
         }
 
+        // Calculate the score
+        $totalQuestions = count($userAnswers);
+        $correctAnswers = $userAnswers->filter(function ($answer) {
+            return $answer->isCorrect;
+        })->count();
+
+        $score = $totalQuestions > 0 ? round(($correctAnswers / $totalQuestions) * 100, 2) : 0;
+
         // Reset the session for this quiz
         session()->forget('questionIndex');
         session()->forget('attempt_id');
         session()->forget('guest_answers');
 
-        return view('quiz_completed', compact('quiz', 'theme', 'userAnswers'));
+        return view('quiz_completed', compact('quiz', 'theme', 'userAnswers', 'score'));
     }
 }
