@@ -18,10 +18,15 @@
         @foreach ($userAnswers as $key => $userAnswer)
             <div class="question">
                 <p class="question-counter">Question {{ $key + 1 }}: {{ $userAnswer->question->question }}</p>
-                <p class="answer"><strong>Your Answer:</strong> {{ $userAnswer->answer->AnswerText }}</p>
-                <p class="{{ $userAnswer->answer->isCorrect ? 'correct' : 'incorrect' }}">
-                    <strong>Correct:</strong> {{ $userAnswer->answer->isCorrect ? 'Yes' : 'No' }}
-                </p>
+                @if ($userAnswer->answer)
+                    <p class="answer"><strong>Your Answer:</strong> {{ $userAnswer->answer->AnswerText }}</p>
+                    <p class="{{ $userAnswer->answer->isCorrect ? 'correct' : 'incorrect' }}">
+                        <strong>Correct:</strong> {{ $userAnswer->answer->isCorrect ? 'Yes' : 'No' }}
+                    </p>
+                @else
+                    <p class="answer"><strong>Your Answer:</strong> Answer not found</p>
+                    <p class="incorrect"><strong>Correct:</strong> No</p>
+                @endif
             </div>
         @endforeach
 

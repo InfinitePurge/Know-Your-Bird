@@ -22,9 +22,7 @@
                 @foreach ($question->answers->shuffle() as $answer)
                     <form method="post" action="{{ route('answer', ['title' => $theme->title]) }}">
                         @csrf
-                        <input type="hidden" name="chosen_answer_id"
-                            value="{{ $answer->AnswerID }}
-                        ">
+                        <input type="hidden" name="chosen_answer_id" value="{{ $answer->encrypted_id }}">
                         <button type="submit" class="quiz-button green">
                             {{ $answer->AnswerText }} {{ $answer->isCorrect }}
                         </button>

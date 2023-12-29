@@ -36,11 +36,20 @@ class QuizzController extends Controller
             return $this->quiz_completed($title);
         }
 
+        // Get the current question
+        $currentQuestion = $theme->questions[$questionIndex - 1];
+
+        // Encrypt the AnswerID for each answer in the current question
+        foreach ($currentQuestion->answers as $answer) {
+            $answer->encrypted_id = encrypt($answer->AnswerID);
+        }
+
         return view('quizz', [
             'theme' => $theme,
-            'question' => $theme->questions[$questionIndex - 1]
+            'question' => $currentQuestion
         ]);
     }
+
 
     /**
      * Process the user's answer for a quiz question.
@@ -48,8 +57,9 @@ class QuizzController extends Controller
      */
     public function answerQuestion(Request $request, $title)
     {
+        // Validate the encrypted chosen_answer_id (it will no longer be an integer)
         $request->validate([
-            'chosen_answer_id' => 'required|integer'
+            'chosen_answer_id' => 'required'
         ]);
 
         $theme = Quiz::where('title', $title)->with('questions.answers')->firstOrFail();
@@ -60,8 +70,14 @@ class QuizzController extends Controller
         $request->session()->put('attempt_id', $attemptId);
 
         try {
-            $isCorrect = $this->processAnswer($request, $question);
-            $this->saveAnswer($request, $theme, $question, $isCorrect, $attemptId);
+            // Decrypt the chosen_answer_id
+            $submittedAnswerId = decrypt($request->input('chosen_answer_id'));
+
+            // Pass the decrypted ID to processAnswer
+            $isCorrect = $this->processAnswer($submittedAnswerId, $question);
+
+            // Pass the decrypted ID to saveAnswer
+            $this->saveAnswer($request, $theme, $question, $isCorrect, $attemptId, $submittedAnswerId);
         } catch (\Exception $e) {
             Log::error('Error processing answer: ' . $e->getMessage());
             return back()->with('error', 'An unexpected error occurred. Please try again.');
@@ -69,29 +85,30 @@ class QuizzController extends Controller
 
         $currentQuestionIndex = $request->session()->get('questionIndex', 1);
         $request->session()->put('questionIndex', $currentQuestionIndex + 1);
+        Log::info('Updated Question Index: ' . $request->session()->get('questionIndex'));
 
         return $this->prepareRedirect($request, $theme, $title);
     }
 
     // Process the user's answer for a quiz question.
     // Includes input validation and error handling.
-    private function processAnswer($request, $question)
+    private function processAnswer($submittedAnswerId, $question)
     {
-        $submittedAnswerId = (int) $request->input('chosen_answer_id');
+        // $submittedAnswerId is now an integer passed directly, no need to fetch from request
         $correctAnswer = $question->answers->where('isCorrect', true)->first();
-
         return $submittedAnswerId === optional($correctAnswer)->AnswerID;
     }
 
     // Save the user's answer for a quiz question.
-    private function saveAnswer($request, $theme, $question, $isCorrect, $attemptId)
+    private function saveAnswer($request, $theme, $question, $isCorrect, $attemptId, $submittedAnswerId)
     {
         if (auth()->check()) {
-            $this->saveUserAnswer($request->user(), $theme, $question, $request->input('chosen_answer_id'), $isCorrect, $attemptId);
+            $this->saveUserAnswer($request->user(), $theme, $question, $submittedAnswerId, $isCorrect, $attemptId);
         } else {
             $this->saveGuestAnswer($request, $question, $isCorrect);
         }
     }
+
 
     // Save the guest's answer for a quiz question.
     private function saveGuestAnswer($request, $question, $isCorrect)
@@ -99,7 +116,7 @@ class QuizzController extends Controller
         $guestAnswers = $request->session()->get('guest_answers', []);
         $guestAnswers[] = [
             'question_id' => $question->id,
-            'chosen_answer_id' => (int) $request->input('chosen_answer_id'),
+            'chosen_answer_id' => decrypt($request->input('chosen_answer_id')), // Decrypt the ID
             'is_correct' => $isCorrect
         ];
         $request->session()->put('guest_answers', $guestAnswers);
