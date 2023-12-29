@@ -7,90 +7,114 @@ use App\Models\Quiz;
 use App\Models\Question;
 use App\Models\UserQuestionAnswers;
 use Illuminate\Support\Str;
+use App\Models\Answer;
 use Illuminate\Support\Facades\Log;
 
 class QuizzController extends Controller
 {
     /**
      * Display the quiz page for a specific theme.
-     *
-     * @param string $title The title of the quiz theme.
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse The quiz view or a redirect to the quiz completion page.
      */
     public function index($title)
     {
-        $theme = Quiz::where('title', $title)->firstOrFail();
-
-        $questions = $theme->questions()->with('answers')->get();
+        $theme = Quiz::where('title', $title)->with('questions.answers')->firstOrFail();
         $questionIndex = session('questionIndex', 1);
 
-        if ($questionIndex >= count($questions)) {
-            // If all questions have been answered, redirect to quiz completion page
+        if ($questionIndex > $theme->questions->count()) {
             return $this->quiz_completed($title);
         }
 
-        $question = $questions[$questionIndex - 1];
-        return view('quizz', compact('theme', 'question'));
+        Log::info('Index method - Question Index: ' . $questionIndex);
+
+        // Set the start time only if it's the first question and there's no timeStart in the session
+        if ($questionIndex === 1 && !session()->has('timeStart')) {
+            session(['timeStart' => now()]);
+        }
+
+        // Redirect the user to the quiz completed page if they try to access a question that doesn't exist
+        if ($questionIndex > $theme->questions->count()) {
+            return $this->quiz_completed($title);
+        }
+
+        return view('quizz', [
+            'theme' => $theme,
+            'question' => $theme->questions[$questionIndex - 1]
+        ]);
     }
 
     /**
      * Process the user's answer for a quiz question.
-     *
-     * @param \Illuminate\Http\Request $request The HTTP request object.
-     * @param string $title The title of the quiz.
-     * @return \Illuminate\Http\RedirectResponse The redirect response to the next question or the quiz completion page.
+     * Includes input validation and error handling.
      */
     public function answerQuestion(Request $request, $title)
     {
-        // Retrieve the quiz theme based on the title
-        $theme = Quiz::where('title', $title)->firstOrFail();
-        $questions = $theme->questions()->with('answers')->get();
+        $request->validate([
+            'chosen_answer_id' => 'required|integer'
+        ]);
 
-        // Retrieve the current question index from the session
-        $questionIndex = $request->session()->get('questionIndex', 1);
-        $question = $questions[$questionIndex - 1];
+        $theme = Quiz::where('title', $title)->with('questions.answers')->firstOrFail();
+        $questionIndex = session('questionIndex', 1);
+        $question = $theme->questions[$questionIndex - 1];
 
-        // Generate or retrieve the attempt ID for the quiz
-        if ($questionIndex === 1 && !session()->has('attempt_id')) {
-            $attemptId = Str::uuid()->toString();
-            $request->session()->put('attempt_id', $attemptId);
-        } else {
-            $attemptId = $request->session()->get('attempt_id');
+        $attemptId = $request->session()->get('attempt_id', (string) Str::uuid());
+        $request->session()->put('attempt_id', $attemptId);
+
+        try {
+            $isCorrect = $this->processAnswer($request, $question);
+            $this->saveAnswer($request, $theme, $question, $isCorrect, $attemptId);
+        } catch (\Exception $e) {
+            Log::error('Error processing answer: ' . $e->getMessage());
+            return back()->with('error', 'An unexpected error occurred. Please try again.');
         }
 
-        // Process the submitted answer
+        $currentQuestionIndex = $request->session()->get('questionIndex', 1);
+        $request->session()->put('questionIndex', $currentQuestionIndex + 1);
+
+        return $this->prepareRedirect($request, $theme, $title);
+    }
+
+    // Process the user's answer for a quiz question.
+    // Includes input validation and error handling.
+    private function processAnswer($request, $question)
+    {
         $submittedAnswerId = (int) $request->input('chosen_answer_id');
         $correctAnswer = $question->answers->where('isCorrect', true)->first();
-        $correctAnswerId = $correctAnswer ? (int) $correctAnswer->AnswerID : null;
-        $isCorrect = $submittedAnswerId === $correctAnswerId;
 
-        // Save the user's answer
+        return $submittedAnswerId === optional($correctAnswer)->AnswerID;
+    }
+
+    // Save the user's answer for a quiz question.
+    private function saveAnswer($request, $theme, $question, $isCorrect, $attemptId)
+    {
         if (auth()->check()) {
-            // Save the user's answer for logged in users
-            $this->saveUserAnswer($request->user(), $theme, $question, $submittedAnswerId, $isCorrect, $attemptId);
+            $this->saveUserAnswer($request->user(), $theme, $question, $request->input('chosen_answer_id'), $isCorrect, $attemptId);
         } else {
-            // Store the answer in session for guest users
-            $guestAnswers = $request->session()->get('guest_answers', []);
-            $guestAnswers[] = [
-                'question_id' => $question->id,
-                'chosen_answer_id' => $submittedAnswerId,
-                'is_correct' => $isCorrect
-            ];
-            $request->session()->put('guest_answers', $guestAnswers);
-        }
-
-        // Update the question index in the session
-        $questionIndex++;
-        $request->session()->put('questionIndex', $questionIndex);
-
-        // Redirect to the next question or the quiz completion page
-        if ($questionIndex <= count($questions)) {
-            return redirect()->route('quiz', ['title' => $title]);
-        } else {
-            return redirect()->route('quiz_completed', ['title' => $title]);
+            $this->saveGuestAnswer($request, $question, $isCorrect);
         }
     }
 
+    // Save the guest's answer for a quiz question.
+    private function saveGuestAnswer($request, $question, $isCorrect)
+    {
+        $guestAnswers = $request->session()->get('guest_answers', []);
+        $guestAnswers[] = [
+            'question_id' => $question->id,
+            'chosen_answer_id' => (int) $request->input('chosen_answer_id'),
+            'is_correct' => $isCorrect
+        ];
+        $request->session()->put('guest_answers', $guestAnswers);
+    }
+
+    // Prepare the redirect to the next question or the quiz completed page.
+    private function prepareRedirect($request, $theme, $title)
+    {
+        // Redirect to the next question or the quiz completion page
+        return $request->session()->get('questionIndex') <= $theme->questions->count()
+            ? redirect()->route('quiz', ['title' => $title])
+            : redirect()->route('quiz_completed', ['title' => $title]);
+    }
+
+    // Save the user's answer for a quiz question.
     private function saveUserAnswer($user, $theme, $question, $submittedAnswerId, $isCorrect, $attemptId)
     {
         UserQuestionAnswers::create([
@@ -103,75 +127,96 @@ class QuizzController extends Controller
         ]);
     }
 
+    // Display the quiz theme selection page.
     public function theme()
     {
         $quizzes = Quiz::all();
+        $this->resetQuizSession();
         return view('theme', compact('quizzes'));
     }
 
-    /**
-     * Handles the completion of a quiz.
-     *
-     * @param string $title The title of the quiz.
-     * @return \Illuminate\View\View The view for the quiz completion page.
-     */
+    // Display the quiz completed page.
     public function quiz_completed($title)
     {
-        // Retrieve the theme and quiz based on the provided title
         $theme = Quiz::where('title', $title)->firstOrFail();
-        $quiz = Quiz::where('title', $title)->firstOrFail();
 
-        if (auth()->check()) {
-            // If the user is authenticated, retrieve the user and attempt ID from the session
-            $user = auth()->user();
-            $attemptId = session('attempt_id');
+        $timeSpend = $this->countTimeSpend();
 
-            // Retrieve the user's answers for the quiz
-            $userAnswers = UserQuestionAnswers::with('answer', 'question')
-                ->where('user_id', $user->id)
-                ->where('quiz_id', $quiz->id)
-                ->where('attempt_id', $attemptId)
-                ->get()
-                ->map(function ($item) {
-                    // Map each item to a consistent structure with 'isCorrect'
-                    return (object)[
-                        'question' => $item->question,
-                        'answer' => $item->answer,
-                        'isCorrect' => $item->answer->isCorrect
-                    ];
-                });
-        } else {
-            // If the user is a guest, retrieve the guest answers from the session
-            $guestAnswers = session('guest_answers', []);
+        $userAnswers = auth()->check()
+            ? $this->getUserAnswers($theme)
+            : $this->getGuestAnswers();
 
-            // Transform each guest answer into a more structured format
-            $userAnswers = collect($guestAnswers)->map(function ($answer) {
-                $questionId = $answer['question_id'] ?? null;
-                $question = $questionId ? Question::with('answers')->find($questionId) : null;
-                $chosenAnswerId = $answer['chosen_answer_id'] ?? null;
-                $chosenAnswer = $question ? $question->answers->find($chosenAnswerId) : null;
+        $score = $this->calculateScore($userAnswers);
 
+        $this->resetQuizSession();
+
+        return view('quiz_completed', compact('theme', 'userAnswers', 'score', 'timeSpend'));
+    }
+
+    /**
+     * Retrieve user answers for a quiz.
+     * Fetches only necessary data for calculation.
+     */
+    private function getUserAnswers($theme)
+    {
+        $attemptId = session('attempt_id');
+
+        return UserQuestionAnswers::with(['answer:AnswerID,AnswerText,isCorrect', 'question:id,question'])
+            ->where('user_id', auth()->id())
+            ->where('quiz_id', $theme->id)
+            ->where('attempt_id', $attemptId)
+            ->get()
+            ->map(function ($item) {
                 return (object)[
-                    'question' => $question,
-                    'answer' => $chosenAnswer,
-                    'isCorrect' => $answer['is_correct'] ?? false
+                    'question' => $item->question,
+                    'answer' => $item->answer,
+                    'isCorrect' => $item->answer->isCorrect
                 ];
             });
-        }
+    }
 
-        // Calculate the score
-        $totalQuestions = count($userAnswers);
-        $correctAnswers = $userAnswers->filter(function ($answer) {
-            return $answer->isCorrect;
-        })->count();
+    /**
+     * Retrieve guest answers for a quiz.
+     * Fetches only necessary data for calculation.
+     */
+    private function getGuestAnswers()
+    {
+        return collect(session('guest_answers', []))->map(function ($answer) {
+            return (object)[
+                'question' => Question::with('answers')->find($answer['question_id']),
+                'answer' => Answer::find($answer['chosen_answer_id']),
+                'isCorrect' => $answer['is_correct']
+            ];
+        });
+    }
 
-        $score = $totalQuestions > 0 ? round(($correctAnswers / $totalQuestions) * 100, 2) : 0;
+    /**
+     * Calculate the user's score for a quiz.
+     * Returns a percentage rounded to 2 decimal places.
+     */
+    private function calculateScore($userAnswers)
+    {
+        $totalQuestions = $userAnswers->count();
+        $correctAnswers = $userAnswers->filter(fn ($answer) => $answer->isCorrect)->count();
 
-        // Reset the session for this quiz
-        session()->forget('questionIndex');
-        session()->forget('attempt_id');
-        session()->forget('guest_answers');
+        return $totalQuestions > 0 ? round(($correctAnswers / $totalQuestions) * 100, 2) : 0;
+    }
 
-        return view('quiz_completed', compact('quiz', 'theme', 'userAnswers', 'score'));
+    /**
+     * Count the time spend on a quiz.
+     * Returns the time in seconds.
+     */
+    private function countTimeSpend()
+    {
+        $timeStart = session('timeStart');
+        $timeEnd = now();
+        $timeSpend = $timeEnd->diffInSeconds($timeStart) + 1;
+        return $timeSpend;
+    }
+
+    // Reset the quiz session.
+    private function resetQuizSession()
+    {
+        session()->forget(['questionIndex', 'attempt_id', 'guest_answers', 'timeStart']);
     }
 }

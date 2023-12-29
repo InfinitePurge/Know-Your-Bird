@@ -12,6 +12,7 @@
         <p>You have completed the quiz for <strong>{{ $theme->title }}</strong>. Well done!</p>
 
         <h2>Your Score: {{ $score }}%</h2>
+        <p>Time Spent: {{ intdiv($timeSpend, 60) }} minutes and {{ $timeSpend % 60 }} seconds</p>
 
         <h2>Your Answers:</h2>
         @foreach ($userAnswers as $key => $userAnswer)
