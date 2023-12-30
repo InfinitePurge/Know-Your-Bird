@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>{{ $theme->title }} Quiz</title>
     <link href="{{ asset('manocss/quizz.css') }}" rel="stylesheet">
 </head>
 
 <body>
+    <script src="{{ asset('jasonas/quiz_blade.js') }}"></script>
     <a href="{{ route('theme') }}" class="home-button"><i class="fas fa-arrow-left"></i></a>
 
     <div class="container">
@@ -20,19 +22,22 @@
             </div>
             <div class="buttons">
                 @foreach ($question->answers->shuffle() as $answer)
-                    <form method="post" action="{{ route('answer', ['title' => $theme->title]) }}">
-                        @csrf
-                        <input type="hidden" name="chosen_answer_id" value="{{ $answer->encrypted_id }}">
-                        <button type="submit" class="quiz-button green">
-                            {{ $answer->AnswerText }} {{ $answer->isCorrect }}
-                        </button>
-                    </form>
+                    <button type="button" class="quiz-button green" data-answer-id="{{ $answer->encrypted_id }}">
+                        {{ $answer->AnswerText }}{{ $answer->isCorrect ? ' (correct)' : '' }}
+                    </button>
                 @endforeach
             </div>
         @else
             <p>No questions available for this quiz.</p>
         @endif
     </div>
+    <script type="text/javascript">
+        var quizRoutes = {
+            answer: "{{ route('answer', ['title' => $theme->title]) }}",
+            quizCompleted: "{{ route('quiz_completed', ['title' => $theme->title]) }}"
+        };
+        var csrfToken = "{{ csrf_token() }}";
+    </script>
 </body>
 
 </html>

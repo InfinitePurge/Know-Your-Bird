@@ -58,11 +58,11 @@ class QuizzController extends Controller
     }
 
     /**
-     * Process the user's answer for a quiz question and save the response.
-     * 
-     * @param \Illuminate\Http\Request $request
+     * Process the user's answer to a quiz question.
+     *
+     * @param Request $request The HTTP request object.
      * @param string $title The title of the quiz.
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse The JSON response containing the next question or completion status.
      */
     public function answerQuestion(Request $request, $title)
     {
@@ -92,15 +92,46 @@ class QuizzController extends Controller
 
             // Save the user's answer.
             $this->saveAnswer($request, $theme, $question, $isCorrect, $attemptId, $submittedAnswerId);
+
+            // Update the question index in the session.
+            $currentQuestionIndex = session('questionIndex', 1);
+            session(['questionIndex' => $currentQuestionIndex + 1]);
+
+            // Prepare the next question or finish the quiz
+            if ($currentQuestionIndex < $theme->questions->count()) {
+                // Fetch the next question
+                $nextQuestion = $theme->questions[$currentQuestionIndex];
+
+                // Shuffle the answers for the next question
+                $shuffledAnswers = $nextQuestion->answers->shuffle();
+
+                // Encrypt the AnswerID for each shuffled answer and append to a new collection
+                $shuffledAnswersWithEncryptedId = $shuffledAnswers->map(function ($answer) {
+                    return [
+                        'AnswerID' => $answer->AnswerID,
+                        'AnswerText' => $answer->AnswerText,
+                        'isCorrect' => $answer->isCorrect, // Be cautious with sending this to the client side
+                        'encrypted_id' => encrypt($answer->AnswerID)
+                    ];
+                });
+
+                // Return the next question and shuffled answers
+                return response()->json([
+                    'status' => 'continue',
+                    'nextQuestion' => [
+                        'question' => $nextQuestion->question,
+                        'image_url' => $nextQuestion->image_url,
+                        'answers' => $shuffledAnswersWithEncryptedId
+                    ],
+                ]);
+            } else {
+                // Quiz is completed
+                return response()->json(['status' => 'completed']);
+            }
         } catch (\Exception $e) {
-            return back()->with('error', 'An unexpected error occurred. Please try again.');
+            Log::error('Error processing quiz answer: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'message' => 'An unexpected error occurred. Please try again.']);
         }
-
-        // Update the question index in the session.
-        $currentQuestionIndex = $request->session()->get('questionIndex', 1);
-        $request->session()->put('questionIndex', $currentQuestionIndex + 1);
-
-        return $this->prepareRedirect($request, $theme, $title);
     }
 
     /**
