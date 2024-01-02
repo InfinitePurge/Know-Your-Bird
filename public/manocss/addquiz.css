@@ -1,0 +1,248 @@
+body {
+    font-family: "Arial", sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.crud-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.theme-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.theme-item-actions {
+    display: flex;
+}
+
+.theme-item-actions button {
+    margin-left: 10px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    /* Set background color to transparent */
+}
+
+.view-button i {
+    color: #2196f3;
+    /* Blue color for view */
+}
+
+.edit-button i {
+    color: #ffd600;
+    /* Yellow color for edit */
+    cursor: pointer;
+}
+
+.delete-button i {
+    color: #ff5252;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.modal input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal button {
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.modal button.cancel {
+    background-color: #ccc;
+    margin-right: 10px;
+}
+
+.add-button,
+.edit-button {
+    cursor: pointer;
+}
+
+.add-button {
+    background-color: #4caf50;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 4px;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+#addModal button.add-button,
+#addModal button.cancel {
+    display: inline-block;
+    /* Make the buttons inline */
+    margin-top: 10px;
+    /* Add some space between the input field and buttons */
+    padding: 10px 16px;
+    /* Adjust padding for a slightly bigger button */
+    border-radius: 4px;
+    /* Border radius for rounded corners */
+    border: none;
+    /* Remove borders */
+    cursor: pointer;
+}
+
+#addModal button.add-button {
+    background-color: #4caf50;
+    /* Green color */
+    color: #fff;
+    /* White text color */
+}
+
+#addModal button.cancel {
+    background-color: #ccc;
+    color: #fff;
+    /* White text color */
+    margin-left: 10px;
+    /* Add margin to separate buttons */
+}
+
+/* Custom styles for the View Modal */
+#viewModal {
+    width: 50%;
+    height: 50%;
+}
+
+#viewModal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+    background: none;
+    border: none;
+}
+
+#viewThemeNameContainer {
+    display: flex;
+    align-items: center;
+}
+
+#viewThemeNameContainer strong {
+    margin-right: 5px;
+    /* Optional: Add some spacing between the strong and the p element */
+}
+
+#viewModal {
+    width: 50%;
+    height: 50%;
+}
+
+#questionModal {
+    width: 40%;
+    height: 45%;
+}
+
+/* Additional styles for the new modal */
+#questionModal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+    background: none;
+    border: none;
+}
+
+.modal .add-button.top-right {
+    position: absolute;
+    top: 10px;
+    right: 70px;
+    /* Adjust this value based on your design */
+}
+
+.modal .button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Additional styles for the new modal */
+#questionModal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+    background: none;
+    border: none;
+}
+
+.extra-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.extra-button.x-button {
+    background-color: red;
+}
+
+.extra-button.check-button {
+    background-color: green;
+}
