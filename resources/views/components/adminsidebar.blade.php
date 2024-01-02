@@ -36,7 +36,7 @@
         </a>
     </li>
     <li>
-        <a href="">
+        <a href="/addquiz">
           <i class='bx bx-question-mark'></i>
           <span class="link_name">Manage Quiz</span>
         </a>

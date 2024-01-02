@@ -12,6 +12,7 @@ use App\Http\Controllers\tagController;
 use App\Http\Controllers\QuizzController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\ManageUsers;
+use App\Http\Controllers\addquizController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::get('/', function () {
 
 Route::get('/birdlist/search', [BirdsListController::class, 'index'])->name('birdlist.search');
 Route::get('/history', [HistoryController::class, 'index']);
+Route::get('/addquiz', [addquizController::class, 'index']);
 Route::get('/birdforms', [BirdFormsController::class, 'index']);
 Route::get('/birdlist', [BirdsListController::class, 'index'])->name('birds.index');
 Route::get('/bird/{pavadinimas}', [BirdsListController::class, 'view'])->name('bird.view');
