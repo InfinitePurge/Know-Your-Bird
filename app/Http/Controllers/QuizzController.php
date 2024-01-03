@@ -256,7 +256,6 @@ class QuizzController extends Controller
     {
         $quizzes = Quiz::select('title')->get();
         // Reset any existing quiz session data.
-        $this->resetQuizSession();
         return view('theme', compact('quizzes'));
     }
 

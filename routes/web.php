@@ -12,7 +12,7 @@ use App\Http\Controllers\tagController;
 use App\Http\Controllers\QuizzController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\ManageUsers;
-use App\Http\Controllers\addquizController;
+use App\Http\Controllers\AdminQuizzController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +31,6 @@ Route::get('/', function () {
 
 Route::get('/birdlist/search', [BirdsListController::class, 'index'])->name('birdlist.search');
 Route::get('/history', [HistoryController::class, 'index']);
-Route::get('/addquiz', [addquizController::class, 'index']);
 Route::get('/birdforms', [BirdFormsController::class, 'index']);
 Route::get('/birdlist', [BirdsListController::class, 'index'])->name('birds.index');
 Route::get('/bird/{pavadinimas}', [BirdsListController::class, 'view'])->name('bird.view');
@@ -93,4 +92,9 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/adminpanel/user/{id}/username', [ManageUsers::class, 'updateUsername'])->name('adminpanel.updateUsername');
     Route::post('/adminpanel/user/{id}/email', [ManageUsers::class, 'updateEmail'])->name('adminpanel.updateEmail');
     Route::post('/adminpanel/user/{id}/password', [ManageUsers::class, 'updatePassword'])->name('adminpanel.updatePassword');
+    // Quizz routes for admin
+    Route::get('/addquiz', [AdminQuizzController::class, 'index']);
+    Route::delete('/addquiz/deleteTheme/{id}', [AdminQuizzController::class, 'deleteTheme'])->name('admin.quiz.delete');
+    Route::post('/addquiz/editThemeTitle', [AdminQuizzController::class, 'editThemeTitle'])->name('admin.quiz.editThemeTitle');
+    Route::post('/addquiz/addTheme', [AdminQuizzController::class, 'addTheme'])->name('admin.quiz.addTheme');
 });

@@ -1,4 +1,13 @@
-function editModalOverlay(themeName, themeId) {
+setTimeout(function() {
+    let alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(alert) {
+        alert.style.display = 'none';
+    });
+}, 6000);
+
+function editModalOverlay(quizId, currentTitle) {
+    document.getElementById("editThemeId").value = quizId;
+    document.getElementById("newThemeName").value = currentTitle;
     document.getElementById("editModalOverlay").style.display = "block";
     document.getElementById("editThemeModal").style.display = "block";
 }

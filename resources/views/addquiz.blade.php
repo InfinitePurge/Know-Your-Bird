@@ -25,37 +25,73 @@
             <button class="add-button" onclick="openAddModal()"><i class="fas fa-plus"></i>Add Theme</button>
         </h2>
 
+        @if (session('success'))
+            <div class="alert alert-success">
+                <h4 style="-webkit-text-fill-color: red">{{ session('success') }}</h4>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                <h4 style="-webkit-text-fill-color: red">{{ session('error') }}</h4>
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- Sample Theme Items (Replace with actual data from your database) -->
-        <div class="theme-item">
-            <div>
-                <strong id="themeName1">Theme 1</strong>
+        @foreach ($quizThemes as $quizTheme)
+            <div class="theme-item">
+                <div>
+                    ID: {{ $quizTheme->id }} <!-- Temporarily display the ID -->
+                    <strong>{{ $quizTheme->title }}</strong>
+                    <!-- Rest of the code -->
+                </div>
+                <div class="theme-item-actions">
+                    <button class="view-button" onclick="openViewModal('Theme 1')"><i class="fas fa-eye"></i></button>
+                    <button class="edit-button"
+                        onclick="editModalOverlay('{{ $quizTheme->encrypted_id }}', '{{ $quizTheme->title }}')">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <form action="{{ route('admin.quiz.delete', $quizTheme->encrypted_id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="delete-button"><i class="fas fa-times"></i></button>
+                    </form>
+                </div>
             </div>
-            <div class="theme-item-actions">
-                <button class="view-button" onclick="openViewModal('Theme 1')"><i class="fas fa-eye"></i></button>
-                <button class="edit-button" onclick="editModalOverlay('Theme 1', 'themeName1')">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-                <button class="delete-button"><i class="fas fa-times"></i></button>
-            </div>
-        </div>
+        @endforeach
     </div>
 
     <!-- Modal HTML -->
     <div class="modal-overlay" id="editModalOverlay"></div>
-<div class="modal" id="editThemeModal">
-    <h2>Edit Theme</h2>
-    <input type="text" id="newThemeName" placeholder="Enter new theme name">
-    <button class="edit-button" onclick="editTheme()">Edit</button>
-    <button class="cancel" onclick="closeEditThemeModal()">Cancel</button>
-</div>
+    <div class="modal" id="editThemeModal">
+        <h2>Edit Theme</h2>
+        <form action="{{ route('admin.quiz.editThemeTitle') }}" method="POST">
+            @csrf
+            <input type="hidden" id="editThemeId" name="id">
+            <input type="text" id="newThemeName" name="title" placeholder="Enter new theme name">
+            <button type="submit" class="edit-button">Edit</button>
+        </form>
+        <button class="cancel" onclick="closeEditThemeModal()">Cancel</button>
+    </div>
 
     <!-- Add Theme Modal -->
     <div class="modal-overlay" id="addModalOverlay"></div>
     <div class="modal" id="addModal">
-        <h2>Add Theme</h2>
-        <input type="text" id="addThemeName" placeholder="Enter theme name">
-        <button class="add-button">Add</button>
-        <button class="cancel" onclick="closeAddModal()">Cancel</button>
+        <form action="{{ route('admin.quiz.addTheme') }}" method="POST">
+            @csrf
+            <h2>Add Theme</h2>
+            <input type="text" id="addThemeName" name="title" placeholder="Enter theme name">
+            <button class="add-button">Add</button>
+        </form>
+            <button class="cancel" onclick="closeAddModal()">Cancel</button>
     </div>
 
     <!-- View Theme Modal -->
@@ -157,7 +193,7 @@
                 <button class="cancel" onclick="closeEditAnswerModal()">Cancel</button>
             </div>
         </div>
-
+    </div>
 </body>
 
 </html>
