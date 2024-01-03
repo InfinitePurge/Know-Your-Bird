@@ -18,7 +18,7 @@
         @if (isset($question))
             <div class="header">{{ $question->question }}</div>
             <div class="image-container">
-                <img src="{{ $question->image_url }}" alt="Error on loading image" style="max-width:100%;height:auto;">
+                <img src="{{ $question->image_url }}" style="max-width:100%;height:auto;">
             </div>
             <div class="buttons">
                 @foreach ($question->answers->shuffle() as $answer)

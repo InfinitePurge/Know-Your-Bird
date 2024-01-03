@@ -27,7 +27,7 @@
 
         @if (session('success'))
             <div class="alert alert-success">
-                <h4 style="-webkit-text-fill-color: red">{{ session('success') }}</h4>
+                <h4 style="-webkit-text-fill-color: rgb(43, 255, 0)">{{ session('success') }}</h4>
             </div>
         @endif
         @if (session('error'))
@@ -73,13 +73,15 @@
     <div class="modal-overlay" id="editModalOverlay"></div>
     <div class="modal" id="editThemeModal">
         <h2>Edit Theme</h2>
-        <form action="{{ route('admin.quiz.editThemeTitle') }}" method="POST">
+        <form id="editThemeForm" action="{{ route('admin.quiz.editThemeTitle') }}" method="POST">
             @csrf
             <input type="hidden" id="editThemeId" name="id">
             <input type="text" id="newThemeName" name="title" placeholder="Enter new theme name">
-            <button type="submit" class="edit-button">Edit</button>
+            <div class="button-row">
+                <button type="submit" class="edit-button">Edit</button>
+                <button class="cancel" onclick="closeEditThemeModal(); return false;">Cancel</button>
+            </div>
         </form>
-        <button class="cancel" onclick="closeEditThemeModal()">Cancel</button>
     </div>
 
     <!-- Add Theme Modal -->
@@ -89,9 +91,11 @@
             @csrf
             <h2>Add Theme</h2>
             <input type="text" id="addThemeName" name="title" placeholder="Enter theme name">
-            <button class="add-button">Add</button>
+            <div class="button-row">
+                <button type="submit" class="add-button">Add</button>
+                <button class="cancel" onclick="closeAddModal(); return false;">Cancel</button>
+            </div>
         </form>
-            <button class="cancel" onclick="closeAddModal()">Cancel</button>
     </div>
 
     <!-- View Theme Modal -->
@@ -127,8 +131,10 @@
     <div class="modal" id="editQuestionModal">
         <h2>Edit Question</h2>
         <input type="text" id="editQuestionName" placeholder="Enter new question name">
-        <button class="edit-button" onclick="editQuestion()">Edit</button>
-        <button class="cancel" onclick="closeEditModal()">Cancel</button>
+        <div class="button-row">
+            <button class="edit-button" onclick="editQuestion()">Edit</button>
+            <button class="cancel" onclick="closeEditModal()">Cancel</button>
+        </div>
     </div>
 
     <div class="modal-overlay" id="addQuestionModalOverlay"></div>

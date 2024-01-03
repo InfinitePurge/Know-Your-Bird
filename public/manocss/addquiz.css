@@ -53,12 +53,10 @@ h2 {
 
 .view-button i {
     color: #2196f3;
-    /* Blue color for view */
 }
 
 .edit-button i {
     color: #ffd600;
-    /* Yellow color for edit */
     cursor: pointer;
 }
 
@@ -66,7 +64,6 @@ h2 {
     color: #ff5252;
 }
 
-/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -110,17 +107,18 @@ h2 {
 }
 
 .modal button.cancel {
-    background-color: #ccc;
+    background-color: #000000;
     margin-right: 10px;
 }
 
 .add-button,
 .edit-button {
     cursor: pointer;
+    background-color: #000000;
 }
 
 .add-button {
-    background-color: #4caf50;
+    background-color: #000000;
     color: #fff;
     cursor: pointer;
     padding: 10px 16px;
@@ -146,14 +144,14 @@ h2 {
 }
 
 #addModal button.add-button {
-    background-color: #4caf50;
+    background-color: #000000;
     /* Green color */
     color: #fff;
     /* White text color */
 }
 
 #addModal button.cancel {
-    background-color: #ccc;
+    background-color: #000000;
     color: #fff;
     /* White text color */
     margin-left: 10px;
@@ -172,7 +170,7 @@ h2 {
     right: 10px;
     font-size: 20px;
     cursor: pointer;
-    color: #333;
+    color: #000000;
     background: none;
     border: none;
 }
@@ -204,7 +202,7 @@ h2 {
     right: 10px;
     font-size: 20px;
     cursor: pointer;
-    color: #333;
+    color: #000000;
     background: none;
     border: none;
 }
@@ -229,7 +227,7 @@ h2 {
     right: 10px;
     font-size: 20px;
     cursor: pointer;
-    color: #333;
+    color: #000000;
     background: none;
     border: none;
 }
