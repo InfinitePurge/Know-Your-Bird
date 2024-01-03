@@ -45,13 +45,10 @@
             </div>
         @endif
 
-        <!-- Sample Theme Items (Replace with actual data from your database) -->
         @foreach ($quizThemes as $quizTheme)
             <div class="theme-item">
-                <div>
-                    ID: {{ $quizTheme->id }} <!-- Temporarily display the ID -->
-                    <strong>{{ $quizTheme->title }}</strong>
-                    <!-- Rest of the code -->
+                <div> 
+                    <strong>ID: {{ $quizTheme->id }} - {{ $quizTheme->title }}</strong>
                 </div>
                 <div class="theme-item-actions">
                     <button class="view-button" onclick="openViewModal('Theme 1')"><i class="fas fa-eye"></i></button>
