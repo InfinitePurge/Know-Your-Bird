@@ -130,14 +130,34 @@ function closeAddModal() {
 }
 
 // Function to open the view modal with the current theme name
-function openViewModal(currentThemeName) {
-    // Set the current theme name in the view modal
-    document.getElementById("viewThemeName").innerText = currentThemeName;
+function openViewModal(themeId, themeName) {
+    document.getElementById("viewThemeName").innerText = themeName;
 
-    // Show the modal overlay and view modal
+    fetch('/quiz/questions/' + themeId)
+        .then(response => response.json())
+        .then(questions => {
+            let questionsContainer = document.getElementById("questionsContainer");
+            questionsContainer.innerHTML = '';
+
+            questions.forEach(question => {
+                let div = document.createElement('div');
+                div.className = 'theme-item';
+                div.innerHTML = `
+                    <div><strong>${question.text}</strong></div>
+                    <div class="theme-item-actions">
+                        <button class="view-button" onclick="openQuestionModal('${question.text}')"><i class="fas fa-eye"></i></button>
+                        <button class="edit-button" onclick="openEditQuestionModal('${question.encrypted_id}', '${question.text}')"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="delete-button" onclick="confirmDeleteQuestion('${question.encrypted_id}')"><i class="fas fa-times"></i></button>
+                    </div>`;
+                questionsContainer.appendChild(div);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+
     document.getElementById("viewModalOverlay").style.display = "block";
     document.getElementById("viewModal").style.display = "block";
 }
+
 
 // Function to close the view modal
 function closeViewModal() {

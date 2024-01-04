@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Quiz;
+use App\Models\Question;
+use App\Models\Answer;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 
@@ -20,7 +22,7 @@ class AdminQuizzController extends Controller
     public function index()
     {
         // Retrieve all quiz themes from the database sorted by title and encrypt their IDs
-        $quizThemes = Quiz::orderBy('title')->get()->map(function ($quiz) {
+        $quizThemes = Quiz::with('questions')->orderBy('title')->get()->map(function ($quiz) {
             $quiz->encrypted_id = Crypt::encryptString($quiz->id);
             return $quiz;
         });
@@ -100,5 +102,24 @@ class AdminQuizzController extends Controller
         $quiz->save();
 
         return redirect()->back()->with('success', 'New theme added successfully.');
+    }
+
+    public function getQuestionsByTheme($themeId)
+    {
+        $quiz = Quiz::with('questions')->find($themeId);
+
+        if (!$quiz) {
+            return response()->json(['error' => 'Quiz not found'], 404);
+        }
+
+        // Assuming each question has a 'question' field and you need to create an encrypted ID
+        $questions = $quiz->questions->map(function ($question) {
+            return [
+                'text' => $question->question,
+                'encrypted_id' => Crypt::encryptString($question->id)
+            ];
+        });
+
+        return response()->json($questions);
     }
 }

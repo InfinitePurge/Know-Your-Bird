@@ -47,11 +47,14 @@
 
         @foreach ($quizThemes as $quizTheme)
             <div class="theme-item">
-                <div> 
+                <div>
                     <strong>ID: {{ $quizTheme->id }} - {{ $quizTheme->title }}</strong>
                 </div>
                 <div class="theme-item-actions">
-                    <button class="view-button" onclick="openViewModal('Theme 1')"><i class="fas fa-eye"></i></button>
+                    <button class="view-button"
+                        onclick="openViewModal('{{ $quizTheme->id }}', '{{ $quizTheme->title }}')">
+                        <i class="fas fa-eye"></i>
+                    </button>
                     <button class="edit-button"
                         onclick="editModalOverlay('{{ $quizTheme->encrypted_id }}', '{{ $quizTheme->title }}')">
                         <i class="fas fa-pencil-alt"></i>
@@ -109,17 +112,8 @@
             <p id="viewThemeName"></p>
         </div>
         <div style="width: 100%;">
-            <div class="theme-item">
-                <div>
-                    <strong>Question 1</strong>
-                </div>
-                <div class="theme-item-actions">
-                    <button class="view-button" onclick="openQuestionModal('Question 1')"><i
-                            class="fas fa-eye"></i></button>
-                    <button class="edit-button" onclick="openEditModal('Question 1')"><i
-                            class="fas fa-pencil-alt"></i></button>
-                    <button class="delete-button"><i class="fas fa-times"></i></button>
-                </div>
+            <div id="questionsContainer">
+                <!-- Questions will be appended here -->
             </div>
         </div>
     </div>

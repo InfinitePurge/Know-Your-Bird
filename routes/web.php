@@ -94,6 +94,7 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/adminpanel/user/{id}/password', [ManageUsers::class, 'updatePassword'])->name('adminpanel.updatePassword');
     // Quizz routes for admin
     Route::get('/addquiz', [AdminQuizzController::class, 'index']);
+    Route::get('/quiz/questions/{themeId}', [AdminQuizzController::class, 'getQuestionsByTheme'])->name('admin.quiz.questions');
     Route::delete('/addquiz/deleteTheme/{id}', [AdminQuizzController::class, 'deleteTheme'])->name('admin.quiz.delete');
     Route::post('/addquiz/editThemeTitle', [AdminQuizzController::class, 'editThemeTitle'])->name('admin.quiz.editThemeTitle');
     Route::post('/addquiz/addTheme', [AdminQuizzController::class, 'addTheme'])->name('admin.quiz.addTheme');
