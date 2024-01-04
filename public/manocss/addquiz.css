@@ -75,6 +75,8 @@ h2 {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     z-index: 1000;
+     max-height: 80%;
+    overflow-y: auto;
 }
 
 .modal-overlay {
@@ -243,4 +245,14 @@ h2 {
 
 .extra-button.check-button {
     background-color: green;
+}
+
+#addModal, #editThemeModal, #editQuestionModal, #addQuestionModal  {
+    width: 30%;
+    
+
+}
+
+.modal-container{
+    overflow: hidden;
 }

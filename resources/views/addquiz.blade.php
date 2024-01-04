@@ -22,7 +22,7 @@
     <div class="crud-container">
         <h2>
             Theme Management
-            <button class="add-button" onclick="openAddModal()"><i class="fas fa-plus"></i>Add Theme</button>
+            <button class="add-button" style="margin-top: -20px;" onclick="openAddModal()"><i class="fas fa-plus"></i>Add Theme</button>
         </h2>
 
         @if (session('success'))
