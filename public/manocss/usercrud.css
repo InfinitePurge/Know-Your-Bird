@@ -233,3 +233,19 @@ table.table .avatar {
 .glyphicon-remove-sign {
     color: red;
 }
+
+#role,
+#email_verified {
+    color: #000;
+}
+
+.applyf {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.applyf:hover {
+    background-color: #3a3a3a;
+} 

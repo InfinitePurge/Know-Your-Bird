@@ -75,7 +75,7 @@
                                         {{ request('email_verified') == 'not_verified' ? 'selected' : '' }}>Not Verified
                                     </option>
                                 </select>
-                                <button type="submit">Apply Filter</button>
+                                <button class="applyf" type="submit">Apply Filter</button>
                             </form>
                         </div>
                     </div>

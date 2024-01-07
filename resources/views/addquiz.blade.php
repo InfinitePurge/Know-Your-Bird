@@ -169,28 +169,28 @@
                             class="fas fa-check"></i></button>
                 </div>
             </div>
-            </div>
         </div>
+    </div>
 
-        <div class="modal-overlay" id="addAnswerModalOverlay"></div>
-        <div class="modal" id="addAnswerModal">
-            <h2>Add Answer</h2>
-            <input type="text" id="answerText" placeholder="Enter your answer">
-            <div class="button-row">
-                <button class="add-button" onclick="addAnswer()">Add</button>
-                <button class="cancel" onclick="closeAddAnswerModal()">Cancel</button>
-            </div>
+    <div class="modal-overlay" id="addAnswerModalOverlay"></div>
+    <div class="modal" id="addAnswerModal">
+        <h2>Add Answer</h2>
+        <input type="text" id="answerText" placeholder="Enter your answer">
+        <div class="button-row">
+            <button class="add-button" onclick="addAnswer()">Add</button>
+            <button class="cancel" onclick="closeAddAnswerModal()">Cancel</button>
         </div>
+    </div>
 
-        <div class="modal-overlay" id="editAnswerModalOverlay"></div>
-        <div class="modal" id="editAnswerModal">
-            <h2>Edit Answer</h2>
-            <input type="text" id="editAnswerText" placeholder="Enter new answer">
-            <div class="button-row">
-                <button class="add-button" onclick="editAnswer()">Edit</button>
-                <button class="cancel" onclick="closeEditAnswerModal()">Cancel</button>
-            </div>
+    <div class="modal-overlay" id="editAnswerModalOverlay"></div>
+    <div class="modal" id="editAnswerModal">
+        <h2>Edit Answer</h2>
+        <input type="text" id="editAnswerText" placeholder="Enter new answer">
+        <div class="button-row">
+            <button class="add-button" onclick="editAnswer()">Edit</button>
+            <button class="cancel" onclick="closeEditAnswerModal()">Cancel</button>
         </div>
+    </div>
 
 </body>
 
