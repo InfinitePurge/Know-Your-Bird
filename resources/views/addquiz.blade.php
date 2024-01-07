@@ -5,11 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel Quiz</title>
-    <!-- Include Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Include Modal.js -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modal.js/0.11.0/modal.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modal.js/0.11.0/modal.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6.3.3/dist/tippy-bundle.umd.js"></script>
     <link href="{{ asset('manocss/addquiz.css') }}" rel="stylesheet">
     <script src="{{ asset('jasonas/addquiz.js') }}"></script>
 
@@ -22,7 +20,8 @@
     <div class="crud-container">
         <h2>
             Theme Management
-            <button class="add-button" style="margin-top: -20px;" onclick="openAddModal()"><i class="fas fa-plus"></i>Add Theme</button>
+            <button class="add-button" style="margin-top: -20px;" onclick="openAddModal()"><i
+                    class="fas fa-plus"></i>Add Theme</button>
         </h2>
 
         @if (session('success'))
@@ -157,17 +156,19 @@
                     <strong>Question 1</strong>
                 </div>
                 <div class="theme-item-actions">
-                    <button class="edit-button" onclick="openEditAnswerModal()"><i
-                            class="fas fa-pencil-alt"></i></button>
-                    <button class="delete-button"><i class="fas fa-times"></i></button>
+                    <button class="edit-button" onclick="openEditAnswerModal()" data-toggle="tooltip"
+                        data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></button>
+                    <button class="delete-button" data-toggle="tooltip" data-placement="top" title="Delete"><i
+                            class="fas fa-times"></i></button>
                 </div>
                 <!-- Add x and checkmark buttons here -->
                 <div class="extra-buttons">
-                    <button class="extra-button x-button" onclick="toggleButton('x', 1)"><i
+                    <button class="extra-button x-button" onclick="toggleButton('x', 1)" title="Value:"><i
                             class="fas fa-times"></i></button>
-                    <button class="extra-button check-button" onclick="toggleButton('check', 1)"><i
+                    <button class="extra-button check-button" onclick="toggleButton('check', 1)" title="Value:"><i
                             class="fas fa-check"></i></button>
                 </div>
+            </div>
             </div>
         </div>
 
@@ -190,7 +191,7 @@
                 <button class="cancel" onclick="closeEditAnswerModal()">Cancel</button>
             </div>
         </div>
-    </div>
+
 </body>
 
 </html>
