@@ -10,6 +10,10 @@ class QuizAttempt extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'quiz_id', 'attempt_id', 'time_spent', 'score'
+        'user_id', 'quiz_id', 'attempt_id', 'time_spend', 'score', 'answers'
+    ];
+
+    protected $casts = [
+        'answers' => 'array',
     ];
 }

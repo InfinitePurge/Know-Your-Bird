@@ -16,8 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('quiz_id');
             $table->string('attempt_id');
-            $table->integer('time_spent'); // Time spent in seconds
-            $table->decimal('score', 5, 2); // Score as a percentage
+            $table->integer('time_spend');
+            $table->integer('score');
+
+            $table->json('answers');
+
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
