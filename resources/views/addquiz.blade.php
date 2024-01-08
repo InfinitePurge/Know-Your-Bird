@@ -151,23 +151,8 @@
         </div>
 
         <div style="width: 100%;">
-            <div class="theme-item">
-                <div>
-                    <strong>Question 1</strong>
-                </div>
-                <div class="theme-item-actions">
-                    <button class="edit-button" onclick="openEditAnswerModal()" data-toggle="tooltip"
-                        data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></button>
-                    <button class="delete-button" data-toggle="tooltip" data-placement="top" title="Delete"><i
-                            class="fas fa-times"></i></button>
-                </div>
-                <!-- Add x and checkmark buttons here -->
-                <div class="extra-buttons">
-                    <button class="extra-button x-button" onclick="toggleButton('x', 1)" title="Value:"><i
-                            class="fas fa-times"></i></button>
-                    <button class="extra-button check-button" onclick="toggleButton('check', 1)" title="Value:"><i
-                            class="fas fa-check"></i></button>
-                </div>
+            <div id="answersContainer">
+                <!-- Answers will be appended here -->
             </div>
         </div>
     </div>

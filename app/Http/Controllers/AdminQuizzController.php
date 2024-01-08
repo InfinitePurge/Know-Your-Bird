@@ -7,6 +7,7 @@ use App\Models\Quiz;
 use App\Models\Question;
 use App\Models\Answer;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Decrypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 
 class AdminQuizzController extends Controller
@@ -121,5 +122,28 @@ class AdminQuizzController extends Controller
         });
 
         return response()->json($questions);
+    }
+
+    public function getAnswersByQuestion($encryptedQuestionId)
+    {
+        try {
+            $questionId = Crypt::decryptString($encryptedQuestionId);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            return response()->json(['error' => 'Invalid encrypted question ID'], 400);
+        }
+        $question = Question::with('answers')->find($questionId);
+
+        if (!$question) {
+            return response()->json(['error' => 'Question not found'], 404);
+        }
+
+        $answers = $question->answers->map(function ($answer) {
+            return [
+                'text' => $answer->AnswerText,
+                'encrypted_id' => Crypt::encryptString($answer->id)
+            ];
+        });
+
+        return response()->json($answers);
     }
 }

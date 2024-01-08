@@ -88,8 +88,30 @@ function closeAddQuestionModal() {
     document.getElementById("addQuestionModal").style.display = "none";
 }
 
-function openQuestionModal(questionText) {
+function openQuestionModal(questionText, encryptedQuestionId) {
     document.getElementById("questionContainer").innerText = questionText;
+
+    // Fetch answers for the question
+    fetch(`/addquiz/questions/${encryptedQuestionId}/answers`)
+        .then(response => response.json())
+        .then(answers => {
+            let answersHtml = answers.map((answer, index) => 
+                `<div class="theme-item">
+                    <div><strong>${answer.text}</strong></div>
+                    <div class="theme-item-actions">
+                        <button class="edit-button" onclick="openEditAnswerModal('${answer.encrypted_id}')" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="delete-button" onclick="confirmDeleteAnswer('${answer.encrypted_id}')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="extra-buttons">
+                        <button class="extra-button x-button" onclick="toggleButton('x', ${index})" title="Value:"><i class="fas fa-times"></i></button>
+                        <button class="extra-button check-button" onclick="toggleButton('check', ${index})" title="Value:"><i class="fas fa-check"></i></button>
+                    </div>
+                </div>`
+            ).join('');
+            document.getElementById("answersContainer").innerHTML = answersHtml;
+        })
+        .catch(error => console.error('Error:', error));
+
     document.getElementById("questionModalOverlay").style.display = "block";
     document.getElementById("questionModal").style.display = "block";
 }
@@ -145,7 +167,7 @@ function openViewModal(themeId, themeName) {
                 div.innerHTML = `
                     <div><strong>${question.text}</strong></div>
                     <div class="theme-item-actions">
-                        <button class="view-button" onclick="openQuestionModal('${question.text}')"><i class="fas fa-eye"></i></button>
+                        <button class="view-button" onclick="openQuestionModal('${question.text}', '${question.encrypted_id}')"><i class="fas fa-eye"></i></button>
                         <button class="edit-button" onclick="openEditQuestionModal('${question.encrypted_id}', '${question.text}')"><i class="fas fa-pencil-alt"></i></button>
                         <button class="delete-button" onclick="confirmDeleteQuestion('${question.encrypted_id}')"><i class="fas fa-times"></i></button>
                     </div>`;

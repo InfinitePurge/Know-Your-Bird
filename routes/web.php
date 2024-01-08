@@ -10,7 +10,6 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\contact_usController;
 use App\Http\Controllers\tagController;
 use App\Http\Controllers\QuizzController;
-use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\ManageUsers;
 use App\Http\Controllers\AdminQuizzController;
 
@@ -70,7 +69,6 @@ require __DIR__ . '/auth.php';
 
 //ADMIN CONTROLLER
 //routes that should be accessible only to users with role 1(admin)
-
 Route::middleware(['admin'])->group(function () {
     Route::delete('/bird/delete/{id}', [AdminController::class, 'deleteBird'])->name('admin.bird.delete');
     Route::put('/admin/bird/edit/{birdId}', [AdminController::class, 'editBird'])->name('admin.editBird');
@@ -98,4 +96,5 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/addquiz/deleteTheme/{id}', [AdminQuizzController::class, 'deleteTheme'])->name('admin.quiz.delete');
     Route::post('/addquiz/editThemeTitle', [AdminQuizzController::class, 'editThemeTitle'])->name('admin.quiz.editThemeTitle');
     Route::post('/addquiz/addTheme', [AdminQuizzController::class, 'addTheme'])->name('admin.quiz.addTheme');
+    Route::get('/addquiz/questions/{encryptedQuestionId}/answers', [AdminQuizzController::class, 'getAnswersByQuestion'])->name('admin.quiz.getAnswers');
 });
