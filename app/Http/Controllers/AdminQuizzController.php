@@ -9,6 +9,7 @@ use App\Models\Answer;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Decrypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Log;
 
 class AdminQuizzController extends Controller
 {
@@ -145,5 +146,42 @@ class AdminQuizzController extends Controller
         });
 
         return response()->json($answers);
+    }
+
+    public function deleteQuestion($encryptedQuestionId)
+    {
+        try {
+            $questionId = Crypt::decryptString($encryptedQuestionId);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            return response()->json(['error' => 'Invalid encrypted question ID'], 400);
+        }
+        $question = Question::with('answers')->find($questionId);
+
+        if (!$question) {
+            return response()->json(['error' => 'Question not found'], 404);
+        }
+
+        $question->answers()->delete();
+        $question->delete();
+
+        return response()->json(['success' => 'Question and all related answers deleted successfully.']);
+    }
+
+    public function deleteAnswer($encryptedAnswerId)
+    {
+        try {
+            $answerId = Crypt::decryptString($encryptedAnswerId);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            return response()->json(['error' => 'Invalid encrypted answer ID'], 400);
+        }
+        $answer = Answer::find($answerId);
+
+        if (!$answer) {
+            return response()->json(['error' => 'Answer not found'], 404);
+        }
+
+        $answer->delete();
+
+        return response()->json(['success' => 'Answer deleted successfully.']);
     }
 }

@@ -1,7 +1,7 @@
-setTimeout(function() {
-    let alerts = document.querySelectorAll('.alert');
-    alerts.forEach(function(alert) {
-        alert.style.display = 'none';
+setTimeout(function () {
+    let alerts = document.querySelectorAll(".alert");
+    alerts.forEach(function (alert) {
+        alert.style.display = "none";
     });
 }, 6000);
 
@@ -93,27 +93,53 @@ function openQuestionModal(questionText, encryptedQuestionId) {
 
     // Fetch answers for the question
     fetch(`/addquiz/questions/${encryptedQuestionId}/answers`)
-        .then(response => response.json())
-        .then(answers => {
-            let answersHtml = answers.map((answer, index) => 
-                `<div class="theme-item">
+        .then((response) => response.json())
+        .then((answers) => {
+            let answersHtml = answers
+                .map(
+                    (answer, index) =>
+                        `<div class="theme-item">
                     <div><strong>${answer.text}</strong></div>
-                    <div class="theme-item-actions">
-                        <button class="edit-button" onclick="openEditAnswerModal('${answer.encrypted_id}')" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></button>
-                        <button class="delete-button" onclick="confirmDeleteAnswer('${answer.encrypted_id}')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-times"></i></button>
+                        <div class="theme-item-actions">
+                        <button class="edit-button" onclick="openEditAnswerModal('${answer.encrypted_id}')"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="delete-button" onclick="confirmDeleteAnswer('${answer.encrypted_id}', '${questionText}', '${encryptedQuestionId}')"><i class="fas fa-times"></i></button>
                     </div>
                     <div class="extra-buttons">
                         <button class="extra-button x-button" onclick="toggleButton('x', ${index})" title="Value:"><i class="fas fa-times"></i></button>
                         <button class="extra-button check-button" onclick="toggleButton('check', ${index})" title="Value:"><i class="fas fa-check"></i></button>
                     </div>
                 </div>`
-            ).join('');
+                )
+                .join("");
             document.getElementById("answersContainer").innerHTML = answersHtml;
         })
-        .catch(error => console.error('Error:', error));
+        .catch((error) => console.error("Error:", error));
 
     document.getElementById("questionModalOverlay").style.display = "block";
     document.getElementById("questionModal").style.display = "block";
+}
+
+function confirmDeleteAnswer(
+    encryptedAnswerId,
+    questionText,
+    encryptedQuestionId
+) {
+    if (confirm("Are you sure you want to delete this answer?")) {
+        fetch(`/addquiz/deleteAnswer/${encryptedAnswerId}`, {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+            },
+        })
+            .then((response) => response.json())
+            .then(() => {
+                // Call openQuestionModal again to refresh the answers list
+                openQuestionModal(questionText, encryptedQuestionId);
+            })
+            .catch((error) => console.error("Error:", error));
+    }
 }
 
 function closeQuestionModal() {
@@ -155,29 +181,54 @@ function closeAddModal() {
 function openViewModal(themeId, themeName) {
     document.getElementById("viewThemeName").innerText = themeName;
 
-    fetch('/quiz/questions/' + themeId)
-        .then(response => response.json())
-        .then(questions => {
-            let questionsContainer = document.getElementById("questionsContainer");
-            questionsContainer.innerHTML = '';
+    fetch("/quiz/questions/" + themeId)
+        .then((response) => response.json())
+        .then((questions) => {
+            let questionsContainer =
+                document.getElementById("questionsContainer");
+            questionsContainer.innerHTML = "";
 
-            questions.forEach(question => {
-                let div = document.createElement('div');
-                div.className = 'theme-item';
+            questions.forEach((question) => {
+                let div = document.createElement("div");
+                div.className = "theme-item";
                 div.innerHTML = `
                     <div><strong>${question.text}</strong></div>
                     <div class="theme-item-actions">
                         <button class="view-button" onclick="openQuestionModal('${question.text}', '${question.encrypted_id}')"><i class="fas fa-eye"></i></button>
                         <button class="edit-button" onclick="openEditQuestionModal('${question.encrypted_id}', '${question.text}')"><i class="fas fa-pencil-alt"></i></button>
-                        <button class="delete-button" onclick="confirmDeleteQuestion('${question.encrypted_id}')"><i class="fas fa-times"></i></button>
+                        <button class="delete-button" onclick="confirmDeleteQuestion('${question.encrypted_id}', '${themeId}', '${themeName}')"><i class="fas fa-times"></i></button>
                     </div>`;
                 questionsContainer.appendChild(div);
             });
         })
-        .catch(error => console.error('Error:', error));
+        .catch((error) => console.error("Error:", error));
 
     document.getElementById("viewModalOverlay").style.display = "block";
     document.getElementById("viewModal").style.display = "block";
+}
+
+function confirmDeleteQuestion(encryptedQuestionId, themeId, themeName) {
+    if (confirm("Are you sure you want to delete this question?")) {
+        fetch(`/addquiz/deleteQuestion/${encryptedQuestionId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            let successDiv = document.getElementById("successMessage");
+            successDiv.innerHTML = ''; // Clear previous messages
+            let message = document.createElement('h4');
+            message.style.color = 'rgb(43, 255, 0)'; // Set the style
+            message.innerText = "Question deleted successfully.";
+            successDiv.appendChild(message);
+            successDiv.style.display = "block";
+            openViewModal(themeId, themeName);
+            setTimeout(() => { successDiv.style.display = "none"; }, 3000);
+        })
+        .catch(error => console.error('Error:', error));
+    }
 }
 
 

@@ -12,6 +12,7 @@ use App\Http\Controllers\tagController;
 use App\Http\Controllers\QuizzController;
 use App\Http\Controllers\ManageUsers;
 use App\Http\Controllers\AdminQuizzController;
+use Illuminate\Support\Facades\Crypt;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,8 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/addquiz', [AdminQuizzController::class, 'index']);
     Route::get('/quiz/questions/{themeId}', [AdminQuizzController::class, 'getQuestionsByTheme'])->name('admin.quiz.questions');
     Route::delete('/addquiz/deleteTheme/{id}', [AdminQuizzController::class, 'deleteTheme'])->name('admin.quiz.delete');
+    Route::delete('/addquiz/deleteQuestion/{encryptedQuestionId}', [AdminQuizzController::class, 'deleteQuestion'])->name('admin.quiz.deleteQuestion');
+    Route::delete('/addquiz/deleteAnswer/{encryptedAnswerId}', [AdminQuizzController::class, 'deleteAnswer'])->name('admin.quiz.deleteAnswer');
     Route::post('/addquiz/editThemeTitle', [AdminQuizzController::class, 'editThemeTitle'])->name('admin.quiz.editThemeTitle');
     Route::post('/addquiz/addTheme', [AdminQuizzController::class, 'addTheme'])->name('admin.quiz.addTheme');
     Route::get('/addquiz/questions/{encryptedQuestionId}/answers', [AdminQuizzController::class, 'getAnswersByQuestion'])->name('admin.quiz.getAnswers');

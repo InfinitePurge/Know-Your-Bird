@@ -46,7 +46,7 @@ class QuizzController extends Controller
 
         // Encrypt the AnswerID for each answer in the current question
         foreach ($currentQuestion->answers as $answer) {
-            $answer->encrypted_id = encrypt($answer->AnswerID);
+            $answer->encrypted_id = encrypt($answer->id);
         }
 
         // Render the quiz view with the theme and current question
@@ -108,10 +108,10 @@ class QuizzController extends Controller
                 // Encrypt the AnswerID for each shuffled answer and append to a new collection
                 $shuffledAnswersWithEncryptedId = $shuffledAnswers->map(function ($answer) {
                     return [
-                        'AnswerID' => $answer->AnswerID,
+                        'AnswerID' => $answer->id,
                         'AnswerText' => $answer->AnswerText,
                         'isCorrect' => $answer->isCorrect, // Be cautious with sending this to the client side
-                        'encrypted_id' => encrypt($answer->AnswerID)
+                        'encrypted_id' => encrypt($answer->id)
                     ];
                 });
 
@@ -162,7 +162,7 @@ class QuizzController extends Controller
     {
         // Fetch the correct answer for the question.
         $correctAnswer = $question->answers->where('isCorrect', true)->first();
-        return $submittedAnswerId === optional($correctAnswer)->AnswerID;
+        return $submittedAnswerId === optional($correctAnswer)->id;
     }
 
     /**
