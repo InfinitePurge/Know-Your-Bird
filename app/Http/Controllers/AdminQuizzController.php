@@ -184,4 +184,25 @@ class AdminQuizzController extends Controller
 
         return response()->json(['success' => 'Answer deleted successfully.']);
     }
+
+    public function editQuestionTitle(Request $request)
+    {
+        $validatedData = $request->validate([
+            'id' => 'required',
+            'question' => 'required|string',
+        ]);
+
+        try {
+            $id = Crypt::decryptString($validatedData['id']);
+        } catch (DecryptException $e) {
+            return redirect()->back()->with('error', 'Invalid ID');
+        }
+
+        $question = Question::findOrFail($id);
+        $question->question = $validatedData['question'];
+        $question->edited_by = auth()->id();
+        $question->save();
+
+        return response()->json(['success' => 'Question updated successfully.']);
+    }
 }

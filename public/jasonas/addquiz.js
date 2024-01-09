@@ -231,6 +231,35 @@ function confirmDeleteQuestion(encryptedQuestionId, themeId, themeName) {
     }
 }
 
+function editQuestion() {
+    let encryptedQuestionId = document.getElementById("editQuestionId").value;
+    let newQuestionText = document.getElementById("editQuestionName").value;
+
+    fetch('/addquiz/editQuestion', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: encryptedQuestionId,
+            question: newQuestionText
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // closeEditModal();
+        location.reload();
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function openEditQuestionModal(encryptedQuestionId, currentText) {
+    document.getElementById("editQuestionId").value = encryptedQuestionId;
+    document.getElementById("editQuestionName").value = currentText;
+    document.getElementById("editQuestionModalOverlay").style.display = "block";
+    document.getElementById("editQuestionModal").style.display = "block";
+}
 
 // Function to close the view modal
 function closeViewModal() {

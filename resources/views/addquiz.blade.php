@@ -122,6 +122,7 @@
     <div class="modal-overlay" id="editQuestionModalOverlay"></div>
     <div class="modal" id="editQuestionModal">
         <h2>Edit Question</h2>
+        <input type="hidden" id="editQuestionId" value="">
         <input type="text" id="editQuestionName" placeholder="Enter new question name">
         <div class="button-row">
             <button class="edit-button" onclick="editQuestion()">Edit</button>
