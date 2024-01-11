@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('manocss/tagview.css') }}" rel="stylesheet">
 </head>
@@ -20,10 +21,10 @@
                         <div class="col-xs-6">
                             <h2>Manage <b>Prefixes</b></h2>
                             <div class="btn-group">
-                            <a id="createNewBtnn" class="btn btn-success" data-toggle="modal">
-                                <span>Create New</span>
-                            </a>
-                            <button id="" class="btn btn-danger">
+                                <a id="createNewBtnn" class="btn btn-success" data-toggle="modal">
+                                    <span>Create New</span>
+                                </a>
+                                <button id="" class="btn btn-danger">
                                     Delete
                                 </button>
                             </div>
@@ -35,8 +36,8 @@
                         <tr>
                             <th>
                                 <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
+                                    <input type="checkbox" class="selectAllCheckbox" id="selectAllTable1">
+                                    <label for="selectAllTable1"></label>
                                 </span>
                             </th>
                             <th>ID</th>
@@ -157,15 +158,15 @@
                             <div class="col-xs-6">
                                 <h2>Manage {{ $prefixItem->prefix }}</h2>
                                 <div class="btn-group">
-                                <a href="">
-                                    <button id="createNewBtn" class="btn btn-success"
-                                        data-prefix-id="{{ $prefixItem->id }}">
-                                        Create New
+                                    <a href="">
+                                        <button id="createNewBtn" class="btn btn-success"
+                                            data-prefix-id="{{ $prefixItem->id }}">
+                                            Create New
+                                        </button>
+                                    </a>
+                                    <button id="" class="btn btn-danger">
+                                        Delete
                                     </button>
-                                </a>
-                                <button id="" class="btn btn-danger">
-                                    Delete
-                                </button>
                                 </div>
                             </div>
                         </div>
@@ -175,8 +176,8 @@
                             <tr>
                                 <th>
                                     <span class="custom-checkbox">
-                                        <input type="checkbox" id="selectAll">
-                                        <label for="selectAll"></label>
+                                        <input type="checkbox" class="selectAllCheckbox" id="selectAllTable1">
+                                        <label for="selectAllTable1"></label>
                                     </span>
                                 </th>
                                 <th>ID</th>
@@ -296,8 +297,8 @@
                         <tr>
                             <th>
                                 <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
+                                    <input type="checkbox" class="selectAllCheckbox" id="selectAllTable1">
+                                    <label for="selectAllTable1"></label>
                                 </span>
                             </th>
                             <th>ID</th>
@@ -312,9 +313,8 @@
                                 <tr>
                                     <td>
                                         <span class="custom-checkbox">
-                                            <input type="checkbox" id="checkbox{{ $currentPrefix->id }}"
-                                                name="options[]" value="{{ $currentPrefix->id }}">
-                                            <label for="checkbox{{ $currentPrefix->id }}"></label>
+                                            <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                            <label for="checkbox1"></label>
                                         </span>
                                     </td>
                                     <td>{{ $tag->id }}</td>

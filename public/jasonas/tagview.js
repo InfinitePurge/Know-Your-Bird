@@ -83,3 +83,14 @@ function closePrefixForm(prefixId) {
         editFormDiv.classList.add("hidden");
     }
 }
+
+ $(document).ready(function () {
+     // Handle the "Select All" checkboxes for each table
+     $(".selectAllCheckbox").change(function () {
+         // Get the checkboxes within the same table as the clicked "Select All" checkbox
+         var checkboxes = $(this).closest("table").find("tbody :checkbox");
+
+         // Set their checked state based on the clicked "Select All" checkbox
+         checkboxes.prop("checked", $(this).prop("checked"));
+     });
+ });
