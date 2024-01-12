@@ -19,9 +19,7 @@
             <div class="question">
                 <p class="question-counter">Question {{ $key + 1 }}: {{ $userAnswer->question->question }}</p>
                 <p class="answer"><strong>Your Answer:</strong> {{ $userAnswer->answer->AnswerText }}</p>
-                <p class="{{ $userAnswer->isCorrect ? 'correct' : 'incorrect' }}">
-                    <strong>Correct:</strong> {{ $userAnswer->isCorrect ? 'Yes' : 'No' }}
-                </p>
+                <!-- Removed correctness display since it's not relevant anymore -->
             </div>
         @endforeach
 

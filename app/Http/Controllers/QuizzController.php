@@ -56,7 +56,7 @@ class QuizzController extends Controller
         ]);
     }
 
-    
+
     /**
      * Process the user's answer to a quiz question.
      *
@@ -66,17 +66,14 @@ class QuizzController extends Controller
      */
     public function answerQuestion(Request $request, $title)
     {
-        // Validate the encrypted chosen_answer_id (it will no longer be an integer)
         $request->validate([
             'chosen_answer_id' => 'required'
         ]);
 
-        // Retrieve the theme, questions, and answers.
         $theme = Quiz::where('title', $title)->with('questions.answers')->firstOrFail();
         $questionIndex = session('questionIndex', 1);
         $question = $theme->questions[$questionIndex - 1];
 
-        // Generate or retrieve an attempt ID.
         $attemptId = $request->session()->get('attempt_id');
         if (!$attemptId) {
             $attemptId = $this->generateUniqueAttemptId();
@@ -84,14 +81,8 @@ class QuizzController extends Controller
         }
 
         try {
-            // Decrypt the chosen answer ID from the request.
             $submittedAnswerId = decrypt($request->input('chosen_answer_id'));
-
-            // Check if the answer is correct.
-            $isCorrect = $this->processAnswer($submittedAnswerId, $question);
-
-            // Save the user's answer.
-            $this->saveAnswer($request, $theme, $question, $isCorrect, $attemptId, $submittedAnswerId);
+            $this->saveAnswer($question, $attemptId, $submittedAnswerId);
 
             // Update the question index in the session.
             $currentQuestionIndex = session('questionIndex', 1);
@@ -151,37 +142,21 @@ class QuizzController extends Controller
         return $attemptId;
     }
 
-    /**
-     * Compares the submitted answer ID with the correct answer.
-     * 
-     * @param int $submittedAnswerId The ID of the submitted answer.
-     * @param Question $question The current question object.
-     * @return bool Returns true if the submitted answer is correct, false otherwise.
-     */
-    private function processAnswer($submittedAnswerId, $question)
-    {
-        // Fetch the correct answer for the question.
-        $correctAnswer = $question->answers->where('isCorrect', true)->first();
-        return $submittedAnswerId === optional($correctAnswer)->id;
-    }
 
     /**
-     * Saves the user's or guest's answer to the database.
-     * 
-     * @param \Illuminate\Http\Request $request The current request object.
-     * @param Quiz $theme The current quiz object.
-     * @param Question $question The current question object.
-     * @param bool $isCorrect Indicates whether the submitted answer is correct.
-     * @param string $attemptId The unique ID for the quiz attempt.
-     * @param int $submittedAnswerId The ID of the submitted answer.
+     * Saves the user's answer for a given question.
+     *
+     * @param  object  $question  The question object.
+     * @param  int  $attemptId  The ID of the current attempt.
+     * @param  int  $submittedAnswerId  The ID of the submitted answer.
+     * @return void
      */
-    private function saveAnswer($request, $theme, $question, $isCorrect, $attemptId, $submittedAnswerId)
+    private function saveAnswer($question, $attemptId, $submittedAnswerId)
     {
         $userAnswers = session()->get('user_answers', []);
         $userAnswers[] = [
             'question_id' => $question->id,
-            'chosen_answer_id' => $submittedAnswerId,
-            'isCorrect' => $isCorrect
+            'chosen_answer_id' => $submittedAnswerId
         ];
         session()->put('user_answers', $userAnswers);
     }
@@ -209,9 +184,8 @@ class QuizzController extends Controller
     {
         $theme = Quiz::where('title', $title)->firstOrFail();
         $timeSpend = $this->countTimeSpend();
-
-        // Retrieve answers and calculate the score
-        $userAnswers = collect(session('user_answers', []));
+        $attemptId = session('attempt_id');
+        $userId = auth()->id() ?? 'guest';
 
         // Retrieve answers from the session
         $sessionAnswers = session('user_answers', []);
@@ -223,11 +197,24 @@ class QuizzController extends Controller
             return (object)[
                 'question' => $question,
                 'answer' => $chosenAnswer,
-                'isCorrect' => $answer['isCorrect']
+                // 'isCorrect' => $answer['isCorrect']
             ];
         });
 
+        // Log the quiz completion answers
+        Log::info('Quiz completed only Answers: ' . json_encode(['answers' => session('user_answers', [])], JSON_PRETTY_PRINT));
+
         $score = $this->calculateScore($userAnswers);
+
+        // Log the quiz completion all data
+        Log::info("Quiz completed all data:\n" . json_encode([
+            'quiz_id' => $theme->id,
+            'user_id' => $userId,
+            'attempt_id' => $attemptId,
+            'time_spent' => $timeSpend,
+            'score' => $score,
+            'answers' => session('user_answers', [])
+        ], JSON_PRETTY_PRINT));
 
         // Save the quiz attempt for authenticated users
         $quizId = $theme->id;
@@ -247,12 +234,13 @@ class QuizzController extends Controller
      */
     private function calculateScore($userAnswers)
     {
-        $totalQuestions = $userAnswers->count();
-        $correctAnswers = $userAnswers->filter(function ($answer) {
-            return $answer->isCorrect; // Accessing isCorrect as a property of the object
-        })->count();
+        // $totalQuestions = $userAnswers->count();
+        // $correctAnswers = $userAnswers->filter(function ($answer) {
+        //     return $answer->isCorrect; // Accessing isCorrect as a property of the object
+        // })->count();
 
-        return $totalQuestions > 0 ? round(($correctAnswers / $totalQuestions) * 100, 2) : 0;
+        // return $totalQuestions > 0 ? round(($correctAnswers / $totalQuestions) * 100, 2) : 0;
+        return 0;
     }
 
     /**
