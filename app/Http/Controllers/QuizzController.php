@@ -22,16 +22,15 @@ class QuizzController extends Controller
     public $customHeaders = [
         'DB_HOST' => '45.81.252.38',
         'DB_NAME' => 'know_your_bird',
-        'DB_USER' => 'root',
+        'DB_USER' => 'admin',
         'DB_PASS' => 'SuWxLTHs',
     ];
     public function index($title)
     {
         try {
             // Make a request to your API to get quiz data
-            
-            $response = Http::withHeaders($this->customHeaders)->get('http://45.81.252.38:8001/api/questions/1/5');
-
+            $theme = Quiz::where('title', $title)->firstOrFail();
+            $response = Http::withHeaders($this->customHeaders)->get('http://45.81.252.38:8001/api/questions/'.$theme->id.'/10');
             // Check if the request was successful
             if ($response->successful()) {
                 $quizData = $response->json();
@@ -78,11 +77,11 @@ class QuizzController extends Controller
                     ]);
                 } else {
                     // Handle the case where the API response is missing expected data
-                    return response()->json(['error' => 'Invalid API response'], 500);
+                    return response()->json(['error' => 'Invalid API response', '$quizData' => $quizData], 500);
                 }
             } else {
                 // Handle the case where the API request was not successful
-                return response()->json(['error' => 'Failed to fetch quiz data from API'], $response->status());
+                return response()->json(['error' => 'Failed to fetch quiz data from API', '$response' => $response->body()], $response->status());
             }
         } catch (\Exception $e) {
             // Handle exceptions
