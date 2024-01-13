@@ -9,6 +9,7 @@ use App\Models\QuizAttempt;
 use Illuminate\Support\Str;
 use App\Models\Answer;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class QuizzController extends Controller
 {
@@ -18,62 +19,118 @@ class QuizzController extends Controller
      * @param string $title The title of the quiz theme.
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse The quiz view or a redirect to the quiz completed page.
      */
+    public $customHeaders = [
+        'DB_HOST' => '45.81.252.38',
+        'DB_NAME' => 'know_your_bird',
+        'DB_USER' => 'root',
+        'DB_PASS' => 'SuWxLTHs',
+    ];
     public function index($title)
     {
-        // Retrieve the quiz theme with its questions and answers
-        $theme = Quiz::where('title', $title)->with('questions.answers')->firstOrFail();
+        try {
+            // Make a request to your API to get quiz data
+            
+            $response = Http::withHeaders($this->customHeaders)->get('http://45.81.252.38:8001/api/questions/1/5');
 
-        // Get the current question index from the session
-        $questionIndex = session('questionIndex', 1);
+            // Check if the request was successful
+            if ($response->successful()) {
+                $quizData = $response->json();
 
-        // Check if the quiz is already completed
-        if ($questionIndex > $theme->questions->count()) {
-            return $this->quiz_completed($title);
+                // Extract necessary data from the API response
+                $theme = json_decode(json_encode($quizData));
+
+                $this->tema = $theme->questions;
+                $questions = $theme->questions;
+                session()->put('questions', $questions);
+                // Check if the theme and questions are available
+                if ($theme && !empty($questions)) {
+                    // Get the current question index from the session
+                    $questionIndex = session('questionIndex', 1);
+
+                    // Check if the quiz is already completed
+                    if ($questionIndex > count($questions)) {
+                        return $this->quiz_completed($title);
+                    }
+
+                    // Set the start time only if it's the first question and there's no timeStart in the session
+                    if ($questionIndex === 1 && !session()->has('timeStart')) {
+                        session(['timeStart' => now()]);
+                    }
+
+                    // Redirect the user to the quiz completed page if they try to access a question that doesn't exist
+                    if ($questionIndex > count($questions)) {
+                        return $this->quiz_completed($title);
+                    }
+
+                    // Get the current question
+                    $currentQuestion = $questions[$questionIndex - 1];
+                    // Log::info($currentQuestion);
+
+                    // Encrypt the AnswerID for each answer in the current question
+                    foreach ($currentQuestion->answers as $answer) {
+                        $answer->encrypted_id = encrypt($answer->id);
+                    }
+
+                    // Render the quiz view with the theme and current question
+                    return view('quizz', [
+                        'theme' => $theme,
+                        'question' => $currentQuestion
+                    ]);
+                } else {
+                    // Handle the case where the API response is missing expected data
+                    return response()->json(['error' => 'Invalid API response'], 500);
+                }
+            } else {
+                // Handle the case where the API request was not successful
+                return response()->json(['error' => 'Failed to fetch quiz data from API'], $response->status());
+            }
+        } catch (\Exception $e) {
+            // Handle exceptions
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        // Set the start time only if it's the first question and there's no timeStart in the session
-        if ($questionIndex === 1 && !session()->has('timeStart')) {
-            session(['timeStart' => now()]);
-        }
-
-        // Redirect the user to the quiz completed page if they try to access a question that doesn't exist
-        if ($questionIndex > $theme->questions->count()) {
-            return $this->quiz_completed($title);
-        }
-
-        // Get the current question
-        $currentQuestion = $theme->questions[$questionIndex - 1];
-
-        // Encrypt the AnswerID for each answer in the current question
-        foreach ($currentQuestion->answers as $answer) {
-            $answer->encrypted_id = encrypt($answer->id);
-        }
-
-        // Render the quiz view with the theme and current question
-        return view('quizz', [
-            'theme' => $theme,
-            'question' => $currentQuestion
-        ]);
     }
 
+    // public function answerQuestion(Request $request, $title, $questionID){
+    //     Log::info($request);
+    //     Log::info($title);
+    //     Log::info($questionID);
+    //     $request->validate([
+    //         'chosen_answer_id' => 'required'
+    //     ]);
+    //     $attemptId = $request->session()->get('attempt_id');
+    //     if (!$attemptId) {
+    //         $attemptId = $this->generateUniqueAttemptId();
+    //         $request->session()->put('attempt_id', $attemptId);
+    //     }
+    //     try {
+    //         $submittedAnswerId = decrypt($request->input('chosen_answer_id'));
+    //         $this->saveAnswer($questionID, $attemptId, $submittedAnswerId);
 
-    /**
-     * Process the user's answer to a quiz question.
-     *
-     * @param Request $request The HTTP request object.
-     * @param string $title The title of the quiz.
-     * @return \Illuminate\Http\JsonResponse The JSON response containing the next question or completion status.
-     */
+    //         // Update the question index in the session.
+    //         $currentQuestionIndex = session('questionIndex', 1);
+    //         session(['questionIndex' => $currentQuestionIndex + 1]);
+
+    //         // Prepare the next question or finish the quiz
+    //             // Return the next question and shuffled answers
+    //             return response()->json([
+    //                 'status' => 'continue'
+    //             ]);
+    //     } catch (\Exception $e) {
+    //         Log::error('Error processing quiz answer: ' . $e->getMessage());
+    //         return response()->json(['status' => 'error', 'message' => 'An unexpected error occurred. Please try again.']);
+    //     }
+    // }
+
     public function answerQuestion(Request $request, $title)
     {
         $request->validate([
             'chosen_answer_id' => 'required'
         ]);
 
-        $theme = Quiz::where('title', $title)->with('questions.answers')->firstOrFail();
+        // $theme = Quiz::where('title', $title)->with('questions.answers')->firstOrFail();
+        $questions = json_decode(json_encode(session()->get('questions')));
         $questionIndex = session('questionIndex', 1);
-        $question = $theme->questions[$questionIndex - 1];
-
+        $question = $questions[$questionIndex - 1];
         $attemptId = $request->session()->get('attempt_id');
         if (!$attemptId) {
             $attemptId = $this->generateUniqueAttemptId();
@@ -89,22 +146,25 @@ class QuizzController extends Controller
             session(['questionIndex' => $currentQuestionIndex + 1]);
 
             // Prepare the next question or finish the quiz
-            if ($currentQuestionIndex < $theme->questions->count()) {
+            if ($currentQuestionIndex < count($questions)) {
                 // Fetch the next question
-                $nextQuestion = $theme->questions[$currentQuestionIndex];
+                $nextQuestion = $questions[$currentQuestionIndex];
 
                 // Shuffle the answers for the next question
-                $shuffledAnswers = $nextQuestion->answers->shuffle();
-
+                $shuffledAnswers = $nextQuestion->answers;
+                Log::info($shuffledAnswers);
                 // Encrypt the AnswerID for each shuffled answer and append to a new collection
-                $shuffledAnswersWithEncryptedId = $shuffledAnswers->map(function ($answer) {
-                    return [
+                $shuffledAnswersWithEncryptedId = [];
+
+                foreach ($shuffledAnswers as $answer) {
+                    $shuffledAnswersWithEncryptedId[] = [
                         'AnswerID' => $answer->id,
                         'AnswerText' => $answer->AnswerText,
                         'isCorrect' => $answer->isCorrect, // Be cautious with sending this to the client side
                         'encrypted_id' => encrypt($answer->id)
                     ];
-                });
+                }
+
 
                 // Return the next question and shuffled answers
                 return response()->json([
@@ -189,22 +249,29 @@ class QuizzController extends Controller
 
         // Retrieve answers from the session
         $sessionAnswers = session('user_answers', []);
+        
+        // Make a request to your API to get quiz data
+        $response = Http::withHeaders($this->customHeaders)->
+        withBody(json_encode(['answers' => $sessionAnswers]), 'application/json')
+        ->post('http://45.81.252.38:8001/api/checkAnswers');
+
+        // Log::info(json_encode($response->json(), JSON_PRETTY_PRINT));
 
         // Format the session answers for display
-        $userAnswers = collect($sessionAnswers)->map(function ($answer) {
-            $question = Question::with('answers')->find($answer['question_id']);
-            $chosenAnswer = Answer::find($answer['chosen_answer_id']);
-            return (object)[
+        $userAnswers = collect($response->json())->map(function ($answer) {
+            $question = Question::with('answers')->find($answer['questionID']);
+            $chosenAnswer = Answer::find($answer['answerID']);
+            return (object) [
                 'question' => $question,
                 'answer' => $chosenAnswer,
-                // 'isCorrect' => $answer['isCorrect']
+                'isCorrect' => $answer['isCorrect']
             ];
         });
 
         // Log the quiz completion answers
-        Log::info('Quiz completed only Answers: ' . json_encode(['answers' => session('user_answers', [])], JSON_PRETTY_PRINT));
+        // Log::info('Quiz completed only Answers: ' . json_encode(['answers' => session('user_answers', [])], JSON_PRETTY_PRINT));
 
-        $score = $this->calculateScore($userAnswers);
+        $score = $this->calculateScore($response->json());
 
         // Log the quiz completion all data
         Log::info("Quiz completed all data:\n" . json_encode([
@@ -213,7 +280,7 @@ class QuizzController extends Controller
             'attempt_id' => $attemptId,
             'time_spent' => $timeSpend,
             'score' => $score,
-            'answers' => session('user_answers', [])
+            'answers' => $response->json()
         ], JSON_PRETTY_PRINT));
 
         // Save the quiz attempt for authenticated users
@@ -221,7 +288,7 @@ class QuizzController extends Controller
         $this->saveQuizAttempt($quizId, $score, $timeSpend);
 
         // Reset the quiz session.
-        $this->resetQuizSession();
+        // $this->resetQuizSession();
 
         return view('quiz_completed', compact('theme', 'userAnswers', 'score', 'timeSpend'));
     }
@@ -234,13 +301,18 @@ class QuizzController extends Controller
      */
     private function calculateScore($userAnswers)
     {
-        // $totalQuestions = $userAnswers->count();
-        // $correctAnswers = $userAnswers->filter(function ($answer) {
-        //     return $answer->isCorrect; // Accessing isCorrect as a property of the object
-        // })->count();
+        $totalQuestions = count($userAnswers);
+        $correctAnswersCount = 0;
 
-        // return $totalQuestions > 0 ? round(($correctAnswers / $totalQuestions) * 100, 2) : 0;
-        return 0;
+        foreach ($userAnswers as $answer) {
+            Log::info($answer);
+            if ($answer['isCorrect']) {
+                $correctAnswersCount++;
+            }
+        }
+
+        return $totalQuestions > 0 ? round(($correctAnswersCount / $totalQuestions) * 100, 2) : 0;
+        // return 0;
     }
 
     /**

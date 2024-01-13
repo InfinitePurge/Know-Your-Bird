@@ -21,7 +21,7 @@
                 <img src="{{ $question->image_url }}" style="max-width:100%;height:auto;">
             </div>
             <div class="buttons">
-                @foreach ($question->answers->shuffle() as $answer)
+                @foreach ($question->answers as $answer)
                     <button type="button" class="quiz-button green" data-answer-id="{{ $answer->encrypted_id }}">
                         {{ $answer->AnswerText }}{{ $answer->isCorrect ? ' (correct)' : '' }}
                     </button>
@@ -33,7 +33,7 @@
     </div>
     <script type="text/javascript">
         var quizRoutes = {
-            answer: "{{ route('answer', ['title' => $theme->title]) }}",
+            answer: "{{ route('answer', ['title' => $theme->title, 'questionID' => $question->id]) }}",
             quizCompleted: "{{ route('quiz_completed', ['title' => $theme->title]) }}"
         };
         var csrfToken = "{{ csrf_token() }}";
