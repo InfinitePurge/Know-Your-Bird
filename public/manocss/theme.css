@@ -2,9 +2,9 @@ body {
     background-image: url("nature1.png");
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Added to prevent the image from scrolling */
-    background-blend-mode: overlay; /* Blends the image with the background color */
-    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for better readability */
+    background-attachment: fixed;
+    background-blend-mode: overlay;
+    background-color: rgba(0, 0, 0, 0.5);
     margin: 0;
     padding: 0;
     font-family: "Arial", sans-serif;
@@ -22,7 +22,7 @@ body {
     font-weight: bold;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: #ffffff; /* Changed to white for contrast */
+    color: #ffffff;
     background: linear-gradient(
         90deg,
         rgba(0, 0, 0, 0.8869922969187675) 20%,

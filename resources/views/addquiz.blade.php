@@ -20,9 +20,9 @@
 
     <div class="crud-container">
         <h2>
-            Theme Management
+            Topic Management
             <button class="add-button" style="margin-top: -20px;" onclick="openAddModal()"><i
-                    class="fas fa-plus"></i>Add Theme</button>
+                    class="fas fa-plus"></i>Add Topic</button>
         </h2>
 
         @if (session('success'))
@@ -70,7 +70,7 @@
             <!-- Modal HTML -->
             <div class="modal-overlay" id="editModalOverlay"></div>
             <div class="modal" id="editThemeModal">
-                <h2>Edit Theme</h2>
+                <h2>Edit Topic</h2>
                 <form id="editThemeForm" action="{{ route('admin.quiz.editThemeTitle') }}" method="POST">
                     @csrf
                     <input type="hidden" id="editThemeId" name="id">
@@ -87,7 +87,7 @@
             <div class="modal" id="addModal">
                 <form action="{{ route('admin.quiz.addTheme') }}" method="POST">
                     @csrf
-                    <h2>Add Theme</h2>
+                    <h2>Add Topic</h2>
                     <input type="text" id="addThemeName" name="title" placeholder="Enter theme name">
                     <div class="button-row">
                         <button type="submit" class="add-button">Add</button>
@@ -99,14 +99,14 @@
             <!-- View Theme Modal -->
             <div class="modal-overlay" id="viewModalOverlay"></div>
             <div class="modal" id="viewModal">
-                <h2>View Theme Questions</h2>
+                <h2>View Topic Questions</h2>
                 <div class="modal-header">
                     <button class="close-btn" onclick="closeViewModal()">&times;</button>
                     <button class="add-button top-right" onclick="openAddQuestionModal()"><i class="fas fa-plus"></i>Add
                         Question</button>
                 </div>
                 <div id="viewThemeNameContainer">
-                    <strong>Theme Name:</strong>
+                    <strong>Topic Name:</strong>
                     <p id="viewThemeName"></p>
                 </div>
                 <div style="width: 100%;">

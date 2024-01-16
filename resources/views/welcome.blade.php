@@ -79,21 +79,19 @@
 
 
     <main class="mb-4" style="color: white;">
-        <div class="container px-4 px-lg-5"
-            style="background: linear-gradient(90deg, rgba(0,0,0,0.8869922969187675) 20%, rgba(3,177,177,1) 100%);">
+        <div class="container px-4 px-lg-5" style="background: linear-gradient(90deg, rgba(0,0,0,0.8869922969187675) 20%, rgba(3,177,177,1) 100%);">
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-12 col-lg-10 col-xl-20">
-                    <div class="title-container">
+                <div class="col-md-12 col-lg-10 col-xl-8">
+                    <div class="title-container text-center">
                         <div class="stripe"></div>
                         <h2 class="title-text">Recent News About Birds</h2>
                         <div class="stripe"></div>
-
                     </div>
                     <div class="left-aligned-text">
                         <br>
                         <br>
-                        <img src="{{ URL('images/birds/bird7.avif')}}" alt="Image"
-                            style="float: right; width: 400px; height: 400px;">
+                        <img src="{{ URL('images/birds/bird7.avif')}}" alt="Image" class="img-fluid rounded float-md-end"
+                            style="max-width: 400px; height: auto;">
                         <p class="fs-3">
 
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut

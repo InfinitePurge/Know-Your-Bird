@@ -31,7 +31,7 @@ function closeEditAnswerModal() {
 }
 
 function openAddAnswerModal(questionId) {
-    document.getElementById('questionIdField').value = questionId;
+    document.getElementById("questionIdField").value = questionId;
     document.getElementById("addAnswerModalOverlay").style.display = "block";
     document.getElementById("addAnswerModal").style.display = "block";
 }
@@ -56,23 +56,27 @@ function closeEditModal() {
 
 let activeButton = null;
 
-function toggleButton(button) {
+function toggleButton(button, index) {
+    const xButton = document.querySelector(`.x-button-${index}`);
+    const checkButton = document.querySelector(`.check-button-${index}`);
+
     // If the clicked button is already active, deactivate it
     if (button === activeButton) {
-        document.querySelector(`.${button}-button`).style.backgroundColor =
-            "grey";
+        xButton.style.backgroundColor = "grey";
+        checkButton.style.backgroundColor = "grey";
         activeButton = null;
     } else {
         // Deactivate the active button, if any
         if (activeButton) {
             document.querySelector(
-                `.${activeButton}-button`
+                `.${activeButton}-button-${index}`
             ).style.backgroundColor = "grey";
         }
 
         // Activate the clicked button
-        document.querySelector(`.${button}-button`).style.backgroundColor =
-            button === "x" ? "red" : "green";
+        xButton.style.backgroundColor = button === "x" ? "red" : "grey";
+        checkButton.style.backgroundColor =
+            button === "check" ? "green" : "grey";
         activeButton = button;
     }
 }
@@ -106,9 +110,9 @@ function openQuestionModal(questionText, encryptedQuestionId) {
                         <button class="delete-button" onclick="confirmDeleteAnswer('${answer.encrypted_id}', '${questionText}', '${encryptedQuestionId}')"><i class="fas fa-times"></i></button>
                     </div>
                     <div class="extra-buttons">
-                        <button class="extra-button x-button" onclick="toggleButton('x', ${index})" title="Value:"><i class="fas fa-times"></i></button>
-                        <button class="extra-button check-button" onclick="toggleButton('check', ${index})" title="Value:"><i class="fas fa-check"></i></button>
-                    </div>
+    <button class="extra-button x-button-${index}" onclick="toggleButton('x', ${index})" title="Value:"><i class="fas fa-times"></i></button>
+    <button class="extra-button check-button-${index}" onclick="toggleButton('check', ${index})" title="Value:"><i class="fas fa-check"></i></button>
+</div>
                 </div>`
                 )
                 .join("");
@@ -211,24 +215,28 @@ function openViewModal(themeId, themeName) {
 function confirmDeleteQuestion(encryptedQuestionId, themeId, themeName) {
     if (confirm("Are you sure you want to delete this question?")) {
         fetch(`/addquiz/deleteQuestion/${encryptedQuestionId}`, {
-            method: 'DELETE',
+            method: "DELETE",
             headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            }
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+            },
         })
-        .then(response => response.json())
-        .then(data => {
-            let successDiv = document.getElementById("successMessage");
-            successDiv.innerHTML = ''; // Clear previous messages
-            let message = document.createElement('h4');
-            message.style.color = 'rgb(43, 255, 0)'; // Set the style
-            message.innerText = "Question deleted successfully.";
-            successDiv.appendChild(message);
-            successDiv.style.display = "block";
-            openViewModal(themeId, themeName);
-            setTimeout(() => { successDiv.style.display = "none"; }, 3000);
-        })
-        .catch(error => console.error('Error:', error));
+            .then((response) => response.json())
+            .then((data) => {
+                let successDiv = document.getElementById("successMessage");
+                successDiv.innerHTML = ""; // Clear previous messages
+                let message = document.createElement("h4");
+                message.style.color = "rgb(43, 255, 0)"; // Set the style
+                message.innerText = "Question deleted successfully.";
+                successDiv.appendChild(message);
+                successDiv.style.display = "block";
+                openViewModal(themeId, themeName);
+                setTimeout(() => {
+                    successDiv.style.display = "none";
+                }, 3000);
+            })
+            .catch((error) => console.error("Error:", error));
     }
 }
 
@@ -236,23 +244,25 @@ function editQuestion() {
     let encryptedQuestionId = document.getElementById("editQuestionId").value;
     let newQuestionText = document.getElementById("editQuestionName").value;
 
-    fetch('/addquiz/editQuestion', {
-        method: 'POST',
+    fetch("/addquiz/editQuestion", {
+        method: "POST",
         headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Content-Type': 'application/json'
+            "X-CSRF-TOKEN": document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content"),
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             id: encryptedQuestionId,
-            question: newQuestionText
+            question: newQuestionText,
+        }),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            // closeEditModal();
+            location.reload();
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // closeEditModal();
-        location.reload();
-    })
-    .catch(error => console.error('Error:', error));
+        .catch((error) => console.error("Error:", error));
 }
 
 function openEditQuestionModal(encryptedQuestionId, currentText) {

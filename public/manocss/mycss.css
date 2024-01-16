@@ -226,26 +226,34 @@ nav a {
 
 .custom-button.reg {
     color: white;
-    background-color: rgba(104, 85, 224, 1);
+    background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.9206057422969187) 10%,
+        rgba(255, 255, 255, 0.5) 100%
+    );
 }
 
 .custom-button.log {
     color: white;
-    background-color: rgba(104, 85, 224, 1);
+    background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.9206057422969187) 10%,
+        rgba(255, 255, 255, 0.5) 100%
+    );
 }
 
 .custom-button:hover {
     color: white !important;
     width: 200px !important;
     box-shadow: 0 0 20px rgba(104, 85, 224, 0.6) !important;
-    background-color: rgba(104, 85, 224, 1) !important;
+    background-color: rgba(0, 255, 255, 0.9) !important;
 }
 
 .custom-button.reg:hover {
     color: white !important;
     width: 200px !important;
     box-shadow: 0 0 20px rgba(104, 85, 224, 0.6) !important;
-    background-color: rgba(104, 85, 224, 1) !important;
+    background-color: rgba(1, 255, 255, 0.9) !important;
 
     .profile-image {
         right: 0;
@@ -261,6 +269,7 @@ footer {
     );
     color: white;
     padding: 20px;
+    bottom: 0;
 }
 
 .text-overflow-clamp {
