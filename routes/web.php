@@ -99,6 +99,9 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/addquiz/deleteAnswer/{encryptedAnswerId}', [AdminQuizzController::class, 'deleteAnswer'])->name('admin.quiz.deleteAnswer');
     Route::post('/addquiz/editThemeTitle', [AdminQuizzController::class, 'editThemeTitle'])->name('admin.quiz.editThemeTitle');
     Route::post('/addquiz/editQuestion', [AdminQuizzController::class, 'editQuestionTitle'])->name('admin.quiz.editQuestion');
+    Route::post('/addquiz/editAnswer', [AdminQuizzController::class, 'editAnswerTitle'])->name('admin.quiz.editAnswer');
     Route::post('/addquiz/addTheme', [AdminQuizzController::class, 'addTheme'])->name('admin.quiz.addTheme');
+    Route::post('/addquiz/addQuestion', [AdminQuizzController::class, 'addQuestion'])->name('admin.quiz.addQuestion');
+    Route::post('/addquiz/addAnswer', [AdminQuizzController::class, 'addAnswer'])->name('admin.quiz.addAnswer');
     Route::get('/addquiz/questions/{encryptedQuestionId}/answers', [AdminQuizzController::class, 'getAnswersByQuestion'])->name('admin.quiz.getAnswers');
 });

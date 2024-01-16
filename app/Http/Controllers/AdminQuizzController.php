@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Decrypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Log;
 
+
 class AdminQuizzController extends Controller
 {
     /**
@@ -28,6 +29,7 @@ class AdminQuizzController extends Controller
             $quiz->encrypted_id = Crypt::encryptString($quiz->id);
             return $quiz;
         });
+
         return view('addquiz', ['quizThemes' => $quizThemes]);
     }
 
@@ -104,6 +106,58 @@ class AdminQuizzController extends Controller
         $quiz->save();
 
         return redirect()->back()->with('success', 'New theme added successfully.');
+    }
+
+    public function addQuestion(Request $request)
+    {
+        $validatedData = $request->validate([
+            'quiz_id' => 'required',
+            'question' => 'required|string|max:255|regex:/^[a-zA-Z0-9\s!?]+$/|unique:answers,AnswerText',
+        ]);
+
+        try {
+            $quizId = Crypt::decryptString($validatedData['quiz_id']);
+        } catch (DecryptException $e) {
+            return redirect()->back()->with('error', 'Invalid encrypted quiz ID');
+        }
+
+        $question = new Question;
+        $question->question = $validatedData['question'];
+        $question->created_by = auth()->id();
+        $question->save();
+
+        // Attach the question to the quiz
+        $quiz = Quiz::find($quizId);
+        $quiz->questions()->attach($question->id);
+
+        return redirect()->back()->with('success', 'New question added successfully.');
+    }
+
+    public function addAnswer(Request $request)
+    {
+        $validatedData = $request->validate([
+            'question_id' => 'required',
+            'answer' => 'required|string|max:255',
+            'isCorrect' => 'required|in:true,false'
+        ]);
+
+        try {
+            $questionId = Crypt::decryptString($validatedData['question_id']);
+        } catch (DecryptException $e) {
+            Log::error('Invalid encrypted question ID: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Invalid encrypted question ID');
+        }
+
+        $answer = new Answer;
+        $answer->QuestionID = $questionId;
+        $answer->AnswerText = $validatedData['answer'];
+        $answer->isCorrect = $validatedData['isCorrect'] === 'true' ? true : false;
+        Log::info('Answer created: ' . $answer);
+        $answer->save();
+
+        Log::info('New answer added successfully.');
+
+        return redirect()->back()->with('success', 'New answer added successfully.');
     }
 
     public function getQuestionsByTheme($themeId)
@@ -204,5 +258,25 @@ class AdminQuizzController extends Controller
         $question->save();
 
         return response()->json(['success' => 'Question updated successfully.']);
+    }
+
+    public function editAnswerTitle(Request $request)
+    {
+        $validatedData = $request->validate([
+            'id' => 'required',
+            'answer' => 'required|string',
+        ]);
+
+        try {
+            $id = Crypt::decryptString($validatedData['id']);
+        } catch (DecryptException $e) {
+            return redirect()->back()->with('error', 'Invalid ID');
+        }
+
+        $answer = Answer::findOrFail($id);
+        $answer->AnswerText = $validatedData['answer'];
+        $answer->save();
+
+        return response()->json(['success' => 'Answer updated successfully.']);
     }
 }

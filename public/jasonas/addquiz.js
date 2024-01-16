@@ -30,7 +30,8 @@ function closeEditAnswerModal() {
     document.getElementById("editAnswerModal").style.display = "none";
 }
 
-function openAddAnswerModal() {
+function openAddAnswerModal(questionId) {
+    document.getElementById('questionIdField').value = questionId;
     document.getElementById("addAnswerModalOverlay").style.display = "block";
     document.getElementById("addAnswerModal").style.display = "block";
 }

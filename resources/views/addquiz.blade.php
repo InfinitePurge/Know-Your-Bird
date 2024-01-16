@@ -66,118 +66,137 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Modal HTML -->
+            <div class="modal-overlay" id="editModalOverlay"></div>
+            <div class="modal" id="editThemeModal">
+                <h2>Edit Theme</h2>
+                <form id="editThemeForm" action="{{ route('admin.quiz.editThemeTitle') }}" method="POST">
+                    @csrf
+                    <input type="hidden" id="editThemeId" name="id">
+                    <input type="text" id="newThemeName" name="title" placeholder="Enter new theme name">
+                    <div class="button-row">
+                        <button type="submit" class="edit-button">Edit</button>
+                        <button class="cancel" onclick="closeEditThemeModal(); return false;">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Add Theme Modal -->
+            <div class="modal-overlay" id="addModalOverlay"></div>
+            <div class="modal" id="addModal">
+                <form action="{{ route('admin.quiz.addTheme') }}" method="POST">
+                    @csrf
+                    <h2>Add Theme</h2>
+                    <input type="text" id="addThemeName" name="title" placeholder="Enter theme name">
+                    <div class="button-row">
+                        <button type="submit" class="add-button">Add</button>
+                        <button class="cancel" onclick="closeAddModal(); return false;">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- View Theme Modal -->
+            <div class="modal-overlay" id="viewModalOverlay"></div>
+            <div class="modal" id="viewModal">
+                <h2>View Theme Questions</h2>
+                <div class="modal-header">
+                    <button class="close-btn" onclick="closeViewModal()">&times;</button>
+                    <button class="add-button top-right" onclick="openAddQuestionModal()"><i class="fas fa-plus"></i>Add
+                        Question</button>
+                </div>
+                <div id="viewThemeNameContainer">
+                    <strong>Theme Name:</strong>
+                    <p id="viewThemeName"></p>
+                </div>
+                <div style="width: 100%;">
+                    <div id="successMessage" class="alert alert-success" style="display:none; color: rgb(43, 255, 0);">
+                    </div>
+                    <div id="questionsContainer">
+                        <!-- Questions will be appended here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-overlay" id="editQuestionModalOverlay"></div>
+            <div class="modal" id="editQuestionModal">
+                <h2>Edit Question</h2>
+                <input type="hidden" id="editQuestionId" value="">
+                <input type="text" id="editQuestionName" placeholder="Enter new question name">
+                <div class="button-row">
+                    <button class="edit-button" onclick="editQuestion()">Edit</button>
+                    <button class="cancel" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </div>
+
+            <div class="modal-overlay" id="addQuestionModalOverlay"></div>
+            <div class="modal" id="addQuestionModal">
+                <form action="{{ route('admin.quiz.addQuestion') }}" method="POST">
+                    @csrf
+                    <h2>Add Question</h2>
+                    <input type="text" id="addQuestionName" name="question" placeholder="Enter question name">
+                    <input type="hidden" name="quiz_id" value="{{ $quizTheme->encrypted_id }}">
+                    <div class="button-row">
+                        <button type="submit" class="add-button">Add</button>
+                        <button type="button" class="cancel" onclick="closeAddQuestionModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+
+            <!-- New Question Modal -->
+            @foreach ($quizTheme->questions as $question)
+                <div class="modal-overlay" id="questionModalOverlay"></div>
+                <div class="modal" id="questionModal">
+                    <h2>View Question</h2>
+                    <button class="close-btn" onclick="closeQuestionModal()">&times;</button>
+                    <!-- Your button here -->
+                    <?php $encryptedId = Crypt::encryptString($question->id); ?>
+                    <button class="add-button top-right" onclick="openAddAnswerModal('{{ $encryptedId }}')">Add
+                        Answer</button>
+                    <div id="viewThemeNameContainer">
+                        <strong>Question Name:</strong>
+                        <p id="questionContainer"></p>
+                    </div>
+
+                    <div style="width: 100%;">
+                        <div id="answersContainer">
+                            <!-- Answers will be appended here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-overlay" id="addAnswerModalOverlay"></div>
+                <div class="modal" id="addAnswerModal">
+                    <h2>Add Answer</h2>
+                    <form action="{{ route('admin.quiz.addAnswer') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="question_id" id="questionIdField" value="" />
+                        <input type="text" id="answerText" name="answer" placeholder="Enter your answer">
+                        <label for="isCorrect">Is Correct:</label>
+                        <label for="isCorrect">Is Correct:</label>
+                        <select id="isCorrect" name="isCorrect">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                        <div class="button-row">
+                            <button type="submit" class="add-button">Add</button>
+                            <button type="button" class="cancel" onclick="closeAddAnswerModal()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-overlay" id="editAnswerModalOverlay"></div>
+                <div class="modal" id="editAnswerModal">
+                    <h2>Edit Answer</h2>
+                    <input type="text" id="editAnswerText" placeholder="Enter new answer">
+                    <div class="button-row">
+                        <button class="add-button" onclick="editAnswer()">Edit</button>
+                        <button class="cancel" onclick="closeEditAnswerModal()">Cancel</button>
+                    </div>
+                </div>
+            @endforeach
         @endforeach
-    </div>
-
-    <!-- Modal HTML -->
-    <div class="modal-overlay" id="editModalOverlay"></div>
-    <div class="modal" id="editThemeModal">
-        <h2>Edit Theme</h2>
-        <form id="editThemeForm" action="{{ route('admin.quiz.editThemeTitle') }}" method="POST">
-            @csrf
-            <input type="hidden" id="editThemeId" name="id">
-            <input type="text" id="newThemeName" name="title" placeholder="Enter new theme name">
-            <div class="button-row">
-                <button type="submit" class="edit-button">Edit</button>
-                <button class="cancel" onclick="closeEditThemeModal(); return false;">Cancel</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- Add Theme Modal -->
-    <div class="modal-overlay" id="addModalOverlay"></div>
-    <div class="modal" id="addModal">
-        <form action="{{ route('admin.quiz.addTheme') }}" method="POST">
-            @csrf
-            <h2>Add Theme</h2>
-            <input type="text" id="addThemeName" name="title" placeholder="Enter theme name">
-            <div class="button-row">
-                <button type="submit" class="add-button">Add</button>
-                <button class="cancel" onclick="closeAddModal(); return false;">Cancel</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- View Theme Modal -->
-    <div class="modal-overlay" id="viewModalOverlay"></div>
-    <div class="modal" id="viewModal">
-        <h2>View Theme Questions</h2>
-        <div class="modal-header">
-            <button class="close-btn" onclick="closeViewModal()">&times;</button>
-            <button class="add-button top-right" onclick="openAddQuestionModal()"><i class="fas fa-plus"></i>Add
-                Question</button>
-        </div>
-        <div id="viewThemeNameContainer">
-            <strong>Theme Name:</strong>
-            <p id="viewThemeName"></p>
-        </div>
-        <div style="width: 100%;">
-            <div id="successMessage" class="alert alert-success" style="display:none; color: rgb(43, 255, 0);"></div>
-            <div id="questionsContainer">
-                <!-- Questions will be appended here -->
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="editQuestionModalOverlay"></div>
-    <div class="modal" id="editQuestionModal">
-        <h2>Edit Question</h2>
-        <input type="hidden" id="editQuestionId" value="">
-        <input type="text" id="editQuestionName" placeholder="Enter new question name">
-        <div class="button-row">
-            <button class="edit-button" onclick="editQuestion()">Edit</button>
-            <button class="cancel" onclick="closeEditModal()">Cancel</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="addQuestionModalOverlay"></div>
-    <div class="modal" id="addQuestionModal">
-        <h2>Add Question</h2>
-        <input type="text" id="addQuestionName" placeholder="Enter question name">
-        <div class="button-row">
-            <button class="add-button" onclick="addQuestion()">Add</button>
-            <button class="cancel" onclick="closeAddQuestionModal()">Cancel</button>
-        </div>
-    </div>
-
-
-    <!-- New Question Modal -->
-    <div class="modal-overlay" id="questionModalOverlay"></div>
-    <div class="modal" id="questionModal">
-        <h2>View Question</h2>
-        <button class="close-btn" onclick="closeQuestionModal()">&times;</button>
-        <button class="add-button top-right" onclick="openAddAnswerModal()"><i class="fas fa-plus"></i>Add
-            Answer</button>
-        <div id="viewThemeNameContainer">
-            <strong>Question Name:</strong>
-            <p id="questionContainer"></p>
-        </div>
-
-        <div style="width: 100%;">
-            <div id="answersContainer">
-                <!-- Answers will be appended here -->
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="addAnswerModalOverlay"></div>
-    <div class="modal" id="addAnswerModal">
-        <h2>Add Answer</h2>
-        <input type="text" id="answerText" placeholder="Enter your answer">
-        <div class="button-row">
-            <button class="add-button" onclick="addAnswer()">Add</button>
-            <button class="cancel" onclick="closeAddAnswerModal()">Cancel</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="editAnswerModalOverlay"></div>
-    <div class="modal" id="editAnswerModal">
-        <h2>Edit Answer</h2>
-        <input type="text" id="editAnswerText" placeholder="Enter new answer">
-        <div class="button-row">
-            <button class="add-button" onclick="editAnswer()">Edit</button>
-            <button class="cancel" onclick="closeEditAnswerModal()">Cancel</button>
-        </div>
     </div>
 
 </body>
