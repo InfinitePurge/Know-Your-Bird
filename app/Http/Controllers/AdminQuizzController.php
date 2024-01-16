@@ -195,11 +195,32 @@ class AdminQuizzController extends Controller
         $answers = $question->answers->map(function ($answer) {
             return [
                 'text' => $answer->AnswerText,
+                'isCorrect' => $answer->isCorrect,
                 'encrypted_id' => Crypt::encryptString($answer->id)
             ];
         });
 
         return response()->json($answers);
+    }
+
+    public function changeAnswerCorrectness(Request $request)
+    {
+        $validatedData = $request->validate([
+            'id' => 'required',
+            'isCorrect' => 'required|in:true,false'
+        ]);
+
+        try {
+            $id = Crypt::decryptString($validatedData['id']);
+        } catch (DecryptException $e) {
+            return redirect()->back()->with('error', 'Invalid ID');
+        }
+
+        $answer = Answer::findOrFail($id);
+        $answer->isCorrect = $validatedData['isCorrect'] === 'true' ? true : false;
+        $answer->save();
+
+        return response()->json(['success' => 'Answer updated successfully.']);
     }
 
     public function deleteQuestion($encryptedQuestionId)

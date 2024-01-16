@@ -189,7 +189,8 @@
                 <div class="modal-overlay" id="editAnswerModalOverlay"></div>
                 <div class="modal" id="editAnswerModal">
                     <h2>Edit Answer</h2>
-                    <input type="text" id="editAnswerText" placeholder="Enter new answer">
+                    <input type="hidden" id="editAnswerId">
+                    <input type="text" id="editAnswerText" value="">
                     <div class="button-row">
                         <button class="add-button" onclick="editAnswer()">Edit</button>
                         <button class="cancel" onclick="closeEditAnswerModal()">Cancel</button>

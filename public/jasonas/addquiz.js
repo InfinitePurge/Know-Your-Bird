@@ -18,10 +18,41 @@ function closeEditThemeModal() {
     document.getElementById("editThemeModal").style.display = "none";
 }
 
-function openEditAnswerModal() {
-    // Your logic to open the edit answer modal
+function openEditAnswerModal(encryptedId, currentText) {
+    // Store the encrypted ID in the hidden input field
+    document.getElementById('editAnswerId').value = encryptedId;
+    document.getElementById('editAnswerText').value = currentText;
+
+    // Open the modal
     document.getElementById("editAnswerModalOverlay").style.display = "block";
     document.getElementById("editAnswerModal").style.display = "block";
+}
+
+
+function editAnswer() {
+    var encryptedId = document.getElementById('editAnswerId').value;
+    var answerText = document.getElementById('editAnswerText').value;
+
+    // AJAX request to send the data to the server
+    fetch('/addquiz/editAnswer', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Add CSRF token
+        },
+        body: JSON.stringify({ id: encryptedId, answer: answerText })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        closeEditAnswerModal();
+
+        // Reload the page
+        location.reload();
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
 
 function closeEditAnswerModal() {
@@ -103,17 +134,17 @@ function openQuestionModal(questionText, encryptedQuestionId) {
             let answersHtml = answers
                 .map(
                     (answer, index) =>
-                        `<div class="theme-item">
-                    <div><strong>${answer.text}</strong></div>
-                        <div class="theme-item-actions">
-                        <button class="edit-button" onclick="openEditAnswerModal('${answer.encrypted_id}')"><i class="fas fa-pencil-alt"></i></button>
-                        <button class="delete-button" onclick="confirmDeleteAnswer('${answer.encrypted_id}', '${questionText}', '${encryptedQuestionId}')"><i class="fas fa-times"></i></button>
-                    </div>
-                    <div class="extra-buttons">
-    <button class="extra-button x-button-${index}" onclick="toggleButton('x', ${index})" title="Value:"><i class="fas fa-times"></i></button>
-    <button class="extra-button check-button-${index}" onclick="toggleButton('check', ${index})" title="Value:"><i class="fas fa-check"></i></button>
-</div>
-                </div>`
+                    `<div class="theme-item">
+                        <div><strong>${answer.text}</strong></div>
+                            <div class="theme-item-actions">
+                                <button class="edit-button" onclick="openEditAnswerModal('${answer.encrypted_id}', '${answer.text}')"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="delete-button" onclick="confirmDeleteAnswer('${answer.encrypted_id}', '${questionText}', '${encryptedQuestionId}')"><i class="fas fa-times"></i></button>
+                            </div>
+                        <div class="extra-buttons">
+                            <button class="extra-button x-button-${index}" onclick="toggleButton('x', ${index})" style="background-color: ${answer.isCorrect ? 'grey' : 'red'};" title="Value:"><i class="fas fa-times"></i></button>
+                            <button class="extra-button check-button-${index}" onclick="toggleButton('check', ${index})" style="background-color: ${answer.isCorrect ? 'green' : 'grey'};" title="Value:"><i class="fas fa-check"></i></button>
+                        </div>
+                    </div>`
                 )
                 .join("");
             document.getElementById("answersContainer").innerHTML = answersHtml;

@@ -104,4 +104,5 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/addquiz/addQuestion', [AdminQuizzController::class, 'addQuestion'])->name('admin.quiz.addQuestion');
     Route::post('/addquiz/addAnswer', [AdminQuizzController::class, 'addAnswer'])->name('admin.quiz.addAnswer');
     Route::get('/addquiz/questions/{encryptedQuestionId}/answers', [AdminQuizzController::class, 'getAnswersByQuestion'])->name('admin.quiz.getAnswers');
+    Route::put('/addquiz/editAnswerCorrectness', [AdminQuizzController::class, 'editAnswerCorrectness'])->name('admin.quiz.editAnswerCorrectness');
 });
